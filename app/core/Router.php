@@ -5,10 +5,12 @@
  * URL FORMAT - /controller/method/params
  */
 class Router {
+    //when URL doesn't provide anything default is the views/home/index.php
     protected $currentController = 'HomeController';
     protected $currentMethod = 'index';
     protected $params = [];
 
+    //runs automatically when new Router(); is done
     public function __construct() {
         $url = $this->getUrl();
 
@@ -19,12 +21,19 @@ class Router {
                 $this->currentController = $controllerName;
                 unset($url[0]);
             }
+            else{
+                require_once APPROOT . '/controllers/ErrorController.php';
+
+                $controller = new ErrorController();
+                $controller->notFound();
+                return;
+            }
         }
 
         // Require the controller class file
         require_once APPROOT . '/controllers/' . $this->currentController . '.php';
 
-        // Instantiate controller class
+        // Instantiate controller class - creates controller objects
         $this->currentController = new $this->currentController;
 
         // 2. Check for Method (action)
@@ -32,6 +41,13 @@ class Router {
             if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = $url[1];
                 unset($url[1]);
+            }
+            else{
+                require_once APPROOT . '/controllers/ErrorController.php';
+
+                $controller = new ErrorController();
+                $controller->notFound();
+                return;
             }
         }
 

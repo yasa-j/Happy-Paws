@@ -11,7 +11,7 @@ class Controller {
         $modelFile = APPROOT . '/models/' . $model . '.php';
         if (file_exists($modelFile)) {
             require_once $modelFile;
-            // Instantiate model
+            // new object is returned
             return new $model();
         } else {
             die('Model "' . $model . '" does not exist.');
