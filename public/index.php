@@ -12,6 +12,7 @@ spl_autoload_register(function ($className) {
         require_once $file;
     }
 });
+//instead of require_once each core files, this autoloader loads them as it requires
 
 // Initialize Router App
 $app = new Router();
