@@ -1,14 +1,12 @@
 <?php
-/**
- * Home Controller
- * Default Controller for Happy Paws Landing Page
- */
-class HomeController extends Controller {
 
-    public function index() {
+class HomeController extends Controller
+{
+    public function index()
+    {
         $data = [
-            'title' => 'Welcome to Happy Paws',
-            'description' => 'Pet Care & Veterinary Appointment Management System'
+            'title' => 'Happy Paws - Pet Healthcare',
+            'clinicName' => 'Happy Paws'
         ];
 
         $this->view('home/index', $data);
