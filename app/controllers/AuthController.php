@@ -1,55 +1,108 @@
 <?php
 /**
- * Auth Controller
- * Handles user authentication (login, logout, registration)
+ * =======================================================================
+ * Happy Paws - Authentication Controller
+ * =======================================================================
+ * 
+ * Handles user authentication workflows including:
+ *   - Login form presentation and processing
+ *   - Session lifecycle creation and destruction (Logout)
+ *   - Credential validation and role assignment
+ * =======================================================================
  */
+
 class AuthController extends Controller {
 
+    /**
+     * User model instance
+     * @var User
+     */
     private $userModel;
 
+    /**
+     * Instantiate model
+     */
     public function __construct() {
         $this->userModel = $this->model('User');
     }
 
+    /**
+     * Handle user login requests (GET to view form, POST to authenticate)
+     */
     public function login() {
-        // Check if POST submit
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form inputs
+        // If user is already authenticated, redirect to the dashboard directly
+        if (isset($_SESSION['user_id'])) {
+            $this->redirect('dashboard');
+        }
+
+        // Process POST form submission
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Sanitize and read input fields
+            $email = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+            $source = $_POST['source'] ?? 'auth'; // 'home' or 'auth'
+
             $data = [
-                'email' => trim($_POST['email'] ?? ''),
-                'password' => trim($_POST['password'] ?? ''),
+                'email' => $email,
+                'password' => $password,
+                'source' => $source,
                 'email_err' => '',
                 'password_err' => ''
             ];
 
-            // Validation
-            if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
+            // Validate email
+            if (empty($email)) {
+                $data['email_err'] = 'Please enter your email address.';
             }
 
-            if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
+            // Validate password
+            if (empty($password)) {
+                $data['password_err'] = 'Please enter your password.';
             }
 
-            // If no errors proceed
+            // If no validation errors, attempt authentication
             if (empty($data['email_err']) && empty($data['password_err'])) {
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                $loggedInUser = $this->userModel->login($email, $password);
+
                 if ($loggedInUser) {
-                    // Create session
+                    // Initialize authenticated session variables
                     $_SESSION['user_id'] = $loggedInUser->user_id;
                     $_SESSION['user_email'] = $loggedInUser->email;
                     $_SESSION['user_name'] = $loggedInUser->first_name . ' ' . $loggedInUser->last_name;
-                    
+                    $_SESSION['user_first_name'] = $loggedInUser->first_name;
+                    $_SESSION['user_role'] = $loggedInUser->role;
+                    $_SESSION['flash_success'] = 'Welcome back, ' . $loggedInUser->first_name . '!';
+
+                    // Clear any lingering login errors
+                    unset($_SESSION['login_error']);
+
+                    // Redirect to the protected dashboard
                     $this->redirect('dashboard');
                 } else {
-                    $data['password_err'] = 'Invalid email or password';
-                    $this->view('auth/login', $data);
+                    $errorMsg = 'Invalid email or password. Please verify your credentials.';
+                    
+                    // If login was attempted from the home page hero card, return there with error
+                    if ($source === 'home') {
+                        $_SESSION['login_error'] = $errorMsg;
+                        $_SESSION['login_email_attempt'] = $email;
+                        $this->redirect('home#login');
+                    } else {
+                        $data['password_err'] = $errorMsg;
+                        $this->view('auth/login', $data);
+                    }
                 }
             } else {
-                $this->view('auth/login', $data);
+                // Validation errors present
+                if ($source === 'home') {
+                    $_SESSION['login_error'] = !empty($data['email_err']) ? $data['email_err'] : $data['password_err'];
+                    $_SESSION['login_email_attempt'] = $email;
+                    $this->redirect('home#login');
+                } else {
+                    $this->view('auth/login', $data);
+                }
             }
         } else {
-            // Render blank login view
+            // Render blank login view for GET request
             $data = [
                 'email' => '',
                 'password' => '',
@@ -60,11 +113,31 @@ class AuthController extends Controller {
         }
     }
 
+    /**
+     * Terminate the user session and log out
+     */
     public function logout() {
-        unset($_SESSION['user_id']);
-        unset($_SESSION['user_email']);
-        unset($_SESSION['user_name']);
+        // Clear all session variables
+        $_SESSION = [];
+
+        // Destroy session cookie if set
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
+        // Destroy session storage
         session_destroy();
-        $this->redirect('auth/login');
+
+        // Redirect user to home page with a logout notice
+        $this->redirect('home');
     }
 }
