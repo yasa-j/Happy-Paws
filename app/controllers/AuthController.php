@@ -1,12 +1,22 @@
 <?php
 /**
+
  * Auth Controller
  * Handles user registration, login and logout
+
  */
+
 class AuthController extends Controller {
 
+    /**
+     * User model instance
+     * @var User
+     */
     private $userModel;
 
+    /**
+     * Instantiate model
+     */
     public function __construct() {
         $this->userModel = $this->model('User');
     }

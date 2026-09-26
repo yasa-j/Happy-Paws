@@ -124,7 +124,6 @@
 
 
             <!-- LOGIN CARD -->
-
             <div class="login-card" id="login">
 
                 <h2>Pet Owner Login</h2>
@@ -158,43 +157,83 @@
 
                     </div>
 
+                    <a href="<?php echo URLROOT; ?>/dashboard" class="login-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 14px;">
+                        Go to Dashboard →
+                    </a>
 
-                    <div class="form-group">
+                    <a href="<?php echo URLROOT; ?>/auth/logout" style="display: block; text-align: center; color: #ef4444; font-size: 0.9rem; text-decoration: none; font-weight: 600;">
+                        Sign Out
+                    </a>
 
-                        <label for="password">
-                            Password
-                        </label>
+                <?php else: ?>
+                    <!-- State B: Pet Owner Login Form -->
+                    <h2>Pet Owner Login</h2>
+                    <p class="login-subtitle">
+                        Access your pet's healthcare portal
+                    </p>
 
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="••••••••"
-                            required
-                        >
+                    <?php if (!empty($_SESSION['login_error'])): ?>
+                        <div style="background: #fee2e2; border-left: 4px solid #ef4444; color: #991b1b; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 16px; text-align: left;">
+                            ⚠️ <?php echo htmlspecialchars($_SESSION['login_error']); ?>
+                            <?php unset($_SESSION['login_error']); ?>
+                        </div>
+                    <?php endif; ?>
 
-                    </div>
+                    <form action="<?php echo URLROOT; ?>/auth/login" method="POST">
+                        <input type="hidden" name="source" value="home">
 
-
-                    <div class="login-options">
-
-                        <label class="remember">
-
+                        <div class="form-group">
+                            <label for="email">
+                                Email Address
+                            </label>
                             <input
-                                type="checkbox"
-                                name="remember"
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="owner@example.com"
+                                value="<?php echo htmlspecialchars($_SESSION['login_email_attempt'] ?? ''); unset($_SESSION['login_email_attempt']); ?>"
+                                required
                             >
+                        </div>
 
-                            <span>Remember Me</span>
+                        <div class="form-group">
+                            <label for="password">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
 
-                        </label>
+                        <div class="login-options">
+                            <label class="remember">
+                                <input type="checkbox" name="remember">
+                                <span>Remember Me</span>
+                            </label>
+                            <a href="#">
+                                Forgot Password?
+                            </a>
+                        </div>
 
-                        <a href="#">
-                            Forgot Password?
-                        </a>
+                        <button type="submit" class="login-btn">
+                            Login
+                        </button>
+                    </form>
 
+                    <!-- Demo Credentials Helper Note -->
+                    <div style="margin-top: 14px; padding: 10px 12px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 6px; font-size: 0.78rem; color: #475569; text-align: left;">
+                        <strong>🔑 Test Account:</strong> <code>owner@example.com</code> / <code>password123</code>
                     </div>
 
+                    <div class="or-divider">
+                        <span></span>
+                        <small>OR</small>
+                        <span></span>
+                    </div>
 
                     <button
                         type="submit"

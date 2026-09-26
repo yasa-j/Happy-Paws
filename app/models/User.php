@@ -3,10 +3,14 @@
  * User Model
  * Handles database operations related to users
  */
+
 class User {
 
     private $db;
 
+    /**
+     * Initialize model with database connection
+     */
     public function __construct() {
         $this->db = Database::getInstance();
     }
