@@ -1,0 +1,757 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7f9f8;
+    color: #263238;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.vet-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background: #f7f9f8;
+}
+
+.vet-main {
+    flex: 1;
+    min-width: 0;
+    margin-left: 250px;
+    background: #f7f9f8;
+}
+
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.vet-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    width: 100%;
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e3e9e7;
+}
+
+.vet-search {
+    width: 400px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    background: #f1f4f3;
+
+    border: 1px solid #e2e8e6;
+
+    border-radius: 22px;
+}
+
+.search-icon {
+    font-size: 20px;
+    color: #47555a;
+}
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+}
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-action {
+    position: relative;
+
+    width: 30px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #344247;
+
+    font-size: 21px;
+
+    text-decoration: none;
+}
+
+.notification-dot {
+    position: absolute;
+
+    top: 3px;
+    right: 2px;
+
+    width: 7px;
+    height: 7px;
+
+    background: #d52222;
+
+    border-radius: 50%;
+}
+
+.header-divider {
+    width: 1px;
+    height: 34px;
+
+    background: #d8e0df;
+}
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    text-decoration: none;
+}
+
+.vet-profile img {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.vet-profile-info strong {
+    color: #263238;
+    font-size: 13px;
+}
+
+.vet-profile-info span {
+    color: #718084;
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.edit-profile-page {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding: 38px 40px 70px;
+}
+
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+.edit-profile-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin-bottom: 34px;
+}
+
+.edit-profile-title-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #cdeeea;
+
+    border-radius: 7px;
+
+    color: #405154;
+
+    font-size: 19px;
+}
+
+.edit-profile-heading h1 {
+    margin: 0;
+
+    color: #006f68;
+
+    font-size: 31px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TWO COLUMN LAYOUT
+   ========================================================= */
+
+.edit-profile-layout {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 235px;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+.edit-profile-main {
+    min-width: 0;
+}
+
+.edit-profile-side {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.edit-card,
+.photo-card,
+.account-card {
+    background: #ffffff;
+
+    border: 1px solid #dfe7e5;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+}
+
+.edit-card-header h2 {
+    margin: 0;
+
+    color: #263238;
+
+    font-size: 17px;
+
+    font-weight: 650;
+}
+
+.edit-card-line,
+.account-line {
+    width: 100%;
+    height: 1px;
+
+    margin: 15px 0 20px;
+
+    background: #dce4e2;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.edit-form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 17px 14px;
+}
+
+.edit-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form-group label,
+.certificate-section > label {
+    margin-bottom: 7px;
+
+    color: #526063;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+.edit-form-group input,
+.edit-form-group select,
+.edit-form-group textarea {
+    width: 100%;
+
+    border: 1px solid #d5dfdd;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #263238;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition: border-color 0.15s ease,
+                box-shadow 0.15s ease;
+}
+
+.edit-form-group input,
+.edit-form-group select {
+    height: 34px;
+
+    padding: 0 10px;
+}
+
+.edit-form-group textarea {
+    min-height: 105px;
+
+    padding: 10px;
+
+    line-height: 18px;
+
+    resize: vertical;
+}
+
+.edit-form-group input:focus,
+.edit-form-group select:focus,
+.edit-form-group textarea:focus {
+    border-color: #006f68;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 111, 104, 0.08);
+}
+
+
+/* =========================================================
+   CERTIFICATE
+   ========================================================= */
+
+.certificate-section {
+    margin-top: 20px;
+}
+
+.certificate-upload {
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 7px 10px;
+
+    background: #f3f7f6;
+
+    border: 1px dashed #b9c9c6;
+
+    border-radius: 7px;
+}
+
+.certificate-file-icon {
+    color: #006f68;
+    font-size: 19px;
+}
+
+.certificate-file-name {
+    flex: 1;
+
+    color: #344247;
+
+    font-size: 11px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.certificate-button {
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 12px;
+
+    background: #006f68;
+
+    border-radius: 6px;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.certificate-button:hover {
+    background: #005e58;
+}
+
+.add-qualification {
+    margin-top: 15px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   BIO
+   ========================================================= */
+
+.character-count {
+    margin-top: 5px;
+
+    text-align: right;
+
+    color: #718084;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   PHOTO CARD
+   ========================================================= */
+
+.photo-card {
+    text-align: center;
+
+    padding: 20px 16px;
+}
+
+.doctor-edit-image {
+    position: relative;
+
+    width: 110px;
+    height: 110px;
+
+    margin: 0 auto 18px;
+}
+
+.doctor-edit-image img {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 3px solid #eef4f2;
+}
+
+.photo-edit-icon {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #006f68;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.upload-photo-button,
+.remove-photo-button {
+    width: 100%;
+    height: 37px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 6px;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.upload-photo-button {
+    background: #006f68;
+
+    color: #ffffff;
+}
+
+.upload-photo-button:hover {
+    background: #005e58;
+}
+
+.remove-photo-button {
+    margin-top: 9px;
+
+    border: 1px solid #899694;
+
+    background: #ffffff;
+
+    color: #465356;
+}
+
+.remove-photo-button:hover {
+    background: #f2f5f4;
+}
+
+
+/* =========================================================
+   ACCOUNT SETTINGS
+   ========================================================= */
+
+.account-card {
+    padding: 18px;
+}
+
+.account-card h3 {
+    margin: 0;
+
+    color: #263238;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+.account-line {
+    margin: 12px 0;
+}
+
+.account-button {
+    width: 100%;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 11px;
+
+    margin-bottom: 8px;
+
+    border: 1px solid #cbd6d3;
+
+    border-radius: 6px;
+
+    color: #344247;
+
+    font-size: 10px;
+
+    text-decoration: none;
+}
+
+.account-button:last-child {
+    margin-bottom: 0;
+}
+
+.account-button:hover {
+    background: #f2f5f4;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.edit-form-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 2px;
+}
+
+.cancel-profile-button,
+.save-profile-button {
+    height: 39px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 18px;
+
+    border-radius: 7px;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.cancel-profile-button {
+    border: 1px solid #899694;
+
+    background: #ffffff;
+
+    color: #465356;
+}
+
+.save-profile-button {
+    border: none;
+
+    background: #006f68;
+
+    color: #ffffff;
+}
+
+.save-profile-button:hover {
+    background: #005e58;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .edit-profile-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-profile-side {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+    }
+
+    .photo-card,
+    .account-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .vet-topbar {
+        padding: 0 20px;
+    }
+
+    .vet-search {
+        width: 300px;
+    }
+
+    .edit-profile-page {
+        padding: 30px 20px 50px;
+    }
+
+    .edit-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-profile-side {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .vet-search {
+        display: none;
+    }
+
+    .edit-profile-heading h1 {
+        font-size: 26px;
+    }
+
+    .edit-profile-page {
+        padding: 25px 15px 40px;
+    }
+
+    .edit-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .cancel-profile-button,
+    .save-profile-button {
+        width: 100%;
+    }
+}

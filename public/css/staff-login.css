@@ -1,0 +1,426 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f9fb;
+    color: #1f2a44;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.staff-navbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e3e7ed;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+}
+
+.staff-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 22px;
+    font-weight: 700;
+    color: #006b63;
+}
+
+.staff-brand img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.staff-nav-icons {
+    display: flex;
+    gap: 22px;
+
+    font-size: 22px;
+    color: #27344d;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.staff-login-page {
+    min-height: calc(100vh - 140px);
+
+    display: flex;
+    align-items: center;
+
+    padding: 40px 11%;
+    gap: 100px;
+}
+
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.staff-intro {
+    flex: 1;
+}
+
+.staff-intro h1 {
+    font-size: 48px;
+    line-height: 1.05;
+    margin-bottom: 25px;
+}
+
+.staff-intro h1 span {
+    display: block;
+    color: #087d73;
+}
+
+.staff-intro p {
+    max-width: 500px;
+
+    font-size: 17px;
+    line-height: 1.6;
+
+    color: #657793;
+}
+
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.staff-login-card {
+    width: 455px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 40px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+
+    border-top: 4px solid #087d73;
+}
+
+
+/* LOGIN ICON */
+
+.login-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background: #8ce8df;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+}
+
+
+/* TITLE */
+
+.staff-login-card h2 {
+    text-align: center;
+
+    font-size: 32px;
+
+    margin-bottom: 12px;
+}
+
+.login-description {
+    text-align: center;
+
+    color: #687993;
+
+    line-height: 1.5;
+
+    margin-bottom: 32px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+.input-box {
+    height: 48px;
+
+    border: 1px solid #d7e0eb;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    background: white;
+}
+
+.input-icon {
+    color: #70809a;
+    margin-right: 12px;
+}
+
+.input-box input {
+    border: none;
+    outline: none;
+
+    width: 100%;
+
+    font-size: 14px;
+
+    color: #27344d;
+}
+
+.password-toggle {
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    color: #70809a;
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.login-options {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 12px 0 28px;
+
+    font-size: 14px;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #687993;
+}
+
+.login-options a {
+    color: #087d73;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-button {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 28px;
+
+    background: #087d73;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background: #05655e;
+}
+
+
+/* =========================
+   INFO BOX
+========================= */
+
+.staff-info {
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 28px;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #e9fbf9;
+
+    border: 1px solid #bdebe6;
+
+    color: #435567;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.info-icon {
+    color: #087d73;
+
+    font-size: 20px;
+}
+
+
+/* =========================
+   HELP
+========================= */
+
+.login-help {
+    border-top: 1px solid #e2e7ed;
+
+    margin: 25px -40px -40px;
+
+    padding: 22px;
+
+    text-align: center;
+
+    color: #687993;
+
+    font-size: 14px;
+}
+
+.login-help a {
+    color: #087d73;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.staff-footer {
+    min-height: 76px;
+
+    background: #eef1f5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 25px;
+
+    color: #657793;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #006b63;
+
+    font-size: 20px;
+}
+
+.footer-brand img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.footer-links {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-links a {
+    color: #657793;
+
+    text-decoration: none;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .staff-login-page {
+        flex-direction: column;
+
+        padding: 40px 20px;
+
+        gap: 40px;
+    }
+
+    .staff-intro {
+        text-align: center;
+    }
+
+    .staff-intro h1 {
+        font-size: 40px;
+    }
+
+    .staff-login-card {
+        width: 100%;
+        max-width: 455px;
+    }
+
+    .staff-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+.login-error {
+    margin: 15px 0;
+    padding: 12px 15px;
+    background: #ffe8e8;
+    border: 1px solid #f5b5b5;
+    border-radius: 6px;
+    color: #b42318;
+    font-size: 14px;
+}

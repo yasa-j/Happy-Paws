@@ -1,0 +1,998 @@
+/* =========================================
+   BILLING DETAILS PAGE
+========================================= */
+
+.billing-details-content {
+
+    flex: 1 1 0;
+
+    width: 0;
+
+    min-width: 0;
+
+    padding: 42px 64px;
+
+    background: #f7f9fb;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+}
+
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.billing-page-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 32px;
+
+}
+
+
+.billing-title-area h1 {
+
+    font-size: 31px;
+
+    font-weight: 700;
+
+    color: #182338;
+
+    margin-bottom: 3px;
+
+}
+
+
+.title-icon {
+
+    color: #006f68;
+
+    font-size: 23px;
+
+}
+
+
+.billing-title-area p {
+
+    font-size: 15px;
+
+    color: #53627a;
+
+}
+
+
+
+.billing-header-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+}
+
+
+.preview-button,
+.print-button {
+
+    height: 42px;
+
+    padding: 0 20px;
+
+    border-radius: 10px;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.preview-button {
+
+    background: #ffffff;
+
+    border: 1px solid #dbe2ea;
+
+    color: #526078;
+
+}
+
+
+.print-button {
+
+    background: #006f68;
+
+    border: 1px solid #006f68;
+
+    color: #ffffff;
+
+}
+
+
+
+/* =========================================
+   MAIN GRID
+========================================= */
+
+.billing-main-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    gap: 32px;
+
+    align-items: start;
+
+}
+
+
+.billing-left {
+
+    min-width: 0;
+
+}
+
+
+
+/* =========================================
+   CLIENT + INVOICE INFORMATION
+========================================= */
+
+.invoice-information-card {
+
+    background: #ffffff;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 18px;
+
+    min-height: 192px;
+
+    padding: 32px 34px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1px 1fr;
+
+    gap: 30px;
+
+}
+
+
+.client-information h3,
+.invoice-details h3 {
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    color: #006f68;
+
+    font-weight: 700;
+
+    margin-bottom: 16px;
+
+}
+
+
+.client-box {
+
+    width: 267px;
+
+    min-height: 94px;
+
+    background: #eef3f8;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 18px;
+
+}
+
+
+.client-photo {
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: #263f57;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.client-details strong {
+
+    display: block;
+
+    font-size: 16px;
+
+    color: #182338;
+
+    margin-bottom: 4px;
+
+}
+
+
+.client-details small {
+
+    display: block;
+
+    font-size: 10px;
+
+    color: #53627a;
+
+    margin-top: 3px;
+
+}
+
+
+.information-divider {
+
+    width: 1px;
+
+    background: #dce2e9;
+
+}
+
+
+.invoice-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 13px;
+
+}
+
+
+.draft-badge {
+
+    background: #e3eeee;
+
+    color: #006f68;
+
+    border-radius: 15px;
+
+    padding: 5px 13px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+.invoice-row {
+
+    display: grid;
+
+    grid-template-columns: 145px 1fr;
+
+    margin-bottom: 14px;
+
+    font-size: 14px;
+
+}
+
+
+.invoice-row span {
+
+    color: #53627a;
+
+}
+
+
+.invoice-row strong {
+
+    color: #182338;
+
+}
+
+
+
+/* =========================================
+   SERVICES
+========================================= */
+
+.services-card {
+
+    margin-top: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+}
+
+
+.services-header {
+
+    height: 88px;
+
+    padding: 0 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.services-header h2 {
+
+    font-size: 18px;
+
+    color: #006f68;
+
+}
+
+
+.add-fee-button {
+
+    border: none;
+
+    background: #e7f1ef;
+
+    color: #006f68;
+
+    border-radius: 12px;
+
+    padding: 11px 17px;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =========================================
+   SERVICES TABLE
+========================================= */
+
+.services-table-header {
+
+    min-height: 80px;
+
+    background: #f3f6f9;
+
+    border-top: 1px solid #e0e5eb;
+
+    border-bottom: 1px solid #e0e5eb;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        0.6fr
+        1fr;
+
+    align-items: center;
+
+    padding: 0 48px;
+
+    color: #526078;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.service-row {
+
+    min-height: 112px;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        0.6fr
+        1fr;
+
+    align-items: center;
+
+    padding: 0 48px;
+
+    border-bottom: 1px solid #e3e8ed;
+
+}
+
+
+.service-description strong {
+
+    display: block;
+
+    font-size: 16px;
+
+    color: #182338;
+
+    line-height: 1.35;
+
+}
+
+
+.service-description small {
+
+    display: block;
+
+    font-size: 11px;
+
+    color: #53627a;
+
+    margin-top: 4px;
+
+}
+
+
+.service-price {
+
+    font-size: 15px;
+
+    color: #182338;
+
+    text-align: center;
+
+}
+
+
+.service-qty {
+
+    font-size: 15px;
+
+    color: #182338;
+
+    text-align: center;
+
+}
+
+
+.service-total {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #182338;
+
+    text-align: right;
+
+}
+
+
+
+/* =========================================
+   TOTALS
+========================================= */
+
+.invoice-totals {
+
+    padding: 28px 32px 32px;
+
+    margin-left: auto;
+
+    width: 48%;
+
+}
+
+
+.total-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 13px;
+
+    font-size: 14px;
+
+    color: #53627a;
+
+}
+
+
+.total-row strong {
+
+    color: #526078;
+
+}
+
+
+.total-row.discount {
+
+    color: #e11d2e;
+
+}
+
+
+.total-row.discount strong {
+
+    color: #e11d2e;
+
+}
+
+
+.total-line {
+
+    height: 1px;
+
+    background: #dce2e9;
+
+    margin: 8px 0 20px;
+
+}
+
+
+.grand-total {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 18px;
+
+    color: #006f68;
+
+}
+
+
+
+/* =========================================
+   PAYMENT PROCESS
+========================================= */
+
+.payment-process-card {
+
+    background: #ffffff;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 18px;
+
+    padding: 32px;
+
+}
+
+
+.payment-process-card h2 {
+
+    font-size: 19px;
+
+    color: #006f68;
+
+    margin-bottom: 30px;
+
+}
+
+
+.payment-label {
+
+    font-size: 11px;
+
+    letter-spacing: 1.2px;
+
+    color: #526078;
+
+    margin-bottom: 12px;
+
+    font-weight: 500;
+
+}
+
+
+
+/* =========================================
+   PAYMENT OPTIONS
+========================================= */
+
+.payment-option {
+
+    height: 59px;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    font-size: 15px;
+
+    color: #263247;
+
+    cursor: pointer;
+
+}
+
+
+.payment-option.selected {
+
+    border: 2px solid #006f68;
+
+    background: #f3f8f7;
+
+}
+
+
+.payment-option input {
+
+    display: none;
+
+}
+
+
+.radio-circle {
+
+    width: 16px;
+
+    height: 16px;
+
+    border: 1px solid #8793a3;
+
+    border-radius: 50%;
+
+    position: relative;
+
+}
+
+
+.payment-option.selected .radio-circle {
+
+    border-color: #006f68;
+
+    background: #006f68;
+
+}
+
+
+.payment-option.selected .radio-circle::after {
+
+    content: '';
+
+    position: absolute;
+
+    width: 6px;
+
+    height: 6px;
+
+    background: #ffffff;
+
+    border-radius: 50%;
+
+    left: 4px;
+
+    top: 4px;
+
+}
+
+
+.payment-icon {
+
+    color: #006f68;
+
+    font-size: 18px;
+
+}
+
+
+
+/* =========================================
+   TRANSACTION
+========================================= */
+
+.payment-divider {
+
+    height: 1px;
+
+    background: #dce2e9;
+
+    margin: 24px 0 28px;
+
+}
+
+
+.transaction-summary {
+
+    background: #eef3f8;
+
+    border-radius: 12px;
+
+    padding: 22px 20px;
+
+    margin-bottom: 32px;
+
+}
+
+
+.amount-label {
+
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #526078;
+
+    margin-bottom: 10px;
+
+}
+
+
+.amount-box {
+
+    background: #ffffff;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 4px;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 12px;
+
+    font-size: 14px;
+
+    color: #526078;
+
+}
+
+
+.amount-box strong {
+
+    color: #006f68;
+
+    font-size: 16px;
+
+    margin-left: 4px;
+
+}
+
+
+.outstanding-line {
+
+    height: 1px;
+
+    background: #dce2e9;
+
+    margin: 18px 0;
+
+}
+
+
+.outstanding {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 14px;
+
+    color: #526078;
+
+}
+
+
+.outstanding strong {
+
+    color: #006f68;
+
+}
+
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.finalize-button {
+
+    width: 100%;
+
+    height: 56px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #006f68;
+
+    color: #ffffff;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-bottom: 12px;
+
+}
+
+
+.cancel-button {
+
+    width: 100%;
+
+    height: 51px;
+
+    border: 1px solid #dce2e9;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #526078;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .billing-details-content {
+
+        padding: 35px;
+
+    }
+
+    .billing-main-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .payment-process-card {
+
+        width: 100%;
+
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .billing-details-content {
+
+        padding: 25px 15px;
+
+    }
+
+    .billing-page-header {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+    .billing-header-buttons {
+
+        width: 100%;
+
+    }
+
+    .billing-header-buttons button {
+
+        flex: 1;
+
+    }
+
+    .invoice-information-card {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .information-divider {
+
+        display: none;
+
+    }
+
+    .client-box {
+
+        width: 100%;
+
+    }
+
+    .services-table-header,
+    .service-row {
+
+        grid-template-columns:
+            1.5fr
+            1fr
+            0.5fr
+            1fr;
+
+        padding: 0 20px;
+
+    }
+
+    .invoice-totals {
+
+        width: 100%;
+
+    }
+
+}
