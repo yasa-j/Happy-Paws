@@ -1,0 +1,569 @@
+/* =========================================
+   REGISTRATION PAGE
+========================================= */
+
+.register-page {
+    min-height: calc(100vh - 150px);
+    background-color: #f7f9fb;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 40px 20px;
+}
+
+
+/* =========================================
+   MAIN REGISTRATION CARD
+========================================= */
+
+.register-card {
+    width: 100%;
+    max-width: 610px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #dfe6ee;
+    border-radius: 14px;
+
+    padding: 28px 40px 30px;
+
+    box-shadow: 0 5px 20px rgba(40, 55, 75, 0.08);
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.register-heading {
+    text-align: center;
+    margin-bottom: 34px;
+}
+
+.register-heading h1 {
+    margin: 0;
+
+    color: #243148;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.register-heading p {
+    margin-top: 12px;
+
+    color: #6b7d99;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   FORM SECTIONS
+========================================= */
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h2 {
+    margin: 0;
+
+    color: #243148;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.section-line {
+    height: 1px;
+
+    background-color: #e2e8ef;
+
+    margin-top: 10px;
+    margin-bottom: 16px;
+}
+
+
+/* =========================================
+   TWO COLUMN ROW
+========================================= */
+
+.form-row {
+    display: flex;
+    gap: 24px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #3e4b4d;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group small {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #71839e;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   NORMAL INPUT
+========================================= */
+
+.input-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+    height: 49px;
+
+    padding: 0 45px;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+
+    background-color: #ffffff;
+
+    color: #354052;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.input-wrapper input:focus {
+    border-color: #16877f;
+
+    box-shadow: 0 0 0 2px rgba(22, 135, 127, 0.08);
+}
+
+.input-wrapper input::placeholder {
+    color: #bcc5c9;
+}
+
+
+/* =========================================
+   INPUT ICON
+========================================= */
+
+.input-icon {
+    position: absolute;
+
+    left: 16px;
+
+    color: #687e9c;
+
+    font-size: 20px;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   PASSWORD BUTTON
+========================================= */
+
+.password-toggle {
+    position: absolute;
+
+    right: 13px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #687e9c;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+/* =========================================
+   ADDRESS
+========================================= */
+
+.address-wrapper {
+    width: 100%;
+}
+
+.address-wrapper textarea {
+    display: block;
+
+    width: 100%;
+    min-height: 110px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+
+    background-color: #ffffff;
+
+    color: #354052;
+
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.address-wrapper textarea::placeholder {
+    color: #bcc5c9;
+}
+
+.address-wrapper textarea:focus {
+    border-color: #16877f;
+
+    box-shadow: 0 0 0 2px rgba(22, 135, 127, 0.08);
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+.phone-wrapper {
+    display: flex;
+
+    width: 100%;
+    height: 49px;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+.phone-wrapper:focus-within {
+    border-color: #16877f;
+
+    box-shadow: 0 0 0 2px rgba(22, 135, 127, 0.08);
+}
+
+.country-code {
+    width: 84px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    background-color: #edf1f5;
+
+    color: #4d5962;
+
+    font-size: 14px;
+
+    border-right: 1px solid #d9e2ec;
+}
+
+.phone-wrapper input {
+    flex: 1;
+
+    border: none;
+
+    padding: 0 14px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    color: #354052;
+}
+
+.phone-wrapper input::placeholder {
+    color: #bcc5c9;
+}
+
+
+/* =========================================
+   TERMS
+========================================= */
+
+.terms-section {
+    margin: 6px 0 24px;
+}
+
+.terms-label {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    color: #465255;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.terms-label input {
+    width: 17px;
+    height: 17px;
+
+    margin-top: 2px;
+
+    cursor: pointer;
+}
+
+.terms-label a {
+    color: #07877f;
+
+    text-decoration: none;
+}
+
+.terms-label a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.form-error {
+    margin-bottom: 18px;
+
+    padding: 11px 14px;
+
+    border-radius: 8px;
+
+    background-color: #fff0f0;
+
+    border: 1px solid #f0caca;
+
+    color: #c0392b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   CREATE ACCOUNT BUTTON
+========================================= */
+
+.create-account-btn {
+    width: 100%;
+    height: 49px;
+
+    border: none;
+    border-radius: 11px;
+
+    background-color: #12877f;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.create-account-btn:hover {
+    background-color: #0e756e;
+}
+
+
+/* =========================================
+   LOGIN LINK
+========================================= */
+
+.login-link {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: #71809a;
+
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #07877f;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   SUCCESS POPUP
+========================================= */
+
+.success-overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(28, 40, 55, 0.45);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.success-popup {
+    width: 90%;
+    max-width: 420px;
+
+    background-color: white;
+
+    border-radius: 16px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+
+.success-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background-color: #12877f;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.success-popup h2 {
+    margin: 0;
+
+    color: #243148;
+
+    font-size: 23px;
+}
+
+.success-popup p {
+    margin: 14px 0 24px;
+
+    color: #6b7d99;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.popup-login-btn {
+    width: 100%;
+    height: 46px;
+
+    border: none;
+    border-radius: 9px;
+
+    background-color: #12877f;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.popup-login-btn:hover {
+    background-color: #0e756e;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .register-page {
+        padding: 20px 12px;
+    }
+
+    .register-card {
+        padding: 25px 20px;
+    }
+
+    .register-heading h1 {
+        font-size: 25px;
+    }
+
+    .form-row {
+        flex-direction: column;
+
+        gap: 0;
+    }
+
+    .address-wrapper textarea {
+        min-height: 100px;
+    }
+}

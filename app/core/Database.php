@@ -14,7 +14,7 @@ class Database {
     private $stmt;
     private $error;
 
-    private function __construct() {
+    public function __construct() {
         // Set DSN
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
         $options = [
