@@ -98,6 +98,10 @@ class StaffauthController extends Controller
             $this->redirect('index.php?url=staff');
             return;
         }
+        if ($user->role === 'product_manager') {
+    $this->redirect('index.php?url=productmanager');
+    return;
+}
 
         // Other roles are not allowed through staff login
         session_unset();
