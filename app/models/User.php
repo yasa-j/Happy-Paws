@@ -29,6 +29,15 @@ class User
         return $this->db->single();
     }
 
+    public function findUserById($id) {
+
+        $this->db->query("SELECT * FROM users WHERE user_id = :id LIMIT 1");
+
+        $this->db->bind(':id', $id);
+        
+        return $this->db->single();
+    }
+
 
     // Find a user using phone number
     public function findUserByPhone($phone_number)

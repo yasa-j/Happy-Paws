@@ -242,6 +242,8 @@ class AdminController extends Controller {
         }
 
         $data = [
+            'title' => 'Edit Staff Member',
+            'activePage' => 'staff',
             'staff' => $staff
         ];
 
