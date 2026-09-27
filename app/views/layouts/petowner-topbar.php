@@ -1,3 +1,20 @@
+<?php
+
+$userName = $_SESSION['user_name'] ?? 'User';
+
+$nameParts = explode(' ', trim($userName));
+
+$initials = '';
+
+foreach ($nameParts as $part) {
+    if (!empty($part)) {
+        $initials .= strtoupper(substr($part, 0, 1));
+    }
+}
+
+$initials = substr($initials, 0, 2);
+
+?>
 <!-- Pet Owner Topbar -->
 
 <header class="dashboard-topbar">
@@ -39,17 +56,17 @@
 
 
         <!-- User -->
-        <div class="topbar-user">
+        <a href="<?php echo URLROOT; ?>/petowner/profile" class="topbar-user">
 
             <div class="user-avatar">
-                J
+                <?php echo htmlspecialchars($initials); ?>
             </div>
 
             <span class="user-arrow">
                 ▾
             </span>
 
-        </div>
+        </a>
 
     </div>
 

@@ -973,6 +973,28 @@
     }
 
 }
+.pet-selector {
+    min-width: 275px;
+    height: 50px;
+
+    background: #ffffff;
+
+    border: none;
+    border-radius: 13px;
+
+    padding: 0 14px;
+
+    color: #27364d;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 9px rgba(38, 61, 77, 0.05);
+
+    outline: none;
+}
 
 
 @media (max-width: 650px) {

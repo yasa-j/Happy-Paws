@@ -205,3 +205,13 @@ function downloadHealthSummary() {
     );
 
 }
+
+function changeHealthPet(petId)
+{
+    if (!petId) {
+        return;
+    }
+
+    window.location.href =
+        'healthRecords?pet_id=' + encodeURIComponent(petId);
+}

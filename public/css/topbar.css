@@ -126,3 +126,19 @@
     font-size: 14px;
     color: #64748b;
 }
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.topbar-user .user-avatar {
+    cursor: pointer;
+}
+
+.topbar-user .user-arrow {
+    color: #687891;
+}

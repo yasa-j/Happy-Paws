@@ -7,6 +7,7 @@ class PetOwnerController extends Controller
     private $serviceModel;
     private $appointmentModel;
     private $vetScheduleModel;
+    private $healthRecordModel;
 
     public function __construct()
     {
@@ -20,6 +21,8 @@ class PetOwnerController extends Controller
         $this->appointmentModel = $this->model('Appointment');
         // Load the Veterinarian Schedule model
         $this->vetScheduleModel = $this->model('VetSchedule');
+        // Load the Health Record model
+        $this->healthRecordModel = $this->model('HealthRecord');
     }
     /*
      * Pet Owner Dashboard
@@ -1228,99 +1231,143 @@ class PetOwnerController extends Controller
 
     public function healthRecords()
     {
-        // Sample pet information
-        // This will later come from the database.
-        $pet = [
-            'name' => 'Max',
-            'breed' => 'Golden Retriever',
-            'gender' => 'Male',
-            'age' => '3 years old',
-            'weight' => '31.4 kg',
-            'microchip' => '#985141002',
-            'status' => 'Active Care Plan',
-            'image' => URLROOT . '/public/images/max.jpg'
-        ];
+        // Make sure the user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
 
-        // Sample medical history
-        $medicalHistory = [
-            [
-                'title' => 'General Health Checkup',
-                'category' => 'Routine Examination',
-                'date' => '12 September 2026',
-                'vet' => 'Dr. Sarah Fernando',
-                'specialization' => 'General Veterinarian',
-                'reason' => 'Annual routine health examination and wellness consultation.',
-                'diagnosis' => 'Excellent physical condition. Clear eyes, ears, and lungs. Heart rate normal (94 bpm). Coat healthy and lustrous.',
-                'treatment' => 'Flea & tick topical preventative administered during visit.',
-                'followup' => 'Follow-up: 12 months'
-            ],
+        $userId = $_SESSION['user_id'];
 
-            [
-                'title' => 'Sick Visit & Dietary Consultation',
-                'category' => 'Internal Medicine',
-                'date' => '20 June 2026',
-                'vet' => 'Dr. Nimal Silva',
-                'specialization' => 'Internal Medicine',
-                'reason' => 'Mild lethargy and loss of appetite for 2 days. Pet ate non-food debris during park walk.',
-                'diagnosis' => 'Mild acute gastroenteritis secondary to dietary indiscretion. No abdominal obstruction detected.',
-                'treatment' => 'Subcutaneous hydration fluids administered; prescribed prebiotic paste and Amoxicillin course.',
-                'followup' => 'Outcome: Fully Resolved'
-            ]
-        ];
+        /*
+        |--------------------------------------------------------------------------
+        | Get Owner's Pets
+        |--------------------------------------------------------------------------
+        */
 
-        // Sample vaccination records
-        $vaccinations = [
-            [
-                'name' => 'Rabies',
-                'date' => '12 October 2025',
-                'nextDue' => '12 October 2026',
-                'status' => 'Upcoming'
-            ],
-            [
-                'name' => 'DHPP',
-                'date' => '15 March 2026',
-                'nextDue' => '15 March 2027',
-                'status' => 'Active'
-            ],
-            [
-                'name' => 'Leptospirosis',
-                'date' => '15 March 2026',
-                'nextDue' => '15 March 2027',
-                'status' => 'Active'
-            ],
-            [
-                'name' => 'Bordetella',
-                'date' => '20 April 2026',
-                'nextDue' => '20 April 2027',
-                'status' => 'Active'
-            ]
-        ];
+        $pets = $this->petModel->getPetsByOwner($userId);
 
-        // Sample prescriptions
-        $prescriptions = [
-            [
-                'medicine' => 'Amoxicillin',
-                'dosage' => '250mg',
-                'date' => '20 June 2026',
-                'vet' => 'Dr. Nimal Silva',
-                'status' => 'Completed'
-            ],
-            [
-                'medicine' => 'Prebiotic Paste',
-                'dosage' => '5ml daily',
-                'date' => '20 June 2026',
-                'vet' => 'Dr. Nimal Silva',
-                'status' => 'Completed'
-            ]
-        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Select Pet
+        |--------------------------------------------------------------------------
+        |
+        | If a pet_id is provided in the URL, use it.
+        | Otherwise, show the owner's first registered pet.
+        |
+        */
+
+        $selectedPetId = isset($_GET['pet_id'])
+            ? (int)$_GET['pet_id']
+            : null;
+
+
+        if ($selectedPetId !== null) {
+
+            $selectedPet = $this->healthRecordModel
+                ->getPetHealthSummary($selectedPetId, $userId);
+
+            // Prevent access to another owner's pet
+            if (!$selectedPet) {
+                $selectedPetId = null;
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | If no valid pet was selected
+        |--------------------------------------------------------------------------
+        */
+
+        if ($selectedPetId === null && !empty($pets)) {
+
+            $selectedPetId = $pets[0]->pet_id;
+
+            $selectedPet = $this->healthRecordModel
+                ->getPetHealthSummary($selectedPetId, $userId);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | No Pets
+        |--------------------------------------------------------------------------
+        */
+
+        if (!$selectedPet) {
+
+            $data = [
+                'activePage' => 'health-records',
+                'pets' => $pets,
+                'pet' => null,
+                'medicalHistory' => [],
+                'vaccinations' => [],
+                'prescriptions' => [],
+                'lastVisit' => null,
+                'vaccinationSummary' => null,
+                'nextVaccination' => null
+            ];
+
+            $this->view('petowner/health-records', $data);
+
+            return;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Real Health Records
+        |--------------------------------------------------------------------------
+        */
+
+        $medicalHistory = $this->healthRecordModel
+            ->getMedicalHistory($selectedPetId, $userId);
+
+        $vaccinations = $this->healthRecordModel
+            ->getVaccinations($selectedPetId, $userId);
+
+        $prescriptions = $this->healthRecordModel
+            ->getPrescriptions($selectedPetId, $userId);
+
+        $lastVisit = $this->healthRecordModel
+            ->getLastMedicalVisit($selectedPetId, $userId);
+
+        $vaccinationSummary = $this->healthRecordModel
+            ->getVaccinationSummary($selectedPetId, $userId);
+
+        $nextVaccination = $this->healthRecordModel
+            ->getNextVaccination($selectedPetId, $userId);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Send Data To View
+        |--------------------------------------------------------------------------
+        */
 
         $data = [
             'activePage' => 'health-records',
-            'pet' => $pet,
+
+            'pets' => $pets,
+
+            'pet' => $selectedPet,
+
             'medicalHistory' => $medicalHistory,
+
             'vaccinations' => $vaccinations,
-            'prescriptions' => $prescriptions
+
+            'prescriptions' => $prescriptions,
+
+            'lastVisit' => $lastVisit,
+
+            'vaccinationSummary' => $vaccinationSummary,
+
+            'nextVaccination' => $nextVaccination
         ];
+
 
         $this->view('petowner/health-records', $data);
     }

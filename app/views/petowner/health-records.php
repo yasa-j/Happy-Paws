@@ -56,20 +56,23 @@ $activePage = 'health';
 
                 <label>Select Pet:</label>
 
-                <div class="pet-selector" id="petSelector">
+                <select
+                    class="pet-selector"
+                    onchange="changeHealthPet(this.value)"
+                >
+                    <?php foreach ($pets as $ownerPet): ?>
 
-                    <div class="pet-mini-icon">
-                        🐶
-                    </div>
+                        <option
+                            value="<?= $ownerPet->pet_id ?>"
+                            <?= ($ownerPet->pet_id == $pet->pet_id) ? 'selected' : '' ?>
+                        >
+                            <?= htmlspecialchars($ownerPet->name) ?>
+                            -
+                            <?= htmlspecialchars($ownerPet->breed ?? $ownerPet->species) ?>
+                        </option>
 
-                    <div class="pet-selector-info">
-                        <strong><?= htmlspecialchars($pet['name']) ?> — <?= htmlspecialchars($pet['breed']) ?></strong>
-                        <span>Active Pet Profile</span>
-                    </div>
-
-                    <span class="selector-arrow">⌄</span>
-
-                </div>
+                    <?php endforeach; ?>
+                </select>
 
             </div>
 
@@ -83,88 +86,202 @@ $activePage = 'health';
         <!-- PET SUMMARY CARD -->
         <section class="pet-summary-card">
 
-            <div class="pet-summary-left">
+        <div class="pet-summary-left">
 
-                <div class="pet-image">
-                    🐕
-                </div>
+            <div class="pet-image">
+                <?= ($pet->species === 'Cat') ? '🐱' : '🐶' ?>
+            </div>
 
-                <div class="pet-main-info">
+            <div class="pet-main-info">
 
-                    <div class="pet-name-row">
+                <div class="pet-name-row">
 
-                        <h2><?= htmlspecialchars($pet['name']) ?></h2>
+                    <h2>
+                        <?= htmlspecialchars($pet->name) ?>
+                    </h2>
+
+                    <?php if (!empty($pet->microchip_number)): ?>
 
                         <span class="microchip">
-                            ▣ Microchipped: <?= htmlspecialchars($pet['microchip']) ?>
+                            ▣ Microchipped:
+                            <?= htmlspecialchars($pet->microchip_number) ?>
                         </span>
 
-                    </div>
-
-                    <span class="care-plan">
-                        <?= htmlspecialchars($pet['status']) ?>
-                    </span>
-
-                    <p>
-                        <?= htmlspecialchars($pet['breed']) ?>
-                        · <?= htmlspecialchars($pet['gender']) ?>
-                        · <?= htmlspecialchars($pet['age']) ?>
-                        · Weight: <?= htmlspecialchars($pet['weight']) ?>
-                    </p>
+                    <?php endif; ?>
 
                 </div>
+
+
+                <span class="care-plan">
+                    <?= htmlspecialchars($pet->species) ?> Health Profile
+                </span>
+
+
+                <p>
+
+                    <?= htmlspecialchars($pet->breed ?? 'Breed not specified') ?>
+
+                    ·
+
+                    <?= htmlspecialchars($pet->gender) ?>
+
+                    ·
+
+                    <?php
+
+                    if (!empty($pet->date_of_birth)) {
+
+                        $dob = new DateTime($pet->date_of_birth);
+                        $today = new DateTime();
+
+                        $age = $today->diff($dob);
+
+                        echo $age->y . ' years old';
+
+                    } else {
+
+                        echo 'Age not available';
+
+                    }
+
+                    ?>
+
+                    · Weight:
+
+                    <?= !empty($pet->weight_kg)
+                        ? htmlspecialchars($pet->weight_kg) . ' kg'
+                        : 'Not available'
+                    ?>
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="pet-stat-boxes">
+
+            <!-- LAST VISIT -->
+
+            <div class="pet-stat">
+
+                <span class="stat-label">
+                    Last Visit
+                </span>
+
+                <?php if ($lastVisit): ?>
+
+                    <strong>
+                        <?= date('d M Y', strtotime($lastVisit->visit_date)) ?>
+                    </strong>
+
+                    <small>
+                        <?= htmlspecialchars($lastVisit->vet_name ?? 'Veterinarian') ?>
+                    </small>
+
+                <?php else: ?>
+
+                    <strong>
+                        No visits
+                    </strong>
+
+                    <small>
+                        No medical records yet
+                    </small>
+
+                <?php endif; ?>
 
             </div>
 
 
-            <div class="pet-stat-boxes">
+            <!-- VACCINATIONS -->
 
-                <div class="pet-stat">
+            <div class="pet-stat">
 
-                    <span class="stat-label">Last Visit</span>
+                <span class="stat-label">
+                    Vaccinations
+                </span>
 
-                    <strong>12 Sep<br>2026</strong>
+                <strong class="stat-green">
+                    ●
+                    <?= $vaccinationSummary->vaccination_count ?? 0 ?>
+                    Records
+                </strong>
 
-                    <small>Dr. Sarah<br>Fernando</small>
-
-                </div>
-
-
-                <div class="pet-stat">
-
-                    <span class="stat-label">Vaccinations</span>
-
-                    <strong class="stat-green">● 4 Active</strong>
-
-                    <small>Up to Date</small>
-
-                </div>
-
-
-                <div class="pet-stat">
-
-                    <span class="stat-label">Prescriptions</span>
-
-                    <strong>1 Active</strong>
-
-                    <small>Amoxicillin 250mg</small>
-
-                </div>
-
-
-                <div class="pet-stat">
-
-                    <span class="stat-label">Next Due</span>
-
-                    <strong>12 Oct 2026</strong>
-
-                    <small>Rabies Booster</small>
-
-                </div>
+                <small>
+                    <?= !empty($vaccinations)
+                        ? 'Records available'
+                        : 'No records yet'
+                    ?>
+                </small>
 
             </div>
 
-        </section>
+
+            <!-- PRESCRIPTIONS -->
+
+            <div class="pet-stat">
+
+                <span class="stat-label">
+                    Prescriptions
+                </span>
+
+                <strong>
+                    <?= count($prescriptions) ?>
+                    Records
+                </strong>
+
+                <small>
+                    <?= !empty($prescriptions)
+                        ? 'Prescription history'
+                        : 'No prescriptions'
+                    ?>
+                </small>
+
+            </div>
+
+
+            <!-- NEXT VACCINATION -->
+
+            <div class="pet-stat">
+
+                <span class="stat-label">
+                    Next Due
+                </span>
+
+                <?php if ($nextVaccination): ?>
+
+                    <strong>
+                        <?= date(
+                            'd M Y',
+                            strtotime($nextVaccination->next_due_date)
+                        ) ?>
+                    </strong>
+
+                    <small>
+                        <?= htmlspecialchars(
+                            $nextVaccination->vaccine_name
+                        ) ?>
+                    </small>
+
+                <?php else: ?>
+
+                    <strong>
+                        None
+                    </strong>
+
+                    <small>
+                        No upcoming vaccination
+                    </small>
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
         <!-- RECORD CONTROLS -->
@@ -177,7 +294,7 @@ $activePage = 'health';
                     data-tab="medical"
                     onclick="switchHealthTab('medical')">
 
-                    <span>▣</span>
+                    <span></span>
                     Medical History
                     <small><?= count($medicalHistory) ?></small>
 
@@ -189,7 +306,7 @@ $activePage = 'health';
                     data-tab="vaccinations"
                     onclick="switchHealthTab('vaccinations')">
 
-                    <span>♜</span>
+                    <span></span>
                     Vaccination Records
                     <small><?= count($vaccinations) ?></small>
 
@@ -201,7 +318,7 @@ $activePage = 'health';
                     data-tab="prescriptions"
                     onclick="switchHealthTab('prescriptions')">
 
-                    <span>▤</span>
+                    <span></span>
                     Prescriptions
                     <small><?= count($prescriptions) ?></small>
 
@@ -244,102 +361,164 @@ $activePage = 'health';
 
         <div id="medical-tab" class="health-tab-content active">
 
-            <?php foreach ($medicalHistory as $record): ?>
+            <?php if (!empty($medicalHistory)): ?>
 
-                <article class="medical-record-card">
+                <?php foreach ($medicalHistory as $record): ?>
 
-                    <div class="record-card-header">
+                    <article class="medical-record-card">
 
-                        <div class="record-title-area">
+                        <div class="record-card-header">
 
-                            <div class="record-icon medical-icon">
-                                ♡
-                            </div>
+                            <div class="record-title-area">
 
-                            <div>
+                                <div class="record-icon medical-icon">
+                                    ♡
+                                </div>
 
-                                <div class="record-title-line">
+                                <div>
 
-                                    <h2>
-                                        <?= htmlspecialchars($record['title']) ?>
-                                    </h2>
+                                    <div class="record-title-line">
 
-                                    <span class="record-category">
-                                        <?= htmlspecialchars($record['category']) ?>
-                                    </span>
+                                        <h2>
+                                            <?= htmlspecialchars(
+                                                $record->service_name ?? 'Veterinary Consultation'
+                                            ) ?>
+                                        </h2>
+
+                                        <?php if (!empty($record->service_category)): ?>
+
+                                            <span class="record-category">
+                                                <?= htmlspecialchars(
+                                                    $record->service_category
+                                                ) ?>
+                                            </span>
+
+                                        <?php endif; ?>
+
+                                    </div>
+
+                                    <p>
+                                        Attending Vet:
+
+                                        <strong>
+                                            <?= htmlspecialchars(
+                                                $record->vet_name ?? 'Veterinarian'
+                                            ) ?>
+                                        </strong>
+                                    </p>
 
                                 </div>
 
+                            </div>
+
+                            <span class="record-date">
+                                <?= date(
+                                    'd F Y',
+                                    strtotime($record->visit_date)
+                                ) ?>
+                            </span>
+
+                        </div>
+
+
+                        <div class="record-details">
+
+                            <div class="detail-box">
+
+                                <span class="detail-label">
+                                    Reason for Visit
+                                </span>
+
                                 <p>
-                                    Attending Vet:
-                                    <strong><?= htmlspecialchars($record['vet']) ?></strong>
-                                    (<?= htmlspecialchars($record['specialization']) ?>)
+                                    <?= !empty($record->appointment_reason)
+                                        ? htmlspecialchars(
+                                            $record->appointment_reason
+                                        )
+                                        : 'No reason recorded.'
+                                    ?>
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span class="detail-label">
+                                    Clinical Findings / Diagnosis
+                                </span>
+
+                                <p>
+                                    <?= !empty($record->diagnosis)
+                                        ? htmlspecialchars(
+                                            $record->diagnosis
+                                        )
+                                        : 'No diagnosis recorded.'
+                                    ?>
                                 </p>
 
                             </div>
 
                         </div>
 
-                        <span class="record-date">
-                            <?= htmlspecialchars($record['date']) ?>
-                        </span>
 
-                    </div>
+                        <div class="record-footer">
 
+                            <div class="treatment">
 
-                    <div class="record-details">
+                                <span class="treatment-icon">
+                                    ✚
+                                </span>
 
-                        <div class="detail-box">
+                                <strong>
+                                    Treatment:
+                                </strong>
 
-                            <span class="detail-label">
-                                Reason for Visit
-                            </span>
+                                <?= !empty($record->treatment)
+                                    ? htmlspecialchars($record->treatment)
+                                    : 'No treatment recorded.'
+                                ?>
 
-                            <p>
-                                <?= htmlspecialchars($record['reason']) ?>
-                            </p>
-
-                        </div>
-
-
-                        <div class="detail-box">
-
-                            <span class="detail-label">
-                                Clinical Findings / Diagnosis
-                            </span>
-
-                            <p>
-                                <?= htmlspecialchars($record['diagnosis']) ?>
-                            </p>
-
-                        </div>
-
-                    </div>
+                            </div>
 
 
-                    <div class="record-footer">
+                            <?php if (!empty($record->follow_up_date)): ?>
 
-                        <div class="treatment">
+                                <span class="follow-up">
+                                    Follow-up:
+                                    <?= date(
+                                        'd F Y',
+                                        strtotime($record->follow_up_date)
+                                    ) ?>
+                                </span>
 
-                            <span class="treatment-icon">
-                                ✚
-                            </span>
+                            <?php elseif (!empty($record->notes)): ?>
 
-                            <strong>Treatment:</strong>
+                                <span class="follow-up">
+                                    <?= htmlspecialchars($record->notes) ?>
+                                </span>
 
-                            <?= htmlspecialchars($record['treatment']) ?>
+                            <?php endif; ?>
 
                         </div>
 
-                        <span class="follow-up">
-                            <?= htmlspecialchars($record['followup']) ?>
-                        </span>
+                    </article>
 
-                    </div>
+                <?php endforeach; ?>
 
-                </article>
+            <?php else: ?>
 
-            <?php endforeach; ?>
+                <div class="empty-record-message">
+
+                    <h3>No Medical Records</h3>
+
+                    <p>
+                        There are currently no medical records for
+                        <?= htmlspecialchars($pet->name) ?>.
+                    </p>
+
+                </div>
+
+            <?php endif; ?>
 
         </div>
 
@@ -352,49 +531,103 @@ $activePage = 'health';
 
             <div class="vaccination-list">
 
-                <?php foreach ($vaccinations as $vaccination): ?>
+                <?php if (!empty($vaccinations)): ?>
 
-                    <article class="vaccination-card">
+                    <?php foreach ($vaccinations as $vaccination): ?>
 
-                        <div class="vaccination-icon">
-                            💉
-                        </div>
+                        <article class="vaccination-card">
 
-                        <div class="vaccination-info">
+                            <div class="vaccination-icon">
+                                💉
+                            </div>
 
-                            <h2>
-                                <?= htmlspecialchars($vaccination['name']) ?>
-                            </h2>
+                            <div class="vaccination-info">
 
-                            <p>
-                                Administered:
-                                <?= htmlspecialchars($vaccination['date']) ?>
-                            </p>
+                                <h2>
+                                    <?= htmlspecialchars(
+                                        $vaccination->vaccine_name
+                                    ) ?>
+                                </h2>
 
-                        </div>
+                                <p>
+                                    Administered:
 
-                        <div class="vaccination-due">
+                                    <?= date(
+                                        'd F Y',
+                                        strtotime(
+                                            $vaccination->administered_date
+                                        )
+                                    ) ?>
+                                </p>
 
-                            <span>Next Due</span>
+                                <?php if (!empty($vaccination->vet_name)): ?>
 
-                            <strong>
-                                <?= htmlspecialchars($vaccination['nextDue']) ?>
-                            </strong>
+                                    <p>
+                                        Veterinarian:
+                                        <?= htmlspecialchars(
+                                            $vaccination->vet_name
+                                        ) ?>
+                                    </p>
 
-                        </div>
+                                <?php endif; ?>
 
-                        <span class="vaccination-status">
-                            <?= htmlspecialchars($vaccination['status']) ?>
-                        </span>
+                            </div>
 
-                    </article>
+                            <div class="vaccination-due">
 
-                <?php endforeach; ?>
+                                <span>
+                                    Next Due
+                                </span>
+
+                                <?php if (!empty($vaccination->next_due_date)): ?>
+
+                                    <strong>
+                                        <?= date(
+                                            'd M Y',
+                                            strtotime(
+                                                $vaccination->next_due_date
+                                            )
+                                        ) ?>
+                                    </strong>
+
+                                <?php else: ?>
+
+                                    <strong>
+                                        Not scheduled
+                                    </strong>
+
+                                <?php endif; ?>
+
+                            </div>
+
+                            <span class="vaccination-status">
+                                <?= htmlspecialchars(
+                                    $vaccination->status
+                                ) ?>
+                            </span>
+
+                        </article>
+
+                    <?php endforeach; ?>
+
+                <?php else: ?>
+
+                    <div class="empty-record-message">
+
+                        <h3>No Vaccination Records</h3>
+
+                        <p>
+                            There are currently no vaccination records for
+                            <?= htmlspecialchars($pet->name) ?>.
+                        </p>
+
+                    </div>
+
+                <?php endif; ?>
 
             </div>
 
         </div>
-
 
         <!-- ========================= -->
         <!-- PRESCRIPTIONS -->
@@ -404,57 +637,84 @@ $activePage = 'health';
 
             <div class="prescription-list">
 
-                <?php foreach ($prescriptions as $prescription): ?>
+                <?php if (!empty($prescriptions)): ?>
 
-                    <article class="prescription-card">
+                    <?php foreach ($prescriptions as $prescription): ?>
 
-                        <div class="prescription-icon">
-                            💊
-                        </div>
+                        <article class="prescription-card">
 
-                        <div class="prescription-info">
+                            <div class="prescription-icon">
+                                💊
+                            </div>
 
-                            <h2>
-                                <?= htmlspecialchars($prescription['medicine']) ?>
-                            </h2>
+                            <div class="prescription-info">
 
-                            <p>
-                                <?= htmlspecialchars($prescription['dosage']) ?>
-                            </p>
+                                <h2>
+                                    Prescription
+                                </h2>
 
-                        </div>
+                                <p>
+                                    <?= htmlspecialchars(
+                                        $prescription->prescription
+                                    ) ?>
+                                </p>
 
-                        <div class="prescription-details">
+                            </div>
 
-                            <span>
-                                Prescribed
+                            <div class="prescription-details">
+
+                                <span>
+                                    Prescribed
+                                </span>
+
+                                <strong>
+                                    <?= date(
+                                        'd M Y',
+                                        strtotime(
+                                            $prescription->visit_date
+                                        )
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+                            <div class="prescription-details">
+
+                                <span>
+                                    Veterinarian
+                                </span>
+
+                                <strong>
+                                    <?= htmlspecialchars(
+                                        $prescription->vet_name
+                                        ?? 'Veterinarian'
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+                            <span class="prescription-status">
+                                Recorded
                             </span>
 
-                            <strong>
-                                <?= htmlspecialchars($prescription['date']) ?>
-                            </strong>
+                        </article>
 
-                        </div>
+                    <?php endforeach; ?>
 
-                        <div class="prescription-details">
+                <?php else: ?>
 
-                            <span>
-                                Veterinarian
-                            </span>
+                    <div class="empty-record-message">
 
-                            <strong>
-                                <?= htmlspecialchars($prescription['vet']) ?>
-                            </strong>
+                        <h3>No Prescriptions</h3>
 
-                        </div>
+                        <p>
+                            There are currently no prescription records for
+                            <?= htmlspecialchars($pet->name) ?>.
+                        </p>
 
-                        <span class="prescription-status">
-                            <?= htmlspecialchars($prescription['status']) ?>
-                        </span>
+                    </div>
 
-                    </article>
-
-                <?php endforeach; ?>
+                <?php endif; ?>
 
             </div>
 
