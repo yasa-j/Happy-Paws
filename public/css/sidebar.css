@@ -1,0 +1,320 @@
+/*
+ * Shared HappyPaws sidebar styles.
+ * These rules keep the sidebar size and menu positions consistent
+ * when navigating between different interfaces.
+ */
+
+@media (min-width: 701px) {
+
+    /* Use the same sidebar width and spacing on every page. */
+    .sidebar {
+        position: fixed !important;
+        inset: 0 auto 0 0 !important;
+        z-index: 20 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        width: 220px !important;
+        min-width: 220px !important;
+        height: 100vh !important;
+
+        padding: 20px 14px !important;
+
+        border-right: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
+
+        box-sizing: border-box !important;
+        font-family: "Inter", sans-serif !important;
+    }
+
+    /*
+     * Keep the main page content in the same position
+     * for both layout class systems.
+     */
+    .main-content,
+    .workspace {
+        width: calc(100% - 220px) !important;
+        margin-left: 220px !important;
+    }
+
+    /* Use the same top-bar height on every interface. */
+    .topbar {
+        height: 64px !important;
+        min-height: 64px !important;
+    }
+
+    /* Standardize the HappyPaws brand area. */
+    .sidebar .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 9px !important;
+
+        width: auto !important;
+        height: 36px !important;
+        min-height: 36px !important;
+
+        margin: 0 8px 27px !important;
+        padding: 0 !important;
+
+        border: 0 !important;
+        color: #0f172a !important;
+        text-decoration: none !important;
+    }
+
+    /* Standardize all versions of the logo icon. */
+    .sidebar .brand-icon,
+    .sidebar .brand-mark,
+    .sidebar .brand > span:first-child {
+        display: grid !important;
+        flex: 0 0 32px !important;
+
+        width: 32px !important;
+        height: 32px !important;
+
+        place-items: center !important;
+
+        border-radius: 8px !important;
+        color: #ffffff !important;
+        background: #0f766e !important;
+
+        font-size: 16px !important;
+        line-height: 1 !important;
+    }
+
+    /* Standardize the HappyPaws brand name. */
+    .sidebar .brand strong,
+    .sidebar .brand b {
+        display: block !important;
+
+        margin: 0 !important;
+
+        color: #0f766e !important;
+
+        font-family: "Inter", sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        line-height: 18px !important;
+    }
+
+    /* Standardize the Clinic Manager subtitle. */
+    .sidebar .brand small {
+        display: block !important;
+
+        margin: 0 !important;
+
+        color: #64748b !important;
+
+        font-size: 9px !important;
+        font-weight: 400 !important;
+        line-height: 12px !important;
+    }
+
+    /* Standardize the main menu label. */
+    .sidebar .menu-title,
+    .sidebar > p:not(.account-label) {
+        height: 14px !important;
+
+        margin: 0 8px 8px !important;
+        padding: 0 !important;
+
+        color: #64748b !important;
+
+        font-size: 9px !important;
+        font-weight: 600 !important;
+        line-height: 14px !important;
+        letter-spacing: 0.06em !important;
+    }
+
+    /* Standardize both menu class systems. */
+    .sidebar .side-menu,
+    .sidebar .main-menu {
+        display: grid !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        gap: 5px !important;
+    }
+
+    /* Give every navigation item the same height and padding. */
+    .sidebar .side-menu a,
+    .sidebar .main-menu a {
+        display: flex !important;
+        align-items: center !important;
+
+        width: 100% !important;
+        min-height: 41px !important;
+
+        margin: 0 !important;
+        padding: 0 12px !important;
+
+        gap: 11px !important;
+
+        border-radius: 7px !important;
+        color: #334155 !important;
+        background: transparent !important;
+
+        font-family: "Inter", sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+
+        text-decoration: none !important;
+        white-space: nowrap !important;
+    }
+
+    /* Keep navigation icons in the same position. */
+    .sidebar .side-menu a > span:first-child,
+    .sidebar .main-menu a > span:first-child {
+        display: inline-grid !important;
+        flex: 0 0 16px !important;
+
+        width: 16px !important;
+        height: 16px !important;
+
+        place-items: center !important;
+
+        font-size: 14px !important;
+        line-height: 16px !important;
+        text-align: center !important;
+    }
+
+    /* Shared hover style. */
+    .sidebar .side-menu a:hover,
+    .sidebar .main-menu a:hover {
+        color: #065f46 !important;
+        background: #d1fae5 !important;
+    }
+
+    /* Shared active-page style. */
+    .sidebar .side-menu a.active,
+    .sidebar .main-menu a.active {
+        color: #065f46 !important;
+        background: #86efac !important;
+        font-weight: 600 !important;
+    }
+
+    /* Keep the notification indicator on the right. */
+    .sidebar .side-menu a i,
+    .sidebar .main-menu a i,
+    .sidebar .main-menu a b {
+        margin-left: auto !important;
+    }
+
+    /* Standardize the Profile and Settings area. */
+    .sidebar .side-footer,
+    .sidebar .account-menu {
+        display: grid !important;
+
+        margin-top: auto !important;
+        padding: 12px 0 0 !important;
+
+        border-top: 1px solid #e2e8f0 !important;
+
+        gap: 5px !important;
+    }
+
+    /* Standardize Profile and Settings links. */
+    .sidebar .side-footer a,
+    .sidebar .account-menu a {
+        display: flex !important;
+        align-items: center !important;
+
+        width: 100% !important;
+        min-height: 41px !important;
+
+        margin: 0 !important;
+        padding: 0 12px !important;
+
+        gap: 11px !important;
+
+        border-radius: 7px !important;
+        color: #334155 !important;
+
+        font-family: "Inter", sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+
+        text-decoration: none !important;
+    }
+
+    .sidebar .side-footer a:hover,
+    .sidebar .account-menu a:hover {
+        background: #f1f5f9 !important;
+    }
+
+    /*
+     * Reports has a separate ACCOUNT label.
+     * Keep it at the bottom without moving the other menu links.
+     */
+    .sidebar .account-label {
+        margin: auto 8px 0 !important;
+        padding: 14px 0 0 !important;
+
+        border-top: 1px solid #e2e8f0 !important;
+
+        color: #64748b !important;
+
+        font-size: 9px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.06em !important;
+    }
+
+    /* Remove the second border below the Reports ACCOUNT label. */
+    .sidebar .account-label + .account-menu {
+        margin-top: 0 !important;
+        padding-top: 6px !important;
+        border-top: 0 !important;
+    }
+
+    /* HappyPaws image logo displayed in every sidebar */
+    /* Force the sidebar logo to remain small on every interface */
+    /*.sidebar .brand img,
+    .sidebar .brand .brand-logo {
+        display: block !important;
+        flex: 0 0 32px !important;
+
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+
+        object-fit: cover !important;
+        object-position: center !important;
+
+        border: 1px solid #0f766e !important;
+        border-radius: 8px !important;
+        background: #ffffff !important;  
+    }       */
+
+    /* Give the brand area enough height for the larger logo */
+    .sidebar .brand {
+        height: 42px !important;
+        min-height: 42px !important;
+    }
+
+    /* Larger HappyPaws logo without the square frame */
+    .sidebar .brand img,
+    .sidebar .brand .brand-logo {
+        display: block !important;
+        flex: 0 0 42px !important;
+
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        max-width: 42px !important;
+        max-height: 42px !important;
+
+        object-fit: contain !important;
+        object-position: center !important;
+
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}

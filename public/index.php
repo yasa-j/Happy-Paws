@@ -1,18 +1,27 @@
 <?php
-// Start output buffering and user session
-session_start();
 
-// Load Config file
-require_once '../config/config.php';
+/**
+ * HappyPaws Main Entry Point
+ *
+ * Every application request passes through this file.
+ */
 
-// Autoload Core Libraries (Database, Controller, Router)
-spl_autoload_register(function ($className) {
-    $file = APPROOT . '/core/' . $className . '.php';
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
-//instead of require_once each core files, this autoloader loads them as it requires
+// Start a PHP session if one is not already active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Initialize Router App
-$app = new Router();
+// Load application configuration
+require_once dirname(__DIR__) . '/config/config.php';
+
+// Load MVC core classes
+require_once APPROOT . '/core/Database.php';
+require_once APPROOT . '/core/Controller.php';
+require_once APPROOT . '/core/Router.php';
+
+/*
+ * Create the router.
+ * The Router automatically reads the URL and loads
+ * the correct controller and controller method.
+ */
+$router = new Router();
