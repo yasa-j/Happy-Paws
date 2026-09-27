@@ -4,8 +4,6 @@
  * Handles database operations related to users
  */
 
-class User
-{
     private $db;
 
     /**
