@@ -15,8 +15,12 @@
     <!-- ===================================== -->
 
     <?php
-    $activePage = 'appointments';
+
+    $activePage = 'book-appointment';
+    $activeSubPage = 'book-appointment';
+
     require_once APPROOT . '/views/layouts/petowner-sidebar.php';
+
     ?>
 
 

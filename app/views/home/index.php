@@ -20,7 +20,9 @@
     <div class="nav-container">
 
         <a href="#home" class="logo">
-            <div class="logo-icon">🐾</div>
+            <div class="logo-icon">
+                <img src="<?php echo URLROOT; ?>/Assets/Images/logo1.jpeg" alt="Happy Paws Logo">
+            </div>
             <span>Happy Paws</span>
         </a>
 
@@ -283,7 +285,7 @@
             <div class="about-image">
 
                 <img
-                    src="images/vet-dog.jpg"
+                    src="<?php echo URLROOT; ?>/Assets/Images/landing.png"
                     alt="Veterinarian caring for a dog"
                 >
 
@@ -622,42 +624,46 @@
 
             <div class="clinic-info">
 
-                <div class="clinic-detail">
+                <div class="clinic-info-inner">
 
-                    <div class="clinic-icon">
-                        ◷
+                    <div class="clinic-detail">
+
+                        <div class="clinic-icon">
+                            ◷
+                        </div>
+
+                        <div>
+
+                            <span>
+                                CLINIC HOURS
+                            </span>
+
+                            <strong>
+                                Mon - Sat: 8AM - 8PM
+                            </strong>
+
+                        </div>
+
                     </div>
 
-                    <div>
 
-                        <span>
-                            CLINIC HOURS
-                        </span>
+                    <div class="clinic-detail">
 
-                        <strong>
-                            Mon - Sat: 8AM - 8PM
-                        </strong>
+                        <div class="clinic-icon">
+                            📍
+                        </div>
 
-                    </div>
+                        <div>
 
-                </div>
+                            <span>
+                                CLINIC LOCATION
+                            </span>
 
+                            <strong>
+                                123 Pet Lane, Colombo 07
+                            </strong>
 
-                <div class="clinic-detail">
-
-                    <div class="clinic-icon">
-                        📍
-                    </div>
-
-                    <div>
-
-                        <span>
-                            CLINIC LOCATION
-                        </span>
-
-                        <strong>
-                            123 Pet Lane, Colombo 07
-                        </strong>
+                        </div>
 
                     </div>
 
@@ -683,8 +689,12 @@
 
         <a href="#home" class="footer-logo">
 
-            <div class="logo-icon">
-                🐾
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <img src="<?php echo URLROOT; ?>/Assets/Images/logo1.jpeg" alt="Happy Paws Logo">
+                </div>
+
+                <span>Happy Paws</span>
             </div>
 
             <span>

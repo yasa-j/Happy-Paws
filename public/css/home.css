@@ -72,17 +72,24 @@ input {
 }
 
 .logo-icon {
-    width: 34px;
-    height: 34px;
+    width: 48px;
+    height: 48px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     background: #eef8f7;
-    border-radius: 7px;
+    border-radius: 12px;
 
-    font-size: 20px;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    display: block;
 }
 
 .nav-links {
@@ -797,22 +804,35 @@ input {
 }
 
 .clinic-info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
 
-    gap: 30px;
-
-    padding: 25px 30px;
-
-    border-radius: 12px;
+    padding: 25px 0;
 
     background: #f2f5f7;
 }
 
+.clinic-info-inner {
+    width: 1100px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 30px;
+}
+
 .clinic-detail {
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+}
+
+.clinic-detail:last-child {
+    justify-self: end;
 }
 
 .clinic-icon {
@@ -820,6 +840,7 @@ input {
     height: 42px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -836,6 +857,7 @@ input {
     color: #778799;
 
     font-size: 9px;
+
     letter-spacing: 0.5px;
 }
 
@@ -875,11 +897,25 @@ input {
     font-size: 15px;
 }
 
-.footer-logo .logo-icon {
-    width: 27px;
-    height: 27px;
+.footer-logo-icon {
+    width: 40px;
+    height: 40px;
 
-    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef8f7;
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+.footer-logo-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    display: block;
 }
 
 .footer p {

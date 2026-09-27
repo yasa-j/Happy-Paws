@@ -91,3 +91,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+function toggleDropdown(dropdownId) {
+
+    const dropdown = document.getElementById(dropdownId);
+
+    if (!dropdown) {
+        return;
+    }
+
+    dropdown.classList.toggle('show');
+}

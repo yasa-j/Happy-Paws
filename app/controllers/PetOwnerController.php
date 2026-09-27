@@ -89,6 +89,47 @@ class PetOwnerController extends Controller
 
         $this->view('petowner/pets', $data);
     }
+
+    /*
+    * Pet Owner Profile
+    *
+    * Displays the profile information of the currently
+    * logged-in pet owner.
+    */
+    public function profile()
+    {
+        // Make sure a user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . URLROOT . '/users/login');
+            exit;
+        }
+
+        // Get the logged-in user's ID
+        $userId = $_SESSION['user_id'];
+
+        // Get the user's information from the database
+        $user = $this->userModel->getUserById($userId);
+
+        // Get all pets belonging to this user
+        $pets = $this->petModel->getPetsByOwner($userId);
+
+        // If the user record cannot be found
+        if (!$user) {
+            header('Location: ' . URLROOT . '/petowner/dashboard');
+            exit;
+        }
+
+        // Send the database information to the view
+        $data = [
+            'title' => 'My Profile',
+            'activePage' => 'profile',
+            'user' => $user,
+            'pets' => $pets
+        ];
+
+        // Load the profile page
+        $this->view('petowner/profile', $data);
+    }
         /*
      * Register New Pet
      *
@@ -523,7 +564,7 @@ class PetOwnerController extends Controller
                     'pets' => $this->petModel->getPetsByOwner($userId),
                     'services' => $this->serviceModel->getActiveServices(),
                     'veterinarians' => $this->userModel->getVeterinarians(),
-                    'user' => $user
+                    'activePage' => 'book-appointment'
                 ];
                 $this->view('petowner/bookAppointment', $data);
                 return;
@@ -551,7 +592,7 @@ class PetOwnerController extends Controller
                     'pets' => $this->petModel->getPetsByOwner($userId),
                     'services' => $this->serviceModel->getActiveServices(),
                     'veterinarians' => $this->userModel->getVeterinarians(),
-                    'user' => $user
+                    'activePage' => 'book-appointment'
                 ];
 
                 $this->view('petowner/bookAppointment', $data);
@@ -610,7 +651,8 @@ class PetOwnerController extends Controller
             'pets' => $pets,
             'services' => $services,
             'veterinarians' => $veterinarians,
-            'user' => $user
+            'user' => $user,
+            'activePage' => 'book-appointment'
         ];
 
 

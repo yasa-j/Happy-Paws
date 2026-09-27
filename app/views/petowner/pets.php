@@ -329,6 +329,7 @@ if (!empty($_SESSION['pet_edit_success'])) {
 
 </div>
 
+<script src="<?php echo URLROOT; ?>/js/petowner.js"></script>
 
 <script>
 

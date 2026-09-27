@@ -4,7 +4,7 @@
 // Pet Owner Portal
 // ---------------------------------------------------------
 
-$activePage = 'appointments';
+$activePage = 'upcoming';
 $activeSubPage = 'upcoming';
 
 
@@ -2171,6 +2171,7 @@ document
 <!-- =====================================================
      Upcoming Appointments JavaScript
      ===================================================== -->
+<script src="<?php echo URLROOT; ?>/js/petowner.js"></script>
 
 <script
     src="<?php echo URLROOT; ?>/public/js/petowner-upcomingAppointments.js?v=2">
