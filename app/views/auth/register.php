@@ -389,7 +389,7 @@
 
                 Already have an account?
 
-                <a href="<?php echo URLROOT; ?>/auth/login">
+                <a href="<?php echo URLROOT; ?>">
                     Login
                 </a>
 
