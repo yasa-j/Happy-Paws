@@ -19,12 +19,27 @@ class Controller {
     }
 
     // Load View
-    public function view($view, $data = []) {
+    public function view($view, $data = [])
+    {
         // Check for view file
         $viewFile = APPROOT . '/views/' . $view . '.php';
+
         if (file_exists($viewFile)) {
+
+            // Convert the data array into individual variables
+            // Example:
+            // 'userName' => 'John'
+            // becomes:
+            // $userName = 'John'
+            extract($data);
+
+            // Load the view file
             require_once $viewFile;
-        } else {
+
+        }   
+        else {
+
+            // Show an error if the view doesn't exist
             die('View "' . $view . '" does not exist.');
         }
     }

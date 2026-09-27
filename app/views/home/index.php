@@ -20,7 +20,9 @@
     <div class="nav-container">
 
         <a href="#home" class="logo">
-            <div class="logo-icon">🐾</div>
+            <div class="logo-icon">
+                <img src="<?php echo URLROOT; ?>/Assets/Images/logo1.jpeg" alt="Happy Paws Logo">
+            </div>
             <span>Happy Paws</span>
         </a>
 
@@ -44,15 +46,14 @@
 
         </nav>
 
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="<?php echo URLROOT; ?>/dashboard" class="login-nav-btn">
-                Dashboard
-            </a>
-        <?php else: ?>
-            <a href="#login" class="login-nav-btn">
-                Login
-            </a>
-        <?php endif; ?>
+        <button
+            type="button"
+            class="login-nav-btn"
+            onclick="focusLoginCard()"
+        >
+            Login
+        </button>
+
     </div>
 
 </header>
@@ -89,7 +90,7 @@
                     trusted veterinary care—all in one secure platform.
                 </p>
 
-                <a href="#register" class="primary-btn">
+                <a href="<?php echo URLROOT; ?>/auth/register" class="primary-btn">
                     Register Now
                 </a>
 
@@ -127,17 +128,35 @@
             <!-- LOGIN CARD -->
             <div class="login-card" id="login">
 
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- State A: Already Authenticated User -->
-                    <h2>Welcome Back!</h2>
-                    <p class="login-subtitle">
-                        Signed in as <strong><?php echo htmlspecialchars($_SESSION['user_name'] ?? 'User'); ?></strong>
-                    </p>
+                <h2>Pet Owner Login</h2>
 
-                    <div style="margin: 20px 0; text-align: center;">
-                        <span style="display: inline-block; background: #e0f2fe; color: #0369a1; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: capitalize;">
-                            🐾 <?php echo htmlspecialchars(str_replace('_', ' ', $_SESSION['user_role'] ?? 'pet_owner')); ?>
-                        </span>
+                <p class="login-subtitle">
+                    Access your pet's healthcare portal
+                </p>
+
+                <form action="<?php echo URLROOT; ?>/auth/login" method="POST">
+
+                    <div class="form-group">
+
+                        <label for="login">
+                            Email Address or Mobile Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="login"
+                            name="login"
+                            placeholder="owner@example.com or +94771234567"
+                            value="<?php echo htmlspecialchars($data['login'] ?? ''); ?>"
+                            required
+                        >
+
+                        <?php if (!empty($data['login_err'])): ?>
+                            <small class="login-error">
+                                <?php echo htmlspecialchars($data['login_err']); ?>
+                            </small>
+                        <?php endif; ?>
+
                     </div>
 
                     <a href="<?php echo URLROOT; ?>/dashboard" class="login-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 14px;">
@@ -218,13 +237,34 @@
                         <span></span>
                     </div>
 
-                    <p class="register-text">
-                        New to Happy Paws?
-                        <a href="#register">
-                            Register Now
-                        </a>
-                    </p>
-                <?php endif; ?>
+                    <button
+                        type="submit"
+                        class="login-btn"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+
+                <div class="or-divider">
+
+                    <span></span>
+
+                    <small>OR</small>
+
+                    <span></span>
+
+                </div>
+
+
+                <p class="register-text">
+                    New to Happy Paws?
+
+                    <a href="<?php echo URLROOT; ?>/auth/register">
+                        Register Now
+                    </a>
+                </p>
 
             </div>
 
@@ -245,7 +285,7 @@
             <div class="about-image">
 
                 <img
-                    src="images/vet-dog.jpg"
+                    src="<?php echo URLROOT; ?>/Assets/Images/landing.png"
                     alt="Veterinarian caring for a dog"
                 >
 
@@ -462,7 +502,7 @@
                 journey from one convenient platform.
             </p>
 
-            <a href="#" class="primary-btn">
+            <a href="<?php echo URLROOT; ?>/auth/register" class="primary-btn">
                 Create Your Account
             </a>
 
@@ -584,42 +624,46 @@
 
             <div class="clinic-info">
 
-                <div class="clinic-detail">
+                <div class="clinic-info-inner">
 
-                    <div class="clinic-icon">
-                        ◷
+                    <div class="clinic-detail">
+
+                        <div class="clinic-icon">
+                            ◷
+                        </div>
+
+                        <div>
+
+                            <span>
+                                CLINIC HOURS
+                            </span>
+
+                            <strong>
+                                Mon - Sat: 8AM - 8PM
+                            </strong>
+
+                        </div>
+
                     </div>
 
-                    <div>
 
-                        <span>
-                            CLINIC HOURS
-                        </span>
+                    <div class="clinic-detail">
 
-                        <strong>
-                            Mon - Sat: 8AM - 8PM
-                        </strong>
+                        <div class="clinic-icon">
+                            📍
+                        </div>
 
-                    </div>
+                        <div>
 
-                </div>
+                            <span>
+                                CLINIC LOCATION
+                            </span>
 
+                            <strong>
+                                123 Pet Lane, Colombo 07
+                            </strong>
 
-                <div class="clinic-detail">
-
-                    <div class="clinic-icon">
-                        📍
-                    </div>
-
-                    <div>
-
-                        <span>
-                            CLINIC LOCATION
-                        </span>
-
-                        <strong>
-                            123 Pet Lane, Colombo 07
-                        </strong>
+                        </div>
 
                     </div>
 
@@ -645,8 +689,12 @@
 
         <a href="#home" class="footer-logo">
 
-            <div class="logo-icon">
-                🐾
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <img src="<?php echo URLROOT; ?>/Assets/Images/logo1.jpeg" alt="Happy Paws Logo">
+                </div>
+
+                <span>Happy Paws</span>
             </div>
 
             <span>
@@ -676,6 +724,16 @@
 
 </footer>
 
+<?php if (isset($_SESSION['login_error'])): ?>
+
+<script>
+    alert("<?php echo htmlspecialchars($_SESSION['login_error']); ?>");
+</script>
+
+<?php
+unset($_SESSION['login_error']);
+endif;
+?>
 
 <script src="js/home.js"></script>
 

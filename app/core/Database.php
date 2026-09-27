@@ -24,11 +24,9 @@ class Database {
     private $stmt;
     private $error;
 
-    /**
-     * Private constructor to prevent direct instantiation from external code.
-     * Establishes the PDO connection with resilient fallback.
-     */
-    private function __construct() {
+    public function __construct() {
+        // Set DSN
+        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
         $options = [
             PDO::ATTR_PERSISTENT => false,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
