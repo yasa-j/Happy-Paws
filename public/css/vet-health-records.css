@@ -1,0 +1,1140 @@
+/* =========================================================
+   VET MEDICAL RECORDS
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7f9f8;
+    color: #263238;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.vet-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #f7f9f8;
+}
+
+.vet-main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.vet-topbar {
+    width: 100%;
+    height: 88px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e4e9e8;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+}
+
+
+/* Search */
+
+.vet-search {
+    width: 445px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    background: #f1f4f3;
+
+    border: 1px solid #e2e8e6;
+
+    border-radius: 22px;
+}
+
+.search-icon {
+    font-size: 23px;
+    color: #47555a;
+}
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+
+    color: #334155;
+}
+
+.vet-search input::placeholder {
+    color: #6d797d;
+}
+
+
+/* Header right */
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.header-action {
+    position: relative;
+
+    width: 30px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    color: #344247;
+
+    font-size: 22px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.header-action:hover {
+    color: #006f68;
+}
+
+.notification-dot {
+    position: absolute;
+
+    top: 3px;
+    right: 2px;
+
+    width: 7px;
+    height: 7px;
+
+    background: #d52222;
+
+    border-radius: 50%;
+}
+
+.header-divider {
+    width: 1px;
+    height: 36px;
+
+    background: #d7dfde;
+}
+
+
+/* Profile */
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+}
+
+.vet-profile img {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 1px solid #d6dfdd;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.vet-profile-info strong {
+    color: #263238;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.vet-profile-info span {
+    color: #718084;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.medical-records-content {
+    width: 100%;
+
+    padding: 42px 42px 70px;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.medical-records-title {
+    margin-bottom: 22px;
+}
+
+.medical-records-title h1 {
+    font-size: 32px;
+
+    line-height: 40px;
+
+    color: #090e10;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TABS
+   ========================================================= */
+
+.records-tabs {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 38px;
+
+    border-bottom: 1px solid #d9e1e0;
+
+    margin-bottom: 34px;
+}
+
+.records-tab {
+    position: relative;
+
+    height: 44px;
+
+    padding: 0 8px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #71849c;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.records-tab.active {
+    color: #006f68;
+
+    font-weight: 700;
+}
+
+.records-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: -1px;
+
+    height: 2px;
+
+    background: #006f68;
+}
+
+
+/* =========================================================
+   TAB CONTENT
+   ========================================================= */
+
+.records-tab-content {
+    display: none;
+}
+
+.records-tab-content.active {
+    display: block;
+}
+
+
+/* =========================================================
+   MAIN RECORD CARD
+   ========================================================= */
+
+.main-record-card {
+    position: relative;
+
+    width: min(725px, 100%);
+
+    min-height: 312px;
+
+    padding: 25px 24px 23px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4e3;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 5px rgba(30, 50, 55, 0.03);
+}
+
+
+/* Decorative corner */
+
+.record-decoration {
+    position: absolute;
+
+    top: -1px;
+    right: -1px;
+
+    width: 130px;
+    height: 130px;
+
+    background: #e8f2f1;
+
+    border-radius:
+        0 18px 0 100%;
+}
+
+
+/* Arrival */
+
+.arrival-status {
+    position: absolute;
+
+    top: 24px;
+    right: 25px;
+
+    z-index: 2;
+
+    min-width: 76px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 0 11px;
+
+    background: #006f68;
+
+    color: #ffffff;
+
+    border-radius: 16px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   PATIENT HEADER
+   ========================================================= */
+
+.record-patient-header {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 27px;
+}
+
+.pet-image-large {
+    width: 60px;
+    height: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e1f0ef;
+
+    border: 2px solid #83d3ce;
+
+    font-size: 31px;
+}
+
+.pet-main-info h2 {
+    font-size: 19px;
+
+    line-height: 24px;
+
+    color: #006f68;
+
+    font-weight: 700;
+}
+
+.pet-main-info p {
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #526a74;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   INFORMATION
+   ========================================================= */
+
+.record-information {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    column-gap: 70px;
+
+    row-gap: 22px;
+
+    margin-bottom: 25px;
+}
+
+.record-info-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.record-label {
+    font-size: 15px;
+
+    color: #71849c;
+
+    font-weight: 500;
+}
+
+.record-info-item strong {
+    font-size: 15px;
+
+    line-height: 20px;
+
+    color: #25344a;
+
+    font-weight: 500;
+}
+
+.reason-item {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   VIEW DETAILS
+   ========================================================= */
+
+/* =========================================================
+   VIEW DETAILS BUTTON
+   ========================================================= */
+
+.view-details-button {
+    position: absolute;
+    right: 24px;
+    bottom: 23px;
+
+    width: 145px;
+    height: 40px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #006f68;
+    border: none;
+    border-radius: 8px;
+
+    color: #ffffff !important;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+
+    text-decoration: none !important;
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.view-details-button:hover {
+    background: #005e58;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.view-details-button:visited,
+.view-details-button:active,
+.view-details-button:focus {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    outline: none;
+}
+
+/* =========================================================
+   UPCOMING
+   ========================================================= */
+
+.upcoming-section {
+    width: 100%;
+
+    margin-top: 34px;
+}
+
+.upcoming-section > h2 {
+    margin-bottom: 17px;
+
+    color: #27384c;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+/* Upcoming row */
+
+.upcoming-record {
+    width: 100%;
+
+    min-height: 84px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(230px, 1.4fr)
+        minmax(160px, 1fr)
+        minmax(110px, 0.7fr)
+        105px;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 13px 16px;
+
+    margin-bottom: 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4e3;
+
+    border-radius: 8px;
+
+    transition:
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.upcoming-record:hover {
+    border-color: #a8cdca;
+
+    box-shadow:
+        0 3px 10px rgba(30, 50, 55, 0.05);
+}
+
+.upcoming-date {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.upcoming-date span {
+    color: #7890aa;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.upcoming-date strong {
+    color: #111827;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+
+/* Upcoming pet */
+
+.upcoming-pet {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.pet-avatar {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.buddy-avatar {
+    background: #d0eeeb;
+
+    color: #006f68;
+}
+
+.chloe-avatar {
+    background: #ffd7d3;
+
+    color: #c52828;
+}
+
+.upcoming-pet-info strong {
+    display: block;
+
+    color: #006f68;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.upcoming-pet-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #71849c;
+
+    font-size: 12px;
+
+    line-height: 17px;
+}
+
+
+/* Owner and time */
+
+.upcoming-owner,
+.upcoming-time {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.upcoming-owner span,
+.upcoming-time span {
+    color: #71849c;
+
+    font-size: 15px;
+
+    font-weight: 500;
+}
+
+.upcoming-owner strong,
+.upcoming-time strong {
+    color: #263238;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+/* Status */
+
+.upcoming-status {
+    min-height: 27px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 10px;
+
+    border-radius: 16px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.upcoming-status.checked-in {
+    background: #d9efec;
+
+    border: 1px solid #9ed1ca;
+
+    color: #263238;
+}
+
+.upcoming-status.pending {
+    background: #edf0f0;
+
+    border: 1px solid #f0bdb5;
+
+    color: #263238;
+}
+
+
+/* =========================================================
+   ALL PATIENTS
+   ========================================================= */
+
+.all-patients-header {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.all-patients-header h2 {
+    font-size: 20px;
+
+    color: #27384c;
+}
+
+.all-patients-header p {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #71849c;
+}
+
+.patient-count {
+    padding: 8px 14px;
+
+    background: #e7f1ef;
+
+    color: #006f68;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.all-patients-list {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.patient-record-row {
+    min-height: 75px;
+
+    display: grid;
+
+    grid-template-columns:
+        48px
+        minmax(180px, 1.5fr)
+        minmax(160px, 1fr)
+        70px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 12px 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4e3;
+
+    border-radius: 9px;
+}
+
+.patient-small-avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.patient-small-avatar.cat {
+    background: #d7efed;
+    color: #006f68;
+}
+
+.patient-small-avatar.dog {
+    background: #d9edeb;
+    color: #006f68;
+}
+
+.patient-small-avatar.chloe {
+    background: #ffd7d3;
+    color: #c52828;
+}
+
+.patient-small-avatar.blue {
+    background: #dce7f4;
+    color: #2c6295;
+}
+
+.patient-small-avatar.green {
+    background: #dceee4;
+    color: #32745c;
+}
+
+.patient-small-avatar.yellow {
+    background: #f4ead0;
+    color: #8b6a27;
+}
+
+.patient-row-info strong,
+.patient-row-owner strong {
+    display: block;
+
+    font-size: 13px;
+
+    color: #263238;
+}
+
+.patient-row-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    color: #71849c;
+}
+
+.patient-row-owner {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.patient-row-owner span {
+    font-size: 11px;
+
+    color: #71849c;
+}
+
+.patient-row-owner strong {
+    font-weight: 500;
+}
+
+.patient-view-button {
+    height: 32px;
+
+    border: 1px solid #006f68;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.patient-view-button:hover {
+    background: #006f68;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .medical-records-content {
+        padding: 35px 30px 60px;
+    }
+
+    .upcoming-record {
+        grid-template-columns:
+            minmax(200px, 1.3fr)
+            minmax(140px, 1fr)
+            100px;
+    }
+
+    .upcoming-status {
+        grid-column: 3;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .vet-topbar {
+        padding: 0 20px;
+    }
+
+    .vet-search {
+        width: 300px;
+    }
+
+    .medical-records-content {
+        padding: 30px 20px 50px;
+    }
+
+    .main-record-card {
+        width: 100%;
+    }
+
+    .record-information {
+        column-gap: 30px;
+    }
+
+    .upcoming-record {
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    .upcoming-status {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .patient-record-row {
+        grid-template-columns:
+            45px
+            1fr
+            1fr;
+    }
+
+    .patient-view-button {
+        grid-column: 3;
+        justify-self: start;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .vet-topbar {
+        height: 70px;
+    }
+
+    .vet-search {
+        display: none;
+    }
+
+    .medical-records-content {
+        padding: 25px 15px 45px;
+    }
+
+    .medical-records-title h1 {
+        font-size: 27px;
+    }
+
+    .records-tabs {
+        gap: 15px;
+    }
+
+    .records-tab {
+        font-size: 12px;
+    }
+
+    .main-record-card {
+        min-height: 380px;
+
+        padding: 20px;
+    }
+
+    .record-information {
+        grid-template-columns: 1fr;
+
+        row-gap: 17px;
+    }
+
+    .reason-item {
+        grid-column: auto;
+    }
+
+    .view-details-button {
+        left: 20px;
+        right: 20px;
+
+        width: calc(100% - 40px);
+    }
+
+    .upcoming-record {
+        grid-template-columns: 1fr;
+
+        gap: 13px;
+
+        padding: 15px;
+    }
+
+    .upcoming-status {
+        grid-column: auto;
+        grid-row: auto;
+
+        justify-self: start;
+    }
+
+    .all-patients-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .patient-record-row {
+        grid-template-columns:
+            45px
+            1fr;
+    }
+
+    .patient-row-owner,
+    .patient-view-button {
+        grid-column: 2;
+    }
+
+}
+.upcoming-view-details-button {
+    height: 34px;
+    padding: 0 14px;
+
+    border: 1px solid #006f68;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+.upcoming-view-details-button:hover {
+    background: #006f68;
+    color: #ffffff;
+}

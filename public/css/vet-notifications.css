@@ -1,0 +1,859 @@
+/* =========================================================
+   HAPPY PAWS - VET NOTIFICATIONS
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f6faf9;
+    color: #263238;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.vet-page {
+    min-height: 100vh;
+    display: block;
+    background: #f7f9f8;
+}
+
+.vet-main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-width: 0;
+    box-sizing: border-box;
+    background: #f7f9f8;
+}
+
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.vet-top-header {
+    height: 72px;
+    padding: 0 38px;
+    background: #ffffff;
+    border-bottom: 1px solid #edf1f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vet-search {
+    width: 385px;
+    height: 40px;
+
+    border: 1px solid #d8e1df;
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+}
+
+.search-icon {
+    font-size: 25px;
+    margin-right: 8px;
+    color: #445154;
+}
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    color: #364245;
+}
+
+.vet-search input::placeholder {
+    color: #788487;
+}
+
+
+/* =========================================================
+   HEADER RIGHT
+   ========================================================= */
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.header-icon-button {
+    position: relative;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    background: transparent;
+
+    color: #3d4a4d;
+
+    font-size: 21px;
+
+    cursor: pointer;
+}
+
+.header-icon-button:hover {
+    color: #006f68;
+}
+
+.header-notification-dot {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #e33c3c;
+
+    top: 2px;
+    right: 3px;
+}
+
+.header-divider {
+    width: 1px;
+    height: 34px;
+    background: #d8e1df;
+
+    margin: 0 5px;
+}
+
+.vet-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vet-user-avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vet-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.vet-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.vet-user-info strong {
+    font-size: 13px;
+    color: #263238;
+}
+
+.vet-user-info span {
+    font-size: 10px;
+    color: #718083;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.notifications-content {
+    max-width: 1150px;
+
+    margin: 0 auto;
+
+    padding: 38px 38px 70px;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.notification-heading {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 24px;
+}
+
+.notification-title-icon {
+    width: 39px;
+    height: 39px;
+
+    margin-right: 12px;
+
+    border-radius: 8px;
+
+    background: #d9f2ef;
+    border: 1px solid #a8ded7;
+
+    color: #00766e;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+.notification-heading h1 {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #263238;
+}
+
+.mark-all-button {
+    margin-left: auto;
+
+    height: 38px;
+
+    padding: 0 16px;
+
+    border-radius: 9px;
+
+    border: 1px solid #d3dfdd;
+
+    background: #ffffff;
+
+    color: #354246;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.mark-all-button:hover {
+    border-color: #006f68;
+    color: #006f68;
+}
+
+
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.notification-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #e0e7e5;
+
+    margin-bottom: 24px;
+}
+
+.notification-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.notification-filter {
+    height: 31px;
+
+    padding: 0 14px;
+
+    border-radius: 18px;
+
+    border: 1px solid #d4dfdd;
+
+    background: #ffffff;
+
+    color: #667477;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+.notification-filter:hover {
+    border-color: #00766e;
+    color: #00766e;
+}
+
+.notification-filter.active {
+    background: #00766e;
+    border-color: #00766e;
+    color: #ffffff;
+}
+
+.filter-count {
+    margin-left: 4px;
+
+    min-width: 17px;
+    height: 17px;
+
+    padding: 0 5px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+.notification-filter:not(.active) .filter-count {
+    background: #dff3f0;
+    color: #00766e;
+}
+
+.notification-sort {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    color: #748083;
+    font-size: 12px;
+}
+
+.notification-sort select {
+    height: 29px;
+
+    padding: 0 9px;
+
+    border: 1px solid #d7e1df;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #354246;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+}
+
+
+/* =========================================================
+   MAIN NOTIFICATION CARD
+   ========================================================= */
+
+.notifications-card {
+    background: #ffffff;
+
+    border: 1px solid #d9e3e1;
+
+    border-radius: 17px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.notifications-card-header {
+    height: 54px;
+
+    padding: 0 24px;
+
+    border-bottom: 1px solid #d9e3e1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notifications-card-header > div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.notifications-card-header h2 {
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #263238;
+}
+
+.notifications-card-header span {
+    font-size: 11px;
+    color: #7a8789;
+}
+
+.sync-status {
+    color: #6c7b7e !important;
+}
+
+
+/* =========================================================
+   NOTIFICATION ITEM
+   ========================================================= */
+
+.notification-item {
+    position: relative;
+
+    min-height: 125px;
+
+    padding: 20px 25px;
+
+    border-bottom: 1px solid #e1e7e5;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 16px;
+
+    background: #ffffff;
+
+    transition:
+        background 0.15s ease,
+        opacity 0.2s ease;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item.unread {
+    background: #f7fbfa;
+}
+
+.notification-item:hover {
+    background: #f3f8f7;
+}
+
+
+/* =========================================================
+   NOTIFICATION ICON
+   ========================================================= */
+
+.notification-icon {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+.appointment-icon {
+    background: #d7faf4;
+    border: 1px solid #8ce6d7;
+    color: #007d74;
+}
+
+.medical-icon {
+    background: #d8f5fb;
+    border: 1px solid #91e2ef;
+    color: #007a83;
+}
+
+.vaccination-icon {
+    background: #d9f8e9;
+    border: 1px solid #9ae5c2;
+    color: #00826f;
+}
+
+.cancelled-icon {
+    background: #fff0df;
+    border: 1px solid #ffc98f;
+    color: #d75b0b;
+}
+
+.patient-icon {
+    background: #e9fafa;
+    border: 1px solid #b7ebe8;
+    color: #00837a;
+}
+
+.system-icon {
+    background: #eef2f1;
+    border: 1px solid #d4dfdc;
+    color: #667678;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+.notification-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-meta {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 5px;
+}
+
+.notification-category {
+    height: 19px;
+
+    padding: 0 9px;
+
+    border-radius: 10px;
+
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+}
+
+.notification-category.appointment {
+    color: #00776e;
+    background: #d8f6f1;
+}
+
+.notification-category.medical {
+    color: #007080;
+    background: #d9f4f8;
+}
+
+.notification-category.vaccination {
+    color: #087a61;
+    background: #d9f5e7;
+}
+
+.notification-category.cancelled {
+    color: #c45c12;
+    background: #fff1df;
+}
+
+.notification-category.system {
+    color: #687779;
+    background: #edf1f0;
+}
+
+.unread-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #007a71;
+}
+
+.notification-item:not(.unread) .unread-dot {
+    display: none;
+}
+
+.notification-time {
+    font-size: 11px !important;
+    color: #7b888a !important;
+}
+
+.notification-body h3 {
+    margin: 0 0 4px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #2b383b;
+}
+
+.notification-body p {
+    margin: 0;
+
+    max-width: 750px;
+
+    font-size: 13px;
+    line-height: 1.45;
+
+    color: #4e5d60;
+}
+
+.notification-body p strong {
+    color: #00756d;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.notification-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 11px;
+}
+
+.notification-action {
+    height: 28px;
+
+    padding: 0 12px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notification-action.primary {
+    border: none;
+
+    background: #00766e;
+
+    color: #ffffff;
+}
+
+.notification-action.primary:hover {
+    background: #005e58;
+}
+
+.notification-action.secondary {
+    border: 1px solid #cddbd8;
+
+    background: #ffffff;
+
+    color: #415154;
+}
+
+.notification-action.secondary:hover {
+    border-color: #00766e;
+    color: #00766e;
+}
+
+.mark-read-button {
+    border: none;
+    background: transparent;
+
+    color: #718083;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.mark-read-button:hover {
+    color: #00766e;
+}
+
+.notification-item:not(.unread) .mark-read-button {
+    display: none;
+}
+
+
+/* =========================================================
+   DELETE
+   ========================================================= */
+
+.delete-notification-button {
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    background: transparent;
+
+    color: #657477;
+
+    cursor: pointer;
+
+    opacity: 0.8;
+
+    font-size: 13px;
+}
+
+.delete-notification-button:hover {
+    color: #d43c3c;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.notification-empty {
+    padding: 65px 20px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 34px;
+    color: #9aaba8;
+}
+
+.notification-empty h3 {
+    margin: 12px 0 5px;
+
+    font-size: 16px;
+    color: #354246;
+}
+
+.notification-empty p {
+    margin: 0;
+
+    font-size: 13px;
+    color: #788588;
+}
+
+
+/* =========================================================
+   DELETED ANIMATION
+   ========================================================= */
+
+.notification-item.removing {
+    opacity: 0;
+
+    transform: translateX(30px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .notifications-content {
+        padding: 30px 25px 60px;
+    }
+
+    .vet-top-header {
+        padding: 0 25px;
+    }
+
+    .notification-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .notification-sort {
+        align-self: flex-end;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .vet-search {
+        width: 260px;
+    }
+
+    .vet-user-info {
+        display: none;
+    }
+
+    .notifications-content {
+        padding: 25px 18px 50px;
+    }
+
+    .notification-heading {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .mark-all-button {
+        margin-left: auto;
+    }
+
+    .notification-item {
+        padding: 18px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .vet-search {
+        width: 190px;
+    }
+
+    .vet-header-right {
+        gap: 5px;
+    }
+
+    .notification-heading h1 {
+        font-size: 24px;
+    }
+
+    .mark-all-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .notification-item {
+        gap: 10px;
+    }
+
+    .notification-icon {
+        width: 38px;
+        min-width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .notification-actions {
+        flex-wrap: wrap;
+    }
+
+}

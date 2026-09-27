@@ -1,0 +1,1010 @@
+/* =========================================================
+   VET SCHEDULE PAGE
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7f9f8;
+    color: #263238;
+}
+
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+
+.vet-page {
+    width: 100%;
+    min-height: 100vh;
+    display: block;
+    background: #f7f9f8;
+}
+
+.vet-main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.vet-topbar {
+    height: 88px;
+    width: 100%;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+
+    border-bottom: 1px solid #edf1f1;
+}
+
+
+/* Search */
+
+.vet-search {
+    width: 445px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    background: #f1f4f3;
+
+    border: 1px solid #e2e8e6;
+
+    border-radius: 22px;
+
+    padding: 0 15px;
+
+    gap: 10px;
+}
+
+.search-icon {
+    font-size: 23px;
+    color: #47555a;
+}
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+
+    color: #334155;
+}
+
+.vet-search input::placeholder {
+    color: #647174;
+}
+
+
+/* Header right */
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.header-action {
+    position: relative;
+
+    border: none;
+    background: transparent;
+
+    font-size: 23px;
+
+    color: #344247;
+
+    cursor: pointer;
+
+    width: 28px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-action:hover {
+    color: #006f68;
+}
+
+.notification-dot {
+    position: absolute;
+
+    top: 2px;
+    right: 1px;
+
+    width: 7px;
+    height: 7px;
+
+    background: #d62828;
+
+    border-radius: 50%;
+}
+
+.header-divider {
+    width: 1px;
+    height: 36px;
+
+    background: #d9dfdf;
+
+    margin: 0 4px;
+}
+
+
+/* Profile */
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.vet-profile img {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 1px solid #d5dfdd;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.vet-profile-info strong {
+    font-size: 13px;
+
+    color: #253238;
+
+    font-weight: 700;
+}
+
+.vet-profile-info span {
+    font-size: 10px;
+
+    color: #6e7b80;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.schedule-content {
+    width: 100%;
+
+    padding: 42px 32px 70px;
+}
+
+
+/* Heading */
+
+.schedule-heading {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 38px;
+}
+
+.schedule-heading h1 {
+    font-size: 32px;
+
+    line-height: 40px;
+
+    font-weight: 700;
+
+    color: #080d0f;
+}
+
+
+/* Today box */
+
+.today-box {
+    width: 218px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    background: #f0f3f2;
+
+    border: 1px solid #dfe5e3;
+
+    border-radius: 8px;
+}
+
+.today-calendar-icon {
+    font-size: 19px;
+
+    color: #006f68;
+}
+
+.today-box div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1px;
+}
+
+.today-box small {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.6px;
+
+    color: #566469;
+}
+
+.today-box strong {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #253238;
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.schedule-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(550px, 1.4fr)
+        minmax(390px, 0.85fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   APPOINTMENTS CARD
+   ========================================================= */
+
+.appointments-card {
+    background: #ffffff;
+
+    border: 1px solid #dce4e5;
+
+    border-radius: 18px;
+
+    padding: 26px 24px 24px;
+
+    box-shadow: 0 2px 5px rgba(30, 50, 55, 0.03);
+}
+
+.appointments-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 0 0 14px;
+}
+
+.appointments-header h2 {
+    font-size: 18px;
+
+    line-height: 24px;
+
+    font-weight: 700;
+
+    color: #273642;
+}
+
+.appointments-header p {
+    margin-top: 7px;
+
+    font-size: 13px;
+
+    color: #72859c;
+
+    font-weight: 500;
+}
+
+
+/* Total */
+
+.appointment-total {
+    min-width: 88px;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    background: #f2f4f3;
+
+    border-radius: 22px;
+
+    color: #465257;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+.appointment-total strong {
+    font-weight: 500;
+}
+
+
+/* Divider */
+
+.appointments-divider {
+    height: 1px;
+
+    background: #cfd8d8;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   APPOINTMENT ITEM
+   ========================================================= */
+
+.appointment-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+.appointment-card {
+    min-height: 124px;
+
+    border: 1px solid #cbd5d6;
+
+    border-radius: 8px;
+
+    display: grid;
+
+    grid-template-columns:
+        68px
+        58px
+        minmax(115px, 1fr)
+        minmax(90px, 0.8fr)
+        100px;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 16px;
+
+    background: #ffffff;
+
+    transition: box-shadow 0.15s ease,
+                transform 0.15s ease;
+}
+
+.appointment-card:hover {
+    box-shadow: 0 3px 10px rgba(30, 50, 55, 0.07);
+
+    transform: translateY(-1px);
+}
+
+
+/* Time */
+
+.appointment-time {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+.appointment-time strong {
+    font-size: 18px;
+
+    line-height: 22px;
+
+    color: #00756e;
+
+    font-weight: 700;
+}
+
+.appointment-time span {
+    margin-top: 2px;
+
+    font-size: 11px;
+
+    color: #637995;
+}
+
+
+/* Pet image */
+
+.appointment-pet-image {
+    width: 47px;
+    height: 47px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #e9eeee;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    color: #344e53;
+}
+
+.appointment-pet-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.appointment-pet-image.paw {
+    background: #cde9e8;
+}
+
+
+/* Pet information */
+
+.appointment-pet-info h3 {
+    font-size: 18px;
+
+    line-height: 23px;
+
+    color: #20282c;
+
+    font-weight: 700;
+}
+
+.appointment-pet-info p {
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    line-height: 19px;
+
+    color: #526065;
+}
+
+
+/* Purpose */
+
+.appointment-purpose {
+    font-size: 14px;
+
+    line-height: 16px;
+
+    color: #465256;
+
+    font-weight: 500;
+}
+
+
+/* Status */
+
+.appointment-status {
+    min-height: 34px;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    line-height: 16px;
+
+    font-weight: 500;
+}
+
+.appointment-status.completed {
+    background: #d4daf1;
+
+    color: #4c526d;
+}
+
+.appointment-status.checked {
+    background: #c4e7e3;
+
+    color: #416b69;
+}
+
+.appointment-status.pending {
+    background: #e0e4e4;
+
+    color: #526065;
+}
+
+
+/* =========================================================
+   CALENDAR CARD
+   ========================================================= */
+
+.calendar-card {
+    background: #ffffff;
+
+    border: 1px solid #dce4e5;
+
+    border-radius: 18px;
+
+    padding: 25px 24px 25px;
+
+    box-shadow: 0 2px 5px rgba(30, 50, 55, 0.03);
+}
+
+
+/* Calendar header */
+
+.calendar-header {
+    display: grid;
+
+    grid-template-columns: 30px 1fr auto 30px;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 30px;
+}
+
+.calendar-header h2 {
+    font-size: 18px;
+
+    color: #263238;
+
+    font-weight: 700;
+
+    text-align: left;
+}
+
+.calendar-arrow {
+    width: 30px;
+    height: 34px;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 30px;
+
+    line-height: 1;
+
+    color: #526065;
+
+    cursor: pointer;
+
+    border-radius: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.calendar-arrow:hover {
+    background: #eef3f2;
+
+    color: #006f68;
+}
+
+
+/* Today */
+
+.calendar-today {
+    height: 44px;
+
+    padding: 0 17px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #c7e9e7;
+
+    color: #416b69;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.calendar-today:hover {
+    background: #b5dfdd;
+}
+
+
+/* =========================================================
+   WEEK DAYS
+   ========================================================= */
+
+.calendar-weekdays {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    text-align: center;
+
+    margin-bottom: 15px;
+}
+
+.calendar-weekdays span {
+    font-size: 12px;
+
+    color: #687b91;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CALENDAR DAYS
+   ========================================================= */
+
+.calendar-days {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    row-gap: 5px;
+
+    min-height: 285px;
+}
+
+.calendar-day {
+    position: relative;
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    color: #20282c;
+
+    border-radius: 50%;
+}
+
+.calendar-day:hover {
+    background: #edf5f4;
+}
+
+.calendar-day.other-month {
+    color: #b8c0c1;
+}
+
+
+/* Selected day */
+
+.calendar-day.selected {
+    width: 40px;
+    height: 40px;
+
+    margin: auto;
+
+    background: #006f68;
+
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+/* Today */
+
+.calendar-day.today:not(.selected) {
+    font-weight: 700;
+
+    color: #006f68;
+}
+
+
+/* Status dot */
+
+.calendar-day .day-dot {
+    position: absolute;
+
+    bottom: 1px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+}
+
+.day-dot.available {
+    background: #20bf65;
+}
+
+.day-dot.busy {
+    background: #ff8b35;
+}
+
+.day-dot.booked {
+    background: #c71919;
+}
+
+.day-dot.no-appointments {
+    background: #d3d8d8;
+}
+
+
+/* Selected day dot */
+
+.calendar-day.selected .day-dot {
+    display: none;
+}
+
+
+/* =========================================================
+   CALENDAR LEGEND
+   ========================================================= */
+
+.calendar-divider {
+    height: 1px;
+
+    background: #cfd8d8;
+
+    margin: 12px 0 17px;
+}
+
+.calendar-legend {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 19px;
+
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 12px;
+
+    color: #4e595d;
+}
+
+.legend-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+}
+
+.legend-dot.available {
+    background: #20bf65;
+}
+
+.legend-dot.busy {
+    background: #ff8b35;
+}
+
+.legend-dot.booked {
+    background: #c71919;
+}
+
+.legend-dot.no-appointments {
+    background: #d3d8d8;
+}
+
+.no-appointments-legend {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-top: 25px;
+
+    font-size: 12px;
+
+    color: #4e595d;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-card {
+        max-width: 650px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .vet-topbar {
+        padding: 0 20px;
+    }
+
+    .vet-search {
+        width: 300px;
+    }
+
+    .schedule-content {
+        padding: 30px 20px 50px;
+    }
+
+    .appointment-card {
+        grid-template-columns:
+            60px
+            50px
+            1fr
+            90px;
+    }
+
+    .appointment-purpose {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .vet-topbar {
+        height: 70px;
+    }
+
+    .vet-search {
+        display: none;
+    }
+
+    .schedule-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .schedule-heading h1 {
+        font-size: 28px;
+    }
+
+    .today-box {
+        width: 100%;
+    }
+
+    .appointments-card,
+    .calendar-card {
+        padding: 20px 15px;
+    }
+
+    .appointments-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .appointment-card {
+        grid-template-columns:
+            55px
+            45px
+            1fr;
+
+        padding: 12px;
+    }
+
+    .appointment-status {
+        grid-column: 3;
+        justify-self: start;
+    }
+
+    .calendar-header {
+        grid-template-columns:
+            25px
+            1fr
+            auto
+            25px;
+    }
+
+    .calendar-header h2 {
+        font-size: 16px;
+    }
+
+    .calendar-today {
+        padding: 0 11px;
+    }
+
+}

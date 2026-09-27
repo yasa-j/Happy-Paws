@@ -1,0 +1,643 @@
+/* =========================================
+   BILLING PAGE
+========================================= */
+
+.billing-content {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    padding: 42px 72px;
+
+    background: #f7f9fb;
+
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+
+/* =========================================
+   PAGE HEADING
+========================================= */
+
+.billing-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 32px;
+}
+
+.billing-heading h1 {
+
+    margin: 0;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   CREATE INVOICE BUTTON
+========================================= */
+
+.create-invoice-button {
+    height: 44px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 23px;
+    background: #006f68;
+    color: #ffffff;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.create-invoice-button:hover {
+
+    background: #005e58;
+}
+
+.create-invoice-button span {
+
+    font-size: 20px;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   BILLING CARD
+========================================= */
+
+.billing-card {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #bcc5cf;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.billing-controls {
+
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 24px 24px 10px;
+
+    gap: 16px;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.billing-search {
+
+    width: 290px;
+
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 12px;
+
+    background: #e5e7e8;
+
+    border: 1px solid #bfc5ca;
+
+    border-radius: 20px;
+}
+
+.billing-search span {
+
+    font-size: 19px;
+
+    color: #4b5563;
+}
+
+.billing-search input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    color: #334155;
+}
+
+.billing-search input::placeholder {
+
+    color: #69737e;
+}
+
+
+/* =========================================
+   BILLING TABS
+========================================= */
+
+.billing-tabs {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0;
+
+    height: 39px;
+}
+
+.billing-tab {
+
+    height: 39px;
+
+    padding: 0 17px;
+
+    border: none;
+
+    border-bottom: 2px solid transparent;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    color: #404854;
+
+    cursor: pointer;
+}
+
+.billing-tab.active {
+
+    color: #006f68;
+
+    border-bottom-color: #006f68;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   RESULT COUNT
+========================================= */
+
+.result-count {
+
+    margin-left: auto;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 14px;
+
+    line-height: 22px;
+
+    font-weight: 500;
+
+    color: #4b5563;
+}
+
+
+/* =========================================
+   DATE FILTER
+========================================= */
+
+.billing-date-filter {
+
+    padding: 0 24px 22px;
+}
+
+.date-filter-button {
+
+    height: 39px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border: 1px solid #bfc5ca;
+
+    border-radius: 20px;
+
+    background: #e5e7e8;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #182338;
+
+    cursor: pointer;
+}
+
+.date-filter-button span {
+
+    font-size: 15px;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   BILLING TABLE
+========================================= */
+
+.billing-table {
+
+    width: 100%;
+
+    border-top: 1px solid #d9dde1;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.billing-table-header {
+
+    min-height: 81px;
+
+    display: grid;
+
+    grid-template-columns:
+        0.85fr
+        0.9fr
+        1.55fr
+        0.85fr
+        1.25fr
+        0.85fr;
+
+    align-items: center;
+
+    padding: 0 38px;
+
+    background: #f0f0f0;
+
+    border-bottom: 1px solid #cbd1d6;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.2px;
+
+    color: #4b5563;
+}
+
+
+/* =========================================
+   BILLING ROW
+========================================= */
+
+.billing-row {
+
+    min-height: 97px;
+
+    display: grid;
+
+    grid-template-columns:
+        0.85fr
+        0.9fr
+        1.55fr
+        0.85fr
+        1.25fr
+        0.85fr;
+
+    align-items: center;
+
+    padding: 0 38px;
+
+    border-bottom: 1px solid #e4e7e9;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+.billing-date {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    font-size: 13px;
+
+    line-height: 22px;
+}
+
+.billing-date strong {
+
+    font-weight: 500;
+}
+
+.billing-date span {
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   INVOICE ID
+========================================= */
+
+.invoice-id {
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   CLIENT + PET
+========================================= */
+
+.client-pet {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.client-avatar {
+
+    width: 32px;
+
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.client-avatar.blue {
+
+    background: #d9e5ff;
+
+    color: #00766f;
+}
+
+.client-avatar.light-blue {
+
+    background: #d9e5ff;
+
+    color: #526a91;
+}
+
+.client-avatar.dark-blue {
+
+    background: #0b3563;
+
+    color: #ffffff;
+}
+
+.client-pet strong {
+
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #006f68;
+
+    line-height: 18px;
+}
+
+.client-pet span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color: #4b5563;
+
+    line-height: 15px;
+}
+
+
+
+/* =========================================
+   AMOUNT
+========================================= */
+
+.billing-amount {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   PAYMENT METHOD
+========================================= */
+
+.payment-method {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 10px;
+
+    line-height: 17px;
+
+    color: #4b5563;
+}
+
+.method-icon {
+
+    font-size: 16px;
+
+    color: #4b5563;
+}
+
+
+/* =========================================
+   PAYMENT STATUS
+========================================= */
+
+.payment-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: fit-content;
+
+    min-width: 52px;
+
+    height: 34px;
+
+    padding: 0 12px;
+
+    border-radius: 13px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+.payment-status.paid {
+
+    background: #f0fff5;
+
+    border: 1px solid #9be6b5;
+
+    color: #20a050;
+}
+
+.payment-status.pending {
+
+    background: #fffbea;
+
+    border: 1px solid #f3d75b;
+
+    color: #a67c00;
+}
+
+.payment-status.refunded {
+
+    background: transparent;
+
+    color: #e11d2e;
+
+    border: none;
+
+    padding-left: 0;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1050px) {
+
+    .billing-content {
+
+        padding: 35px;
+    }
+
+    .billing-controls {
+
+        flex-wrap: wrap;
+    }
+
+    .result-count {
+
+        margin-left: 0;
+    }
+
+    .billing-table {
+
+        overflow-x: auto;
+    }
+
+    .billing-table-header,
+    .billing-row {
+
+        min-width: 1000px;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .billing-content {
+
+        padding: 25px 15px;
+    }
+
+    .billing-heading {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+}

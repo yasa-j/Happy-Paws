@@ -1,4 +1,20 @@
 <?php
+
+class User
+{
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = Database::getInstance();
+    }
+
+    // Find user by email
+    public function findUserByEmail($email)
+    {
+        $this->db->query(
+            "SELECT * FROM users WHERE email = :email"
+        );
 /**
  * User Model
  * Handles database operations related to users
@@ -24,6 +40,28 @@ class User {
         $this->db->bind(':email', $email);
 
         return $this->db->single();
+    }
+
+    // Verify login
+    public function login($email, $password)
+    {
+        $user = $this->findUserByEmail($email);
+
+        if ($user && password_verify($password, $user->password)) {
+            return $user;
+        }
+
+        return false;
+    }
+
+    // Register user
+    public function register($data)
+    {
+        $this->db->query(
+            "INSERT INTO users
+            (first_name, last_name, email, password, phone_number, status)
+            VALUES
+            (:first_name, :last_name, :email, :password, :phone_number, :status)"
     }
 
 
@@ -93,6 +131,7 @@ class User {
 
         return false;
     }
+}
 
 
     // Login using email OR phone number

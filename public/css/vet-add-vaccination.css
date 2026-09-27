@@ -1,0 +1,976 @@
+/* =========================================================
+   HAPPY PAWS
+   ADD VACCINATION RECORD
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7f9f8;
+    color: #263238;
+}
+
+
+.vet-page {
+    min-height: 100vh;
+    display: flex;
+    background: #f7f9f8;
+}
+
+
+.vet-main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-width: 0;
+    box-sizing: border-box;
+    background: #f7f9f8;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.vet-topbar {
+    width: 100%;
+    height: 88px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e4e9e8;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+    box-sizing: border-box;
+}
+
+
+.vet-search {
+    width: 400px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    background: #f1f4f3;
+    border: 1px solid #e2e8e6;
+    border-radius: 22px;
+}
+
+
+.search-icon {
+    color: #344247;
+    font-size: 23px;
+}
+
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+
+    color: #263238;
+}
+
+
+.vet-search input::placeholder {
+    color: #6f7a7d;
+}
+
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+
+.header-action {
+    position: relative;
+
+    width: 30px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    color: #344247;
+
+    font-size: 21px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.header-action:hover {
+    color: #006f68;
+}
+
+
+.notification-dot {
+    position: absolute;
+
+    top: 2px;
+    right: 1px;
+
+    width: 7px;
+    height: 7px;
+
+    background: #d52222;
+    border-radius: 50%;
+}
+
+
+.header-divider {
+    width: 1px;
+    height: 34px;
+
+    background: #d8e0df;
+
+    margin: 0 6px;
+}
+
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    text-decoration: none;
+}
+
+
+.vet-profile img {
+    width: 40px;
+    height: 40px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 1px solid #d8e1df;
+}
+
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.vet-profile-info strong {
+    color: #263238;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.vet-profile-info span {
+    color: #6e7b7e;
+
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.vaccination-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 42px 50px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.vaccination-page-header {
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    margin-bottom: 34px;
+}
+
+
+.vaccination-heading {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 18px;
+
+    padding-top: 4px;
+}
+
+
+.vaccination-back-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #e5eeec;
+
+    color: #344247;
+
+    font-size: 23px;
+
+    text-decoration: none;
+}
+
+
+.vaccination-back-button:hover {
+    background: #dce8e6;
+}
+
+
+.vaccination-label {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    margin-bottom: 7px;
+
+    background: #e4f1ef;
+
+    border-radius: 5px;
+
+    color: #006f68;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+}
+
+
+.vaccination-heading h1 {
+    margin-bottom: 7px;
+
+    color: #171d22;
+
+    font-size: 29px;
+    line-height: 36px;
+
+    font-weight: 700;
+}
+
+
+.vaccination-heading p {
+    color: #59676b;
+
+    font-size: 12px;
+
+    line-height: 19px;
+}
+
+
+.vaccination-heading p strong {
+    color: #344247;
+}
+
+
+.vaccination-heading p span {
+    margin: 0 4px;
+
+    color: #9aa5a7;
+}
+
+
+/* =========================================================
+   PET SUMMARY
+   ========================================================= */
+
+.pet-summary-card {
+    width: 280px;
+
+    flex-shrink: 0;
+
+    padding: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e8e6;
+
+    border-radius: 14px;
+
+    box-shadow: 0 2px 6px rgba(30, 50, 55, 0.03);
+}
+
+
+.pet-summary-top {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.pet-summary-image {
+    width: 60px;
+    height: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf5f4;
+
+    border-radius: 10px;
+
+    font-size: 31px;
+}
+
+
+.pet-summary-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.pet-summary-name {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #263238;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.pet-status {
+    padding: 3px 7px;
+
+    background: #d9efec;
+
+    border-radius: 12px;
+
+    color: #006f68;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+
+.pet-summary-info > span {
+    color: #647277;
+
+    font-size: 10px;
+}
+
+
+.pet-owner {
+    color: #526267 !important;
+}
+
+
+.pet-summary-bottom {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 14px;
+    padding-top: 12px;
+
+    border-top: 1px solid #edf0ef;
+}
+
+
+.pet-summary-bottom div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.pet-summary-bottom span {
+    color: #778285;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+
+.pet-summary-bottom strong {
+    color: #006f68;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.pet-summary-bottom div:last-child strong {
+    color: #263238;
+}
+
+
+/* =========================================================
+   FORM CARD
+   ========================================================= */
+
+.vaccination-form-card {
+    width: 100%;
+
+    padding: 32px 36px 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e0e7e5;
+
+    border-radius: 15px;
+
+    box-shadow: 0 2px 7px rgba(30, 50, 55, 0.03);
+}
+
+
+/* =========================================================
+   FORM HEADING
+   ========================================================= */
+
+.form-heading {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+
+.form-icon {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dff1ef;
+
+    border-radius: 9px;
+
+    color: #006f68;
+
+    font-size: 21px;
+}
+
+
+.form-heading h2 {
+    margin-bottom: 5px;
+
+    color: #17212a;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.form-heading p {
+    max-width: 590px;
+
+    color: #647277;
+
+    font-size: 11px;
+
+    line-height: 18px;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.form-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 24px 42px;
+
+    margin-bottom: 20px;
+}
+
+
+.form-group {
+    position: relative;
+
+    width: 100%;
+}
+
+
+.full-width {
+    margin-bottom: 20px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #1e292f;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.form-group label span {
+    color: #d52222;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    border: 1px solid #aebbc2;
+
+    border-radius: 7px;
+
+    background: #f9fbfb;
+
+    color: #263238;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.form-group input,
+.form-group select {
+    height: 40px;
+
+    padding: 0 13px;
+}
+
+
+.form-group textarea {
+    min-height: 82px;
+
+    padding: 11px 13px;
+
+    resize: vertical;
+
+    line-height: 18px;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #9ba5a8;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #006f68;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 111, 104, 0.08);
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+.select-wrapper {
+    position: relative;
+}
+
+
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 40px;
+
+    cursor: pointer;
+}
+
+
+.select-arrow {
+    position: absolute;
+
+    right: 13px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #657378;
+
+    font-size: 17px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   DATE INPUT
+   ========================================================= */
+
+input[type="date"] {
+    cursor: pointer;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+
+    opacity: 0.75;
+}
+
+
+/* =========================================================
+   DATE DEFAULT
+   ========================================================= */
+
+.label-with-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+}
+
+
+.label-with-action label {
+    margin-bottom: 0;
+}
+
+
+.date-default-button {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.date-default-button:hover {
+    color: #005e58;
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.label-with-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+}
+
+
+.label-with-info label {
+    margin-bottom: 0;
+}
+
+
+.label-with-info span {
+    color: #647277;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.field-error {
+    display: block;
+
+    min-height: 13px;
+
+    margin-top: 3px;
+
+    color: #d52222;
+
+    font-size: 9px;
+}
+
+
+.form-group.input-error input,
+.form-group.input-error select {
+    border-color: #d52222;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.form-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 8px;
+}
+
+
+.cancel-button {
+    height: 34px;
+
+    padding: 0 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #e7eae9;
+
+    color: #263238;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.cancel-button:hover {
+    background: #dce1df;
+
+    color: #263238;
+}
+
+
+.save-vaccination-button {
+    height: 34px;
+
+    padding: 0 20px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #006f68;
+
+    color: #ffffff;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+
+.save-vaccination-button:hover {
+    background: #005e58;
+}
+
+
+.save-vaccination-button span {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .vaccination-page-header {
+        flex-direction: column;
+    }
+
+
+    .pet-summary-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .vet-topbar {
+        padding: 0 20px;
+    }
+
+
+    .vet-search {
+        width: 300px;
+    }
+
+
+    .vaccination-page {
+        padding: 25px 20px 50px;
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+
+    .form-grid .form-group {
+        margin-bottom: 18px;
+    }
+
+
+    .vaccination-form-card {
+        padding: 28px 24px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .vet-search {
+        display: none;
+    }
+
+
+    .vaccination-page {
+        padding: 20px 15px 40px;
+    }
+
+
+    .vaccination-heading h1 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+
+    .vaccination-heading p {
+        font-size: 10px;
+    }
+
+
+    .vaccination-form-card {
+        padding: 24px 18px;
+    }
+
+
+    .form-actions {
+        width: 100%;
+    }
+
+
+    .cancel-button,
+    .save-vaccination-button {
+        flex: 1;
+    }
+
+}

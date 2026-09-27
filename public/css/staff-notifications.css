@@ -1,0 +1,538 @@
+/* =========================================
+   NOTIFICATIONS PAGE
+========================================= */
+
+.notifications-content {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    padding: 32px 72px;
+
+    background: #f7f9fb;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.notifications-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 38px;
+}
+
+
+.notification-breadcrumb {
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #69737e;
+
+    margin-bottom: 12px;
+}
+
+.notification-breadcrumb span {
+
+    margin: 0 8px;
+
+    color: #7b858f;
+}
+
+.notification-breadcrumb strong {
+
+    color: #006f68;
+}
+
+
+.notifications-heading h1 {
+
+    margin: 0;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #182338;
+}
+
+
+/* =========================================
+   TOP ACTIONS
+========================================= */
+
+.notification-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 26px;
+}
+
+
+/* SEARCH */
+
+.notification-search {
+
+    width: 245px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 12px;
+
+    border: 1px solid #bfc9cf;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+}
+
+.notification-search span {
+
+    color: #68747d;
+
+    font-size: 18px;
+}
+
+.notification-search input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    color: #334155;
+}
+
+.notification-search input::placeholder {
+
+    color: #7b858e;
+}
+
+
+/* FILTER */
+
+.filter-button {
+
+    height: 38px;
+
+    padding: 0 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    background: #ffffff;
+
+    border: 1px solid #bfc9cf;
+
+    border-radius: 7px;
+
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* MARK AS READ */
+
+.mark-read-button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #006f68;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TABS
+========================================= */
+
+.notification-tabs {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 32px;
+}
+
+.notification-tab {
+
+    height: 38px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #c3ccd1;
+
+    border-radius: 14px;
+
+    color: #404854;
+
+    font-family: 'Inter', Arial, sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.notification-tab.active {
+
+    background: #006f68;
+
+    border-color: #006f68;
+
+    color: #ffffff;
+}
+
+.tab-count {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 20px;
+
+    height: 20px;
+
+    padding: 0 5px;
+
+    border-radius: 50%;
+
+    background: #006f68;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.notification-tab.active .tab-count {
+
+    background: #ffffff;
+
+    color: #006f68;
+}
+
+
+/* =========================================
+   NOTIFICATION SECTION
+========================================= */
+
+.notification-section {
+
+    margin-bottom: 40px;
+}
+
+.notification-section h2 {
+
+    margin: 0 0 14px 8px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #69737e;
+}
+
+
+/* =========================================
+   NOTIFICATION CARD
+========================================= */
+
+.notification-card {
+
+    min-height: 94px;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 18px 20px;
+
+    margin-bottom: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd3d8;
+
+    border-radius: 17px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+
+/* =========================================
+   UNREAD NOTIFICATION
+========================================= */
+
+.notification-card.unread {
+
+    background: #effdfb;
+
+    border-color: #9dded8;
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.notification-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-right: 16px;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+}
+
+
+/* Appointment */
+
+.appointment-icon {
+
+    background: #d9f2ef;
+
+    color: #00766f;
+}
+
+
+/* Payment */
+
+.payment-icon {
+
+    background: #dbe8ff;
+
+    color: #1760d0;
+}
+
+
+/* Cancelled */
+
+.cancelled-icon {
+
+    background: #ffe1e1;
+
+    color: #e11d2e;
+}
+
+
+/* Feedback */
+
+.feedback-icon {
+
+    background: #eee0ff;
+
+    color: #7b2bd9;
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.notification-text {
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.notification-text h3 {
+
+    margin: 0 0 5px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #182338;
+}
+
+.notification-text p {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #4b5563;
+
+    line-height: 19px;
+}
+
+
+/* =========================================
+   TIME
+========================================= */
+
+.notification-time {
+
+    align-self: stretch;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    justify-content: flex-start;
+
+    padding-top: 3px;
+
+    min-width: 90px;
+
+    font-size: 11px;
+
+    color: #69737e;
+}
+
+.notification-time i {
+
+    width: 8px;
+
+    height: 8px;
+
+    margin-top: 12px;
+
+    border-radius: 50%;
+
+    background: #006f68;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .notifications-content {
+
+        padding: 30px;
+    }
+
+    .notifications-heading {
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .notification-actions {
+
+        margin-top: 0;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .notifications-content {
+
+        padding: 25px 15px;
+    }
+
+    .notification-actions {
+
+        flex-wrap: wrap;
+    }
+
+    .notification-search {
+
+        width: 100%;
+    }
+
+    .notification-card {
+
+        align-items: flex-start;
+    }
+
+    .notification-time {
+
+        min-width: 70px;
+    }
+
+}
