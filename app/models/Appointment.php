@@ -6,14 +6,17 @@ class Appointment
 
     public function __construct()
     {
+        // Create the database connection
+        // Kept exactly as in the member's code
         $this->db = new Database();
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | Create New Appointment
+    | CREATE NEW APPOINTMENT
     |--------------------------------------------------------------------------
+    | Creates a new appointment for a pet owner.
     */
 
     public function createAppointment($data)
@@ -43,9 +46,7 @@ class Appointment
             )"
         );
 
-
-        // Bind appointment values
-
+        // Bind appointment information
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':pet_id', $data['pet_id']);
         $this->db->bind(':vet_id', $data['vet_id']);
@@ -53,18 +54,13 @@ class Appointment
         $this->db->bind(':appointment_date', $data['appointment_date']);
         $this->db->bind(':appointment_time', $data['appointment_time']);
 
-        // Appointment is confirmed when the user books it
+        // New appointments are created as Confirmed
         $this->db->bind(':status', 'Confirmed');
 
         $this->db->bind(':reason', $data['reason']);
 
-
-        // Execute INSERT
-
+        // Execute the INSERT query
         if ($this->db->execute()) {
-
-            // Return newly created appointment ID
-
             return $this->db->lastInsertId();
         }
 
@@ -74,8 +70,10 @@ class Appointment
 
     /*
     |--------------------------------------------------------------------------
-    | Check Existing Appointment
+    | CHECK WHETHER APPOINTMENT EXISTS
     |--------------------------------------------------------------------------
+    | Checks whether a veterinarian already has an appointment
+    | at the selected date and time.
     */
 
     public function appointmentExists($vetId, $date, $time)
@@ -97,10 +95,15 @@ class Appointment
         return $this->db->single();
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Check Appointment Slot For Rescheduling
+    | CHECK APPOINTMENT SLOT WHEN RESCHEDULING
     |--------------------------------------------------------------------------
+    | Checks whether another appointment already uses the selected
+    | veterinarian, date and time.
+    |
+    | The current appointment itself is excluded using appointment_id.
     */
 
     public function appointmentSlotExists(
@@ -128,17 +131,13 @@ class Appointment
         return $this->db->single();
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Get Booked Appointment Times
+    | GET BOOKED TIMES FOR A VET
     |--------------------------------------------------------------------------
-    |
-    | Gets all already-booked times for a veterinarian
+    | Returns all booked appointment times for a veterinarian
     | on a particular date.
-    |
-    | The current appointment being rescheduled can be excluded
-    | so its current slot remains available.
-    |
     */
 
     public function getBookedTimesForVetDate(
@@ -154,8 +153,7 @@ class Appointment
             AND status != 'Cancelled'
         ";
 
-        // If we are rescheduling an existing appointment,
-        // do not count that appointment as a booked slot.
+        // When rescheduling, exclude the current appointment
         if ($appointmentId !== null) {
             $sql .= "
                 AND appointment_id != :appointment_id
@@ -178,10 +176,14 @@ class Appointment
         return $this->db->resultSet();
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Get Upcoming Appointments For User
+    | GET UPCOMING APPOINTMENTS FOR PET OWNER
     |--------------------------------------------------------------------------
+    | Gets future appointments belonging to a particular pet owner.
+    |
+    | This is the MEMBER'S method.
     */
 
     public function getUpcomingAppointments($userId)
@@ -197,48 +199,28 @@ class Appointment
                 a.appointment_time,
                 a.status,
                 a.reason,
-
-                -- Pet information
                 p.name AS pet_name,
                 p.species,
                 p.breed,
                 p.date_of_birth,
-
-                -- Veterinarian information
                 CONCAT(u.first_name, ' ', u.last_name) AS vet_name,
-
-                -- Service information
                 s.name AS service_name,
                 s.description AS service_description,
                 s.duration_minutes
-
             FROM appointments a
-
-            LEFT JOIN pets p
-                ON a.pet_id = p.pet_id
-
-            LEFT JOIN users u
-                ON a.vet_id = u.user_id
-
-            LEFT JOIN services s
-                ON a.service_id = s.service_id
-
+            LEFT JOIN pets p ON a.pet_id = p.pet_id
+            LEFT JOIN users u ON a.vet_id = u.user_id
+            LEFT JOIN services s ON a.service_id = s.service_id
             WHERE a.user_id = :user_id
-
             AND a.status != 'Cancelled'
-
             AND (
                 a.appointment_date > CURDATE()
-
                 OR (
                     a.appointment_date = CURDATE()
                     AND a.appointment_time >= CURTIME()
                 )
             )
-
-            ORDER BY
-                a.appointment_date ASC,
-                a.appointment_time ASC"
+            ORDER BY a.appointment_date ASC, a.appointment_time ASC"
         );
 
         $this->db->bind(':user_id', $userId);
@@ -246,10 +228,12 @@ class Appointment
         return $this->db->resultSet();
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Get Single Appointment For User
+    | GET APPOINTMENT BY ID
     |--------------------------------------------------------------------------
+    | Gets one appointment belonging to a specific pet owner.
     */
 
     public function getAppointmentById($appointmentId, $userId)
@@ -271,8 +255,10 @@ class Appointment
 
     /*
     |--------------------------------------------------------------------------
-    | Cancel Appointment
+    | CANCEL APPOINTMENT
     |--------------------------------------------------------------------------
+    | Changes the appointment status to Cancelled.
+    | The appointment is not deleted from the database.
     */
 
     public function cancelAppointment($appointmentId, $userId)
@@ -294,8 +280,9 @@ class Appointment
 
     /*
     |--------------------------------------------------------------------------
-    | Reschedule Appointment
+    | RESCHEDULE APPOINTMENT
     |--------------------------------------------------------------------------
+    | Updates the date and time of an existing appointment.
     */
 
     public function rescheduleAppointment(
@@ -322,5 +309,120 @@ class Appointment
         return $this->db->execute();
     }
 
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | VETERINARIAN - GET TODAY'S APPOINTMENTS
+    |--------------------------------------------------------------------------
+    | Gets all appointments scheduled for today for the logged-in
+    | veterinarian.
+    |
+    | This method was added for the Veterinarian side.
+    */
+
+    public function getTodayAppointments($vetId)
+    {
+        $this->db->query(
+            "SELECT
+                a.appointment_id,
+                a.user_id,
+                a.pet_id,
+                a.vet_id,
+                a.service_id,
+                a.appointment_date,
+                a.appointment_time,
+                a.status,
+                a.reason,
+                a.notes,
+
+                p.name AS pet_name,
+                p.species,
+                p.breed,
+
+                u.first_name AS owner_first_name,
+                u.last_name AS owner_last_name,
+
+                s.name AS service_name
+
+            FROM appointments a
+
+            INNER JOIN pets p
+                ON a.pet_id = p.pet_id
+
+            INNER JOIN users u
+                ON a.user_id = u.user_id
+
+            LEFT JOIN services s
+                ON a.service_id = s.service_id
+
+            WHERE a.vet_id = :vet_id
+              AND a.appointment_date = CURDATE()
+
+            ORDER BY a.appointment_time ASC"
+        );
+
+        $this->db->bind(':vet_id', $vetId);
+
+        return $this->db->resultSet();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | VETERINARIAN - GET UPCOMING APPOINTMENTS
+    |--------------------------------------------------------------------------
+    | Gets future appointments for the logged-in veterinarian.
+    |
+    | IMPORTANT:
+    | This method is called getUpcomingAppointmentsForVet()
+    | because the member already has a method called
+    | getUpcomingAppointments().
+    */
+
+    public function getUpcomingAppointmentsForVet($vetId)
+    {
+        $this->db->query(
+            "SELECT
+                a.appointment_id,
+                a.user_id,
+                a.pet_id,
+                a.vet_id,
+                a.service_id,
+                a.appointment_date,
+                a.appointment_time,
+                a.status,
+                a.reason,
+
+                p.name AS pet_name,
+                p.species,
+                p.breed,
+
+                u.first_name AS owner_first_name,
+                u.last_name AS owner_last_name,
+
+                s.name AS service_name
+
+            FROM appointments a
+
+            INNER JOIN pets p
+                ON a.pet_id = p.pet_id
+
+            INNER JOIN users u
+                ON a.user_id = u.user_id
+
+            LEFT JOIN services s
+                ON a.service_id = s.service_id
+
+            WHERE a.vet_id = :vet_id
+              AND a.appointment_date > CURDATE()
+              AND a.status != 'Cancelled'
+
+            ORDER BY a.appointment_date ASC,
+                     a.appointment_time ASC"
+        );
+
+        $this->db->bind(':vet_id', $vetId);
+
+        return $this->db->resultSet();
+    }
 }

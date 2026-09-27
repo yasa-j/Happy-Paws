@@ -1,0 +1,387 @@
+/* =========================================
+   COMMON STAFF UI
+   Used by Dashboard, Clients, etc.
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7f9fb;
+    color: #182338;
+}
+
+
+/* =========================================
+   TOP HEADER
+========================================= */
+
+.staff-header {
+    height: 64px;
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e7ec;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+}
+
+/* Logo */
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 225px;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #006f68;
+}
+
+.header-logo img {
+    width: 40px;
+    height: 40px;
+
+    object-fit: contain;
+}
+
+
+/* Search */
+
+.staff-header .search-box {
+    width: 290px;
+    height: 40px;
+
+    background: #edf0f4;
+
+    border-radius: 22px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 15px;
+    gap: 8px;
+}
+
+.staff-header .search-box span {
+    font-size: 20px;
+    color: #64748b;
+}
+
+.staff-header .search-box input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    color: #334155;
+}
+
+
+/* Header right */
+
+.header-right {
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+}
+
+.header-icon {
+    font-size: 21px;
+    color: #263247;
+}
+
+.user-profile {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    background: #b4ded1;
+
+    padding: 4px 8px 4px 15px;
+
+    border-radius: 22px;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.user-profile img {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   PAGE LAYOUT
+========================================= */
+
+.staff-layout {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: calc(100vh - 64px);
+
+    padding-left: 225px;
+    padding-top: 64px;
+}
+
+
+/* =========================================
+   SHARED SIDEBAR
+========================================= */
+
+.staff-sidebar {
+    width: 225px;
+    min-width: 225px;
+    flex: 0 0 225px;
+
+    background: #ffffff;
+    border-right: 1px solid #e1e6eb;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: fixed;
+    top: 64px;
+    left: 0;
+
+    height: calc(100vh - 64px);
+
+    padding: 20px 0 20px;
+
+    overflow-y: auto;
+    z-index: 999;
+}
+
+
+/* Navigation */
+
+.staff-navigation {
+    width: 100%;
+}
+
+
+/* Navigation item */
+
+.staff-nav-item {
+    width: 100%;
+    height: 50px;
+
+    margin-bottom: 4px;
+
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    color: #404854;
+
+    text-decoration: none;
+
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+
+    white-space: nowrap;
+    overflow: hidden;
+
+    transition: background 0.15s ease;
+}
+
+.staff-nav-item:hover {
+    background: #f1f5f8;
+}
+
+
+/* Active item */
+
+.staff-nav-item.active {
+    background: #dfe6ef;
+
+    color: #172338;
+
+    border-radius: 4px;
+}
+
+
+/* Icons */
+
+.staff-nav-icon {
+    width: 20px !important;
+    min-width: 20px !important;
+    height: 20px !important;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.staff-nav-icon img {
+    width: 20px !important;
+    height: 20px !important;
+
+    max-width: 20px !important;
+    max-height: 20px !important;
+
+    min-width: 20px !important;
+    min-height: 20px !important;
+
+    object-fit: contain;
+    display: block;
+}
+
+
+/* Notification number */
+
+.notification-count {
+    margin-left: auto;
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #c91d23;
+    color: #ffffff;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* Divider */
+
+.sidebar-divider {
+    height: 1px;
+
+    background: #d8dee5;
+
+    margin: 8px 20px 12px;
+}
+
+
+/* Register Walk-in */
+
+.staff-nav-item.walk-in {
+    color: #006f68;
+}
+
+.staff-nav-item.walk-in .staff-nav-icon {
+    color: #006f68;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.staff-logout {
+    width: 100%;
+    height: 43px;
+
+    background: #006f68;
+    color: #ffffff;
+
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    border-radius: 5px;
+}
+
+.staff-logout:hover {
+    background: #005e58;
+}
+
+.logout-icon {
+    font-size: 18px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 750px) {
+
+    .staff-sidebar {
+        width: 70px;
+        flex-basis: 70px;
+    }
+
+    .staff-nav-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .staff-nav-item > span:not(.staff-nav-icon),
+    .notification-count {
+        display: none;
+    }
+
+    .staff-nav-icon {
+        margin: 0;
+    }
+
+    .staff-logout {
+        width: 70px;
+    }
+
+    .staff-logout span:not(.logout-icon) {
+        display: none;
+    }
+
+    .staff-header .search-box {
+        display: none;
+    }
+}
+

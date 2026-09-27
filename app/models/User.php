@@ -4,22 +4,25 @@
  * Handles database operations related to users
  */
 
-class User {
-
+class User
+{
     private $db;
 
     /**
      * Initialize model with database connection
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
 
     // Find a user using email
-    public function findUserByEmail($email) {
-
-        $this->db->query("SELECT * FROM users WHERE email = :email");
+    public function findUserByEmail($email)
+    {
+        $this->db->query(
+            "SELECT * FROM users WHERE email = :email"
+        );
 
         $this->db->bind(':email', $email);
 
@@ -28,9 +31,11 @@ class User {
 
 
     // Find a user using phone number
-    public function findUserByPhone($phone_number) {
-
-        $this->db->query("SELECT * FROM users WHERE phone_number = :phone_number");
+    public function findUserByPhone($phone_number)
+    {
+        $this->db->query(
+            "SELECT * FROM users WHERE phone_number = :phone_number"
+        );
 
         $this->db->bind(':phone_number', $phone_number);
 
@@ -39,9 +44,11 @@ class User {
 
 
     // Check whether email already exists
-    public function emailExists($email) {
-
-        $this->db->query("SELECT user_id FROM users WHERE email = :email");
+    public function emailExists($email)
+    {
+        $this->db->query(
+            "SELECT user_id FROM users WHERE email = :email"
+        );
 
         $this->db->bind(':email', $email);
 
@@ -52,9 +59,11 @@ class User {
 
 
     // Check whether phone number already exists
-    public function phoneExists($phone_number) {
-
-        $this->db->query("SELECT user_id FROM users WHERE phone_number = :phone_number");
+    public function phoneExists($phone_number)
+    {
+        $this->db->query(
+            "SELECT user_id FROM users WHERE phone_number = :phone_number"
+        );
 
         $this->db->bind(':phone_number', $phone_number);
 
@@ -65,13 +74,29 @@ class User {
 
 
     // Register a new pet owner
-    public function register($data) {
-
+    public function register($data)
+    {
         $this->db->query(
             "INSERT INTO users
-            (first_name, last_name, email, password, phone_number, address)
+            (
+                first_name,
+                last_name,
+                email,
+                password,
+                phone_number,
+                address,
+                status
+            )
             VALUES
-            (:first_name, :last_name, :email, :password, :phone_number, :address)"
+            (
+                :first_name,
+                :last_name,
+                :email,
+                :password,
+                :phone_number,
+                :address,
+                :status
+            )"
         );
 
         $this->db->bind(':first_name', $data['first_name']);
@@ -87,6 +112,9 @@ class User {
         $this->db->bind(':phone_number', $data['phone_number']);
         $this->db->bind(':address', $data['address']);
 
+        // Keep the account active after registration
+        $this->db->bind(':status', 'Active');
+
         if ($this->db->execute()) {
             return $this->db->lastInsertId();
         }
@@ -96,20 +124,18 @@ class User {
 
 
     // Login using email OR phone number
-    public function login($login, $password) {
-
+    public function login($login, $password)
+    {
         // First try email
         $user = $this->findUserByEmail($login);
 
         // If email was not found, try phone number
         if (!$user) {
-
             $user = $this->findUserByPhone($login);
         }
 
         // Check password
         if ($user) {
-
             if (password_verify($password, $user->password)) {
                 return $user;
             }
@@ -118,6 +144,8 @@ class User {
         return false;
     }
 
+
+    // Get user by ID
     public function getUserById($userId)
     {
         $this->db->query(
@@ -131,7 +159,8 @@ class User {
         return $this->db->single();
     }
 
-        /*
+
+    /*
     |--------------------------------------------------------------------------
     | Get All Veterinarians
     |--------------------------------------------------------------------------

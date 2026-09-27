@@ -1,0 +1,591 @@
+/* =========================================
+   DASHBOARD CONTENT
+========================================= */
+
+.staff-dashboard-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 42px 64px;
+}
+
+
+/* =========================================
+   PAGE HEADING
+========================================= */
+
+.page-heading {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.page-heading h1 {
+    font-size: 31px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.page-heading p {
+    color: #4b5563;
+    font-size: 14px;
+}
+
+.info-symbol {
+    color: #007e76;
+    margin-right: 5px;
+}
+
+.date-box {
+    border: 1px solid #d3d9df;
+    background: #ffffff;
+
+    padding: 10px 17px;
+
+    border-radius: 22px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #4b5563;
+
+    white-space: nowrap;
+}
+
+.date-box span {
+    color: #007e76;
+    margin-right: 8px;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.stats-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+.stat-card {
+    background: #ffffff;
+
+    border: 1px solid #d6dce2;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    min-height: 195px;
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.04);
+}
+
+
+.stat-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+}
+
+
+.stat-title {
+    font-size: 10px;
+
+    letter-spacing: 1.1px;
+
+    font-weight: 600;
+
+    color: #555d68;
+}
+
+
+.stat-card h2 {
+    font-size: 48px;
+
+    font-weight: 400;
+
+    color: #006f68;
+
+    margin-top: 13px;
+}
+
+
+.stat-icon {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+
+/* Green icon */
+
+.green-light {
+    background: #f1f8f7;
+
+    color: #00766f;
+
+    border: 1px solid #d7e8e5;
+}
+
+
+/* Walk-in icon */
+
+.green {
+    background: #8ebba9;
+
+    color: #164c46;
+}
+
+
+/* Red icon */
+
+.red-light {
+    background: #fff5f5;
+
+    color: #e11d2e;
+
+    border: 1px solid #f4dddd;
+}
+
+
+/* Payment icon */
+
+.payment-icon {
+    background: #006f68;
+
+    color: #ffffff;
+
+    border-radius: 14px;
+}
+
+
+/* Blue icon */
+
+.blue-light {
+    background: #dce2e9;
+
+    color: #0055a5;
+}
+
+
+/* Horizontal line */
+
+.card-line {
+    height: 1px;
+
+    background: #e6eaee;
+
+    margin: 25px 0 12px;
+}
+
+
+/* Card links */
+
+.stat-card a {
+    color: #006f68;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.danger-number {
+    color: #c91d23 !important;
+}
+
+.danger-link {
+    color: #c91d23 !important;
+}
+
+
+.blue-number {
+    color: #0056a6 !important;
+}
+
+.blue-link {
+    color: #0056a6 !important;
+}
+
+
+/* Payments takes 2 columns */
+
+.payment-card {
+    grid-column: span 2;
+}
+
+
+.payment-card h2 {
+    font-size: 48px;
+}
+
+
+.payment-bottom {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: #006f68;
+}
+
+
+.payment-bottom a {
+    margin-left: auto;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   RECENT PATIENTS
+========================================= */
+
+.recent-section {
+    width: 100%;
+
+    max-width: none;
+
+    margin-top: 45px;
+}
+
+
+.section-heading {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 22px;
+}
+
+
+.section-heading h2 {
+    font-size: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.section-heading h2 span {
+    width: 4px;
+
+    height: 25px;
+
+    background: #00847b;
+
+    border-radius: 2px;
+}
+
+
+.section-heading a {
+    color: #006f68;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   PATIENT TABLE
+========================================= */
+
+.patient-table {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #d3dae1;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+}
+
+
+.patient-table .table-header {
+    height: 40px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #dce1e6;
+
+    display: grid;
+
+    grid-template-columns:
+        1.6fr 1fr 1fr;
+
+    align-items: center;
+
+    padding: 0 24px;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #626b76;
+
+    font-weight: 700;
+}
+
+
+.patient-row {
+    min-height: 77px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.6fr 1fr 1fr;
+
+    align-items: center;
+
+    padding: 0 24px;
+
+    border-bottom: 1px solid #e2e6ea;
+}
+
+
+.patient-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.pet-image {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    background: #f0f1ef;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+
+.patient-info strong {
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.patient-info small {
+    display: block;
+
+    color: #4b5563;
+
+    font-size: 10px;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================
+   VISIT PURPOSE
+========================================= */
+
+.purpose {
+    padding: 6px 12px;
+
+    font-size: 10px;
+
+    border-radius: 2px;
+}
+
+
+.checkup,
+.vaccination {
+    background: #8bbba7;
+
+    color: #31564d;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-area {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 5px;
+}
+
+
+.status {
+    padding: 6px 12px;
+
+    border-radius: 15px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.checked {
+    background: #006f68;
+
+    color: #ffffff;
+}
+
+
+.waiting {
+    background: #dce2e9;
+
+    color: #607087;
+}
+
+
+.status-area small {
+    font-size: 8px;
+
+    color: #69717b;
+}
+
+
+/* =========================================
+   VIEW MORE
+========================================= */
+
+.view-more {
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #68717c;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .staff-dashboard-content {
+        padding: 35px;
+    }
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .payment-card {
+        grid-column: span 2;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .staff-dashboard-content {
+        padding: 25px 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-card {
+        grid-column: span 1;
+    }
+
+    .page-heading {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .patient-table {
+        overflow-x: auto;
+    }
+}
+
+/* =========================================
+   FULL WIDTH STAFF DASHBOARD
+========================================= */
+
+.staff-layout {
+    display: flex;
+    width: 100%;
+    min-height: calc(100vh - 64px);
+}
+
+.staff-sidebar {
+    flex: 0 0 225px;
+    width: 225px;
+}
+
+.staff-dashboard-content {
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    max-width: none;
+}

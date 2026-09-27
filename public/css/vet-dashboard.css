@@ -1,0 +1,755 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f7faf9;
+    color: #182338;
+}
+
+
+/* ==============================
+   MAIN LAYOUT
+   ============================== */
+
+.vet-layout {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.vet-dashboard-content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    min-width: 0;
+    padding: 0 48px 50px;
+    box-sizing: border-box;
+}
+/* ==============================
+   HEADER
+   ============================== */
+
+.vet-header {
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vet-search {
+    width: 440px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 15px;
+
+    background: #f0f4f3;
+
+    border: 1px solid #dce4e2;
+    border-radius: 22px;
+
+    gap: 9px;
+}
+
+.search-icon {
+    font-size: 24px;
+    color: #38474a;
+}
+
+.vet-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+
+    color: #39464a;
+}
+
+.vet-search input::placeholder {
+    color: #6b7679;
+}
+
+
+/* Header right */
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header-notification,
+.header-settings {
+    position: relative;
+
+    font-size: 22px;
+    color: #354247;
+}
+
+
+.notification-dot {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    background: #d52929;
+
+    border-radius: 50%;
+
+    top: 1px;
+    right: -2px;
+}
+
+.header-divider {
+    width: 1px;
+    height: 35px;
+
+    background: #ccd5d6;
+}
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.vet-profile img {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.vet-profile strong {
+    display: block;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #263238;
+}
+
+.vet-profile span {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color: #687478;
+}
+
+
+/* ==============================
+   WELCOME
+   ============================== */
+
+.welcome-section {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 32px;
+    margin-bottom: 38px;
+}
+
+.welcome-section h1 {
+    font-size: 31px;
+    font-weight: 700;
+
+    color: #171e20;
+}
+
+.today-box {
+    min-width: 198px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 7px 15px;
+
+    background: #f5f8f7;
+
+    border: 1px solid #dce3e1;
+    border-radius: 8px;
+}
+
+.calendar-icon {
+    font-size: 22px;
+    color: #006f68;
+}
+
+.today-box small {
+    display: block;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    color: #647175;
+}
+
+.today-box strong {
+    display: block;
+
+    margin-top: 1px;
+
+    font-size: 12px;
+
+    color: #374348;
+}
+
+
+/* ==============================
+   STAT CARDS
+   ============================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 42px;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 170px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+.stat-icon {
+    position: relative;
+    z-index: 1;
+
+    font-size: 19px;
+    font-weight: 700;
+
+    color: #006f68;
+
+    margin-bottom: 10px;
+}
+
+.stat-title {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #006f68;
+
+    line-height: 15px;
+}
+
+.stat-number {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 23px;
+    font-weight: 700;
+
+    color: #006f68;
+}
+
+.rating-small {
+    font-size: 14px;
+}
+
+
+/* ==============================
+   LOWER COLUMNS
+   ============================== */
+
+.dashboard-columns {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(300px, 0.75fr);
+
+    gap: 30px;
+}
+
+
+/* ==============================
+   SCHEDULE CARD
+   ============================== */
+
+.schedule-card {
+    background: #ffffff;
+
+    border: 1px solid #dce5e5;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+}
+
+.card-header {
+    height: 66px;
+
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header h2 {
+    font-size: 17px;
+    font-weight: 700;
+
+    color: #1d2729;
+}
+
+.card-header a {
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #006f68;
+}
+
+
+/* Table header */
+
+.schedule-header {
+    height: 48px;
+
+    display: grid;
+
+  grid-template-columns:
+    0.8fr 1.5fr 1.2fr 0.5fr;
+
+    align-items: center;
+
+    padding: 0 20px;
+
+    background: #f0f4f3;
+
+    color: #59666a;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+/* Table rows */
+
+.schedule-row {
+    min-height: 91px;
+
+    display: grid;
+
+    grid-template-columns:
+        0.8fr 1.5fr 1.2fr 0.5fr;
+
+    align-items: center;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #edf0ef;
+}
+
+.schedule-row:last-child {
+    border-bottom: none;
+}
+
+.appointment-time {
+    font-size: 13px;
+    color: #4d585b;
+}
+
+
+/* Patient */
+
+.patient-info {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.patient-image {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf1f1;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+}
+
+.patient-info strong {
+    display: block;
+
+    font-size: 13px;
+
+    color: #263134;
+}
+
+.patient-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    color: #687477;
+}
+
+.appointment-type {
+    font-size: 12px;
+
+    line-height: 18px;
+
+    color: #5c676a;
+}
+
+
+.action-icon {
+    font-size: 18px;
+
+    color: #526063;
+}
+
+
+/* ==============================
+   RIGHT COLUMN
+   ============================== */
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 25px;
+}
+
+
+/* ==============================
+   UP NEXT
+   ============================== */
+
+.up-next-card {
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5e5;
+
+    border-radius: 16px;
+}
+
+.up-next-card h2,
+.recent-records-card h2 {
+    margin-bottom: 18px;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    color: #202a2d;
+}
+
+.up-next-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px;
+
+    margin-bottom: 11px;
+
+    background: #f5f8f7;
+
+    border-radius: 12px;
+}
+
+.up-next-item:last-child {
+    margin-bottom: 0;
+}
+
+.time-box {
+    width: 59px;
+    height: 52px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4e3;
+
+    border-radius: 8px;
+}
+
+.time-box strong {
+    font-size: 13px;
+}
+
+.time-box span {
+    font-size: 9px;
+}
+
+.up-next-item > div:last-child > strong {
+    display: block;
+
+    font-size: 12px;
+
+    color: #293336;
+}
+
+.up-next-item small {
+    font-weight: 400;
+}
+
+.up-next-item > div:last-child > span {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 10px;
+}
+
+.urgent {
+    color: #b54848;
+}
+
+.follow-up {
+    color: #52736f;
+}
+
+
+/* ==============================
+   RECENT RECORDS
+   ============================== */
+
+.recent-records-card {
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5e5;
+
+    border-radius: 16px;
+}
+
+.record-item {
+    min-height: 65px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    border-bottom: 1px solid #edf0ef;
+}
+
+.record-image {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf2f1;
+
+    border-radius: 50%;
+
+    font-size: 19px;
+}
+
+.record-item > div:nth-child(2) {
+    flex: 1;
+}
+
+.record-item strong {
+    display: block;
+
+    font-size: 12px;
+
+    color: #293336;
+}
+
+.record-item span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    color: #697579;
+}
+
+.record-item button {
+    width: 31px;
+    height: 31px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4e3;
+
+    border-radius: 8px;
+
+    color: #526063;
+
+    cursor: pointer;
+}
+
+.view-patients {
+    width: 100%;
+    height: 37px;
+
+    margin-top: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #cce7e3;
+
+    border-radius: 8px;
+
+    color: #006f68;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 1200px) {
+
+    .vet-dashboard-content {
+        padding-left: 30px;
+        padding-right: 30px;
+        
+    }
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .dashboard-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .right-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .vet-dashboard-content {
+        padding: 0 18px 30px;
+    }
+
+    .vet-search {
+        width: 280px;
+    }
+
+    .welcome-section {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .schedule-card {
+        overflow-x: auto;
+    }
+
+    .schedule-header,
+    .schedule-row {
+        min-width: 700px;
+    }
+
+    .right-column {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .vet-header {
+        height: 75px;
+    }
+
+    .vet-search {
+        display: none;
+    }
+
+    .vet-profile div {
+        display: none;
+    }
+
+    .welcome-section h1 {
+        font-size: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
