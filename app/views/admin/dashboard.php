@@ -69,10 +69,6 @@
                         <tr>
                             <td>
                                 <div class="staff-profile-cell">
-                                    <img
-                                        src="<?php echo URLROOT; ?>/public/images/admin_avatar.png"
-                                        alt="<?php echo htmlspecialchars($staff->first_name . ' ' . $staff->last_name); ?>" 
-                                        class="staff-avatar-mini">
                                     <div>
                                         <div class="staff-name">
                                             <?php echo htmlspecialchars($staff->first_name . ' ' . $staff->last_name); ?>

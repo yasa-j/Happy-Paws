@@ -127,8 +127,6 @@
 
             <div class="header-right">
                 <div class="admin-profile">
-                    <img src="<?php echo htmlspecialchars($data['adminAvatar']); ?>" alt="<?php echo htmlspecialchars($data['adminName']); ?>" class="admin-avatar">
-
                     <div class="admin-info">
                         <span class="admin-name">
                             <?php echo htmlspecialchars($data['adminName']); ?>
