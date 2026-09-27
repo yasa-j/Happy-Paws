@@ -955,12 +955,15 @@ if (!empty($nextAppointment)) {
                         <button
                             type="button"
                             class="view-pass-button"
-                            data-appointment="<?php echo htmlspecialchars($featured['id']); ?>"
+                            data-appointment-details="<?php
+                                echo htmlspecialchars(
+                                    json_encode($featured),
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                );
+                            ?>"
                         >
-
-
                             View Appointment Details
-
                         </button>
 
 
@@ -1455,15 +1458,19 @@ if (!empty($nextAppointment)) {
                                 <button
                                     type="button"
                                     class="view-details-button"
-                                    data-appointment="<?php echo htmlspecialchars($appointment['id']); ?>"
+                                    data-appointment-details="<?php
+                                        echo htmlspecialchars(
+                                            json_encode($appointment),
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        );
+                                    ?>"
                                 >
-
                                     View Details
 
                                     <span>
                                         →
                                     </span>
-
                                 </button>
 
 
@@ -1727,6 +1734,214 @@ if (!empty($nextAppointment)) {
             </div>
 
         </form>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     APPOINTMENT DETAILS MODAL
+====================================================== -->
+
+<div
+    id="appointmentDetailsModal"
+    class="appointment-details-modal"
+>
+
+    <div class="appointment-details-box">
+
+        <!-- Close button -->
+
+        <button
+            type="button"
+            class="close-details"
+            id="closeAppointmentDetails"
+            onclick="closeAppointmentDetails()"
+        >
+            &times;
+        </button>
+
+
+        <!-- Header -->
+
+        <div class="details-header">
+
+            <span class="details-status">
+                ✓ Confirmed
+            </span>
+
+            <h2 id="detailsTitle">
+                Appointment Details
+            </h2>
+
+            <p id="detailsReference">
+                Ref: APT-000000
+            </p>
+
+        </div>
+
+
+        <!-- Details -->
+
+        <div class="details-grid">
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Date
+                </span>
+
+                <strong id="detailsDate">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Time
+                </span>
+
+                <strong id="detailsTime">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Pet
+                </span>
+
+                <strong id="detailsPet">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Pet Type
+                </span>
+
+                <strong id="detailsPetType">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Veterinarian
+                </span>
+
+                <strong id="detailsVet">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Location
+                </span>
+
+                <strong id="detailsLocation">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Room
+                </span>
+
+                <strong id="detailsRoom">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="details-item">
+
+                <span class="details-label">
+                    Duration
+                </span>
+
+                <strong id="detailsDuration">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- Description -->
+
+        <div class="details-description">
+
+            <span class="details-label">
+                Description
+            </span>
+
+            <p id="detailsDescription">
+                -
+            </p>
+
+        </div>
+
+
+        <!-- Actions -->
+
+        <div class="details-actions">
+
+            <button
+                type="button"
+                class="details-reschedule-btn"
+                id="detailsRescheduleBtn"
+            >
+                Reschedule
+            </button>
+
+
+            <form
+                method="POST"
+                action="<?php echo URLROOT; ?>/petowner/cancelAppointment"
+                id="detailsCancelForm"
+            >
+
+                <input
+                    type="hidden"
+                    name="appointment_id"
+                    id="detailsCancelAppointmentId"
+                >
+
+                <button
+                    type="submit"
+                    class="details-cancel-btn"
+                    id="detailsCancelBtn"
+                >
+                    Cancel Appointment
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
 

@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setupSuccessPopup();
 
+
 });
+
 
 
 /* ---------------------------------------------------------
@@ -155,15 +157,20 @@ function setupAppointmentButtons() {
 
         button.addEventListener("click", function () {
 
-            const appointmentId =
-                this.getAttribute("data-appointment");
+            const appointmentData =
+                this.getAttribute("data-appointment-details");
 
 
-            alert(
-                "Appointment details for " +
-                appointmentId +
-                "\n\nThis will open the Appointment Pass/Details page once that page is connected."
-            );
+            if (!appointmentData) {
+                return;
+            }
+
+
+            const appointment =
+                JSON.parse(appointmentData);
+
+
+            openAppointmentDetails(appointment);
 
         });
 
@@ -346,3 +353,213 @@ function confirmCancelAppointment() {
 
 }
 
+/* =========================================================
+   APPOINTMENT DETAILS
+   ========================================================= */
+
+function openAppointmentDetails(appointment)
+{
+
+    const modal =
+        document.getElementById(
+            "appointmentDetailsModal"
+        );
+
+
+    if (!modal) {
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fill appointment information
+    |--------------------------------------------------------------------------
+    */
+
+    document.getElementById(
+        "detailsTitle"
+    ).textContent =
+        appointment.title || "Appointment";
+
+
+    document.getElementById(
+        "detailsReference"
+    ).textContent =
+        "Ref: " + (appointment.id || "");
+
+
+    document.getElementById(
+        "detailsDate"
+    ).textContent =
+        appointment.date +
+        " " +
+        appointment.month +
+        " " +
+        appointment.year;
+
+
+    document.getElementById(
+        "detailsTime"
+    ).textContent =
+        appointment.time +
+        " - " +
+        appointment.end_time;
+
+
+    document.getElementById(
+        "detailsPet"
+    ).textContent =
+        appointment.pet_name || "-";
+
+
+    document.getElementById(
+        "detailsPetType"
+    ).textContent =
+        appointment.pet_type || "-";
+
+
+    document.getElementById(
+        "detailsVet"
+    ).textContent =
+        appointment.vet || "-";
+
+
+    document.getElementById(
+        "detailsLocation"
+    ).textContent =
+        appointment.location || "-";
+
+
+    document.getElementById(
+        "detailsRoom"
+    ).textContent =
+        appointment.room || "-";
+
+
+    document.getElementById(
+        "detailsDuration"
+    ).textContent =
+        appointment.duration || "-";
+
+
+    document.getElementById(
+        "detailsDescription"
+    ).textContent =
+        appointment.description || "-";
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Save appointment ID for Cancel
+    |--------------------------------------------------------------------------
+    */
+
+    document.getElementById(
+        "detailsCancelAppointmentId"
+    ).value =
+        appointment.appointment_id;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reschedule button
+    |--------------------------------------------------------------------------
+    */
+
+    const rescheduleButton =
+        document.getElementById(
+            "detailsRescheduleBtn"
+        );
+
+
+    rescheduleButton.onclick = function () {
+
+        closeAppointmentDetails();
+
+
+        openRescheduleModal(
+            appointment.appointment_id,
+            appointment.appointment_date,
+            appointment.appointment_time,
+            appointment.vet_id,
+            appointment.vet
+        );
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show modal
+    |--------------------------------------------------------------------------
+    */
+
+    modal.style.display = "flex";
+
+}
+
+
+/* =========================================================
+   CLOSE APPOINTMENT DETAILS
+   ========================================================= */
+
+function closeAppointmentDetails()
+{
+
+    const modal =
+        document.getElementById(
+            "appointmentDetailsModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display = "none";
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const detailsCancelForm =
+        document.getElementById(
+            "detailsCancelForm"
+        );
+
+
+    if (detailsCancelForm) {
+
+        detailsCancelForm.addEventListener(
+            "submit",
+            function (event) {
+
+                const confirmed =
+                    confirm(
+                        "Are you sure you want to cancel this appointment?"
+                    );
+
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+
+                }
+
+            }
+        );
+
+    }
+
+});
+
+function closeAppointmentDetails() {
+
+    const modal = document.getElementById("appointmentDetailsModal");
+
+    if (modal) {
+        modal.style.setProperty("display", "none", "important");
+    }
+
+}
