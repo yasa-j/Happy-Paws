@@ -15,6 +15,7 @@ class VetController extends Controller
 {
 private $vaccinationModel;
 private $appointmentModel;
+private $petModel;
 
 public function __construct()
 {
@@ -46,6 +47,7 @@ public function __construct()
 
     $this->vaccinationModel = $this->model('Vaccination');
     $this->appointmentModel = $this->model('Appointment');
+    $this->petModel = $this->model('Pet');
 }
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +106,7 @@ public function __construct()
         $this->appointmentModel->getTodayAppointments($vetId);
 
     $upcomingAppointments =
-        $this->appointmentModel->getUpcomingAppointments($vetId);
+    $this->appointmentModel->getUpcomingAppointmentsForVet($vetId);
 
     $data = [
         'title' => 'Health Records',
@@ -124,6 +126,11 @@ public function __construct()
 
     public function healthRecordDetails($petId)
     {
+        $pet = $this->petModel->getPetByIdForVet($petId);
+
+if (!$pet) {
+    die('Pet not found.');
+}
 
      // Get vaccinations from database
 $vaccinationsFromDatabase =
@@ -180,28 +187,29 @@ foreach ($vaccinationsFromDatabase as $vaccination) {
             |--------------------------------------------------------------------------
             */
 
-            'pet' => [
+          'pet' => [
 
-                'id' => $petId,
+    'id' => $pet->pet_id,
 
-                'name' => 'Luna',
+    'name' => $pet->name,
 
-                'type' => 'Cat',
+    'type' => $pet->species,
 
-                'breed' => 'Persian Cat',
+    'breed' => $pet->breed,
 
-                'gender' => 'Female',
+    'gender' => $pet->gender,
 
-                'age' => '3 Years',
+    'age' => $pet->date_of_birth,
 
-                'weight' => '4.2 kg',
+    'weight' => $pet->weight_kg . ' kg',
 
-                'owner' => 'Emily Tan',
+    'owner' => trim(
+        $pet->owner_first_name . ' ' . $pet->owner_last_name
+    ),
 
-                'image' => 'cat'
+    'image' => strtolower($pet->species)
 
-            ],
-
+],
 
             /*
             |--------------------------------------------------------------------------

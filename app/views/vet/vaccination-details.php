@@ -76,17 +76,18 @@ $pet = $data['pet'];
 
             <div class="vet-header-right">
 
-            <a 
-    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications" 
-    class="header-action"
->
-    <img
-        src="<?php echo URLROOT; ?>/images/sidebar-icons/notification.png"
-        alt="Notifications"
-    >
+            <!-- Notifications -->
 
-    <span class="notification-dot"></span>
-</a>
+                <a
+                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
+                    class="header-action"
+                >
+
+                    ♧
+
+                    <span class="notification-dot"></span>
+
+                </a>
 
 
                 <button
