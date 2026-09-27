@@ -46,16 +46,19 @@
 
         </nav>
 
-        <button
-            type="button"
-            class="login-nav-btn"
-            onclick="focusLoginCard()"
-        >
-            Login
-        </button>
-
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="<?php echo URLROOT; ?>/dashboard" class="login-nav-btn">
+                Dashboard
+            </a>
+        <?php else: ?>
+            <button
+                type="button"
+                class="login-nav-btn"
+                onclick="focusLoginCard()">
+                Login
+            </button>
+        <?php endif; ?>
     </div>
-
 </header>
 
 
@@ -128,114 +131,157 @@
             <!-- LOGIN CARD -->
             <div class="login-card" id="login">
 
-                <h2>Pet Owner Login</h2>
+                <?php if (isset($_SESSION['user_id'])): ?>
 
-                <p class="login-subtitle">
-                    Access your pet's healthcare portal
-                </p>
+                    <!-- LOGGED IN STATE -->
 
-                <form action="<?php echo URLROOT; ?>/auth/login" method="POST">
+                    <h2>Welcome Back!</h2>
 
-                    <div class="form-group">
+                    <p class="login-subtitle">
+                        Signed in as
+                        <strong>
+                            <?php echo htmlspecialchars($_SESSION['user_name'] ?? 'User'); ?>
+                        </strong>
+                    </p>
 
-                        <label for="login">
-                            Email Address or Mobile Number
-                        </label>
-
-                        <input
-                            type="text"
-                            id="login"
-                            name="login"
-                            placeholder="owner@example.com or +94771234567"
-                            value="<?php echo htmlspecialchars($data['login'] ?? ''); ?>"
-                            required
-                        >
-
-                        <?php if (!empty($data['login_err'])): ?>
-
-                            <small class="login-error">
-                                <?php echo htmlspecialchars($data['login_err']); ?>
-                            </small>
-
-                        <?php endif; ?>
-
+                    <div style="margin: 20px 0; text-align: center;">
+                        <span style="display: inline-block; background: #e0f2fe; color: #0369a1; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: capitalize;">
+                            🐾
+                            <?php echo htmlspecialchars(
+                                str_replace('_', ' ', $_SESSION['user_role'] ?? 'pet_owner')
+                            ); ?>
+                        </span>
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="••••••••"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="login-options">
-
-                        <label class="remember">
-
-                            <input
-                                type="checkbox"
-                                name="remember"
-                            >
-
-                            <span>
-                                Remember Me
-                            </span>
-
-                        </label>
-
-
-                        <a href="#">
-                            Forgot Password?
-                        </a>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
+                    <a
+                        href="<?php echo URLROOT; ?>/auth/redirectByRole"
                         class="login-btn"
+                        style="display: block; text-align: center; text-decoration: none; margin-bottom: 14px;"
                     >
-                        Login
-                    </button>
-
-                </form>
-
-
-                <div class="or-divider">
-
-                    <span></span>
-
-                    <small>OR</small>
-
-                    <span></span>
-
-                </div>
-
-
-                <p class="register-text">
-
-                    New to Happy Paws?
-
-                    <a href="<?php echo URLROOT; ?>/auth/register">
-                        Register Now
+                        Go to Dashboard →
                     </a>
 
-                </p>
+                    <a
+                        href="<?php echo URLROOT; ?>/auth/logout"
+                        style="display: block; text-align: center; color: #ef4444; font-size: 0.9rem; text-decoration: none; font-weight: 600;"
+                    >
+                        Sign Out
+                    </a>
+
+                <?php else: ?>
+
+                    <!-- LOGIN FORM -->
+
+                    <h2>Pet Owner Login</h2>
+
+                    <p class="login-subtitle">
+                        Access your pet's healthcare portal
+                    </p>
+
+                    <?php if (!empty($_SESSION['login_error'])): ?>
+
+                        <div style="background: #fee2e2; border-left: 4px solid #ef4444; color: #991b1b; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 16px; text-align: left;">
+                            ⚠️
+                            <?php echo htmlspecialchars($_SESSION['login_error']); ?>
+                        </div>
+
+                        <?php unset($_SESSION['login_error']); ?>
+
+                    <?php endif; ?>
+
+                    <form action="<?php echo URLROOT; ?>/auth/login" method="POST">
+
+                        <div class="form-group">
+
+                            <label for="login">
+                                Email Address or Mobile Number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="login"
+                                name="login"
+                                placeholder="owner@example.com or +94771234567"
+                                value="<?php echo htmlspecialchars($data['login'] ?? ''); ?>"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="••••••••"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="login-options">
+
+                            <label class="remember">
+
+                                <input
+                                    type="checkbox"
+                                    name="remember"
+                                >
+
+                                <span>
+                                    Remember Me
+                                </span>
+
+                            </label>
+
+                            <a href="#">
+                                Forgot Password?
+                            </a>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="login-btn"
+                        >
+                            Login
+                        </button>
+
+                    </form>
+
+
+                    <div class="or-divider">
+
+                        <span></span>
+
+                        <small>OR</small>
+
+                        <span></span>
+
+                    </div>
+
+
+                    <p class="register-text">
+
+                        New to Happy Paws?
+
+                        <a href="<?php echo URLROOT; ?>/auth/register">
+                            Register Now
+                        </a>
+
+                    </p>
+
+                <?php endif; ?>
 
             </div>
-        </div>
-
     </section>
 
 

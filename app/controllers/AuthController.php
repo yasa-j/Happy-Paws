@@ -1,9 +1,8 @@
 <?php
-/**
 
+/**
  * Auth Controller
  * Handles user registration, login and logout
-
  */
 
 class AuthController extends Controller {
@@ -21,6 +20,40 @@ class AuthController extends Controller {
         $this->userModel = $this->model('User');
     }
 
+    /**
+     * Redirect user based on their role
+     */
+    public function redirectByRole() {
+
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('auth/login');
+            return;
+        }
+
+        $role = $_SESSION['user_role'] ?? '';
+
+        switch ($role) {
+            case 'admin':
+                $this->redirect('admin');
+                break;
+
+            case 'veterinarian':
+                $this->redirect('dashboard');
+                break;
+
+            case 'pet_owner':
+                $this->redirect('dashboard');
+                break;
+
+            case 'staff':
+                $this->redirect('staff');
+                break;
+
+            default:
+                $this->redirect('auth/login');
+                break;
+        }
+    }
 
     // Login
     public function login() {
@@ -34,20 +67,17 @@ class AuthController extends Controller {
                 'password_err' => ''
             ];
 
-
             // Validate login field
             if (empty($data['login'])) {
-
-                $data['login_err'] = 'Please enter your email or phone number.';
+                $data['login_err'] =
+                    'Please enter your email or phone number.';
             }
-
 
             // Validate password
             if (empty($data['password'])) {
-
-                $data['password_err'] = 'Please enter your password.';
+                $data['password_err'] =
+                    'Please enter your password.';
             }
-
 
             // If there are no errors
             if (
@@ -60,7 +90,6 @@ class AuthController extends Controller {
                     $data['password']
                 );
 
-
                 if ($loggedInUser) {
 
                     // Create session
@@ -72,16 +101,35 @@ class AuthController extends Controller {
 
                     $_SESSION['user_role'] = $loggedInUser->role;
 
-                    // Redirect to pet owner dashboard
-                    $this->redirect('petowner/dashboard');
+                    // Redirect based on role
+                    switch ($loggedInUser->role) {
+
+                        case 'admin':
+                            $this->redirect('admin');
+                            break;
+
+                        case 'veterinarian':
+                            $this->redirect('dashboard');
+                            break;
+
+                        case 'staff':
+                            $this->redirect('staff');
+                            break;
+
+                        case 'pet_owner':
+                            $this->redirect('dashboard');
+                            break;
+
+                        default:
+                            $this->redirect('dashboard');
+                            break;
+                    }
 
                 } else {
 
-                    // Store login error temporarily
                     $_SESSION['login_error'] =
                         'Invalid email/phone number or password.';
 
-                    // Go back to the landing page
                     $this->redirect('');
                 }
 
@@ -103,7 +151,6 @@ class AuthController extends Controller {
             $this->view('auth/login', $data);
         }
     }
-
 
     // Register
     public function register() {

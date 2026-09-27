@@ -39,6 +39,7 @@ body {
     align-items: center;
 }
 .brand-logo {
+    justify-self: start;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-dark);
@@ -47,7 +48,14 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
+.brand-logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-right: 10px;
+}
 .nav-links {
+    justify-self: center;
     list-style: none;
     display: flex;
     gap: 1.5rem;
@@ -58,7 +66,27 @@ body {
     color: var(--dark);
     font-weight: 500;
 }
-
+.nav-links a:hover {
+    color: var(--primary);
+}
+.nav-actions {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.btn-login {
+    background: #28a745;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.65rem 1.3rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+.btn-login:hover {
+    background: #218838;
+}
 /* Main Content */
 .main-content {
     flex: 1;
@@ -71,12 +99,15 @@ body {
 /* Hero Section */
 .hero-section {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     padding: 4rem 1rem;
 }
-.hero-card {
+.hero-card{
+    justify-self: start;
+}
+.hero-card-login {
     background: #ffffff;
     padding: 3rem;
     border-radius: 12px;
@@ -94,6 +125,30 @@ body {
     justify-content: center;
 }
 
+/* About Section*/
+.about-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.about-card {
+    background: #ffffff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    max-width: 800px;
+}
+.about-card h1{
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+.about-buttons{
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
 /* Buttons */
 .btn {
     padding: 0.75rem 1.5rem;
