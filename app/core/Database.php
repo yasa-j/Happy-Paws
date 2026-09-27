@@ -1,27 +1,44 @@
 <?php
 
 /**
- * Database Connection Class
+ * Happy Paws Database Handler
  *
- * This class creates one shared PDO connection and provides
- * reusable methods for prepared SQL queries.
+ * Creates one reusable PDO connection and provides methods
+ * for prepared SQL queries.
+ *
+ * The Singleton pattern ensures that only one database
+ * connection is created during the request.
  */
 class Database
 {
     /**
-     * Store the single Database object.
+     * Store the single Database instance.
      */
     private static $instance = null;
 
     /**
+     * Database configuration values.
+     */
+    private $host;
+    private $port;
+    private $user;
+    private $pass;
+    private $dbname;
+
+    /**
      * Store the PDO database connection.
      */
-    private $connection;
+    private $dbh;
 
     /**
      * Store the prepared PDO statement.
      */
-    private $statement;
+    private $stmt;
+
+    /**
+     * Store the latest database connection error.
+     */
+    private $error;
 
     /**
      * Create the database connection.
@@ -31,10 +48,14 @@ class Database
      */
     private function __construct()
     {
-        $dsn = 'mysql:host=' . DB_HOST .
-               ';dbname=' . DB_NAME .
-               ';charset=utf8mb4';
+        // Read database settings from config.php.
+        $this->host = defined('DB_HOST') ? DB_HOST : '127.0.0.1';
+        $this->port = defined('DB_PORT') ? DB_PORT : '3306';
+        $this->user = defined('DB_USER') ? DB_USER : 'root';
+        $this->pass = defined('DB_PASS') ? DB_PASS : '';
+        $this->dbname = defined('DB_NAME') ? DB_NAME : 'happy_paws_db';
 
+        // Configure PDO database behaviour.
         $options = [
             PDO::ATTR_PERSISTENT => false,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -42,48 +63,126 @@ class Database
             PDO::ATTR_EMULATE_PREPARES => false
         ];
 
+        /*
+         * Attempt 1:
+         * Connect using the configured host and port.
+         */
         try {
-            $this->connection = new PDO(
+            $dsn = 'mysql:host=' . $this->host .
+                   ';port=' . $this->port .
+                   ';dbname=' . $this->dbname .
+                   ';charset=utf8mb4';
+
+            $this->dbh = new PDO(
                 $dsn,
-                DB_USER,
-                DB_PASS,
+                $this->user,
+                $this->pass,
                 $options
             );
-        } catch (PDOException $exception) {
-            http_response_code(500);
 
-            die(
-                'Database connection failed: ' .
-                htmlspecialchars($exception->getMessage())
-            );
+            return;
+        } catch (PDOException $exception) {
+            $this->error = $exception->getMessage();
         }
+
+        /*
+         * Attempt 2:
+         * Try localhost when 127.0.0.1 fails, or try
+         * 127.0.0.1 when localhost fails.
+         */
+        try {
+            $fallbackHost = ($this->host === '127.0.0.1')
+                ? 'localhost'
+                : '127.0.0.1';
+
+            $dsn = 'mysql:host=' . $fallbackHost .
+                   ';port=' . $this->port .
+                   ';dbname=' . $this->dbname .
+                   ';charset=utf8mb4';
+
+            $this->dbh = new PDO(
+                $dsn,
+                $this->user,
+                $this->pass,
+                $options
+            );
+
+            return;
+        } catch (PDOException $exception) {
+            $this->error = $exception->getMessage();
+        }
+
+        /*
+         * Attempt 3:
+         * Use the standard macOS XAMPP MySQL socket when
+         * the project is running on macOS.
+         */
+        $xamppSocket =
+            '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
+
+        if (file_exists($xamppSocket)) {
+            try {
+                $dsn = 'mysql:unix_socket=' . $xamppSocket .
+                       ';dbname=' . $this->dbname .
+                       ';charset=utf8mb4';
+
+                $this->dbh = new PDO(
+                    $dsn,
+                    $this->user,
+                    $this->pass,
+                    $options
+                );
+
+                return;
+            } catch (PDOException $exception) {
+                $this->error = $exception->getMessage();
+            }
+        }
+
+        // Stop execution when every connection attempt fails.
+        http_response_code(500);
+
+        die(
+            '<div style="font-family: sans-serif; padding: 20px; ' .
+            'background: #fee2e2; border-left: 5px solid #ef4444; ' .
+            'margin: 20px; border-radius: 6px;">' .
+            '<h3>Database Connection Failed</h3>' .
+            '<p>' .
+            htmlspecialchars(
+                $this->error ?? 'Unknown database error',
+                ENT_QUOTES,
+                'UTF-8'
+            ) .
+            '</p>' .
+            '<p><em>Please ensure MySQL is running in XAMPP ' .
+            'and the database configuration is correct.</em></p>' .
+            '</div>'
+        );
     }
 
     /**
-     * Return the shared Database object.
+     * Return the shared Database instance.
      *
-     * Example:
-     * $this->db = Database::getInstance();
+     * @return Database
      */
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new Database();
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * Prepare an SQL query.
+     * Prepare an SQL statement.
      *
-     * Example:
-     * $this->db->query('SELECT * FROM products');
+     * @param string $sql SQL query
+     * @return Database
      */
     public function query($sql)
     {
-        $this->statement =
-            $this->connection->prepare($sql);
+        $this->stmt = $this->dbh->prepare($sql);
 
         return $this;
     }
@@ -91,11 +190,14 @@ class Database
     /**
      * Bind a value to a named or numbered parameter.
      *
-     * Example:
-     * $this->db->bind(':product_id', $id);
+     * @param string|int $parameter Parameter identifier
+     * @param mixed $value Value that should be bound
+     * @param int|null $type PDO parameter type
+     * @return Database
      */
     public function bind($parameter, $value, $type = null)
     {
+        // Automatically detect the PDO parameter type.
         if ($type === null) {
             if (is_int($value)) {
                 $type = PDO::PARAM_INT;
@@ -108,7 +210,7 @@ class Database
             }
         }
 
-        $this->statement->bindValue(
+        $this->stmt->bindValue(
             $parameter,
             $value,
             $type
@@ -118,66 +220,79 @@ class Database
     }
 
     /**
-     * Execute the prepared query.
+     * Execute the prepared SQL statement.
+     *
+     * @return bool
      */
     public function execute()
     {
-        return $this->statement->execute();
+        return $this->stmt->execute();
     }
 
     /**
-     * Return multiple records as objects.
+     * Execute the statement and return all records.
+     *
+     * @return array
      */
     public function resultSet()
     {
         $this->execute();
 
-        return $this->statement->fetchAll();
+        return $this->stmt->fetchAll();
     }
 
     /**
-     * Return one record as an object.
+     * Execute the statement and return one record.
+     *
+     * @return object|false
      */
     public function single()
     {
         $this->execute();
 
-        return $this->statement->fetch();
+        return $this->stmt->fetch();
     }
 
     /**
-     * Return the number of affected database rows.
+     * Return the number of affected rows.
+     *
+     * @return int
      */
     public function rowCount()
     {
-        return $this->statement->rowCount();
+        return $this->stmt->rowCount();
     }
 
     /**
-     * Return the ID of the last inserted record.
+     * Return the ID created by the latest INSERT query.
+     *
+     * @return string|false
      */
     public function lastInsertId()
     {
-        return $this->connection->lastInsertId();
+        return $this->dbh->lastInsertId();
     }
 
     /**
-     * Return the PDO connection when a transaction is required.
+     * Return the PDO connection for transactions
+     * or other advanced database operations.
+     *
+     * @return PDO
      */
     public function getConnection()
     {
-        return $this->connection;
+        return $this->dbh;
     }
 
     /**
-     * Prevent cloning the Singleton database object.
+     * Prevent cloning the Singleton object.
      */
     private function __clone()
     {
     }
 
     /**
-     * Prevent unserializing the Singleton database object.
+     * Prevent unserializing the Singleton object.
      */
     public function __wakeup()
     {
