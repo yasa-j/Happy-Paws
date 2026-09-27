@@ -186,30 +186,6 @@ class Pet
 
         return $this->db->execute();
     }
-    /*
-    |--------------------------------------------------------------------------
-    | Get One Pet By ID For Veterinarian
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPetByIdForVet($petId)
-    {
-        $this->db->query(
-            "SELECT
-                p.*,
-                u.first_name AS owner_first_name,
-                u.last_name AS owner_last_name
-             FROM pets p
-             LEFT JOIN users u
-                ON p.user_id = u.user_id
-             WHERE p.pet_id = :pet_id
-             LIMIT 1"
-        );
-
-        $this->db->bind(':pet_id', $petId);
-
-        return $this->db->single();
-    }
 }
 
     
