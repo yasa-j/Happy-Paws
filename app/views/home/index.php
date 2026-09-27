@@ -44,9 +44,13 @@
 
         </nav>
 
-        <a href="#login" class="login-nav-btn">
+        <button
+            type="button"
+            class="login-nav-btn"
+            onclick="focusLoginCard()"
+        >
             Login
-        </a>
+        </button>
 
     </div>
 
@@ -84,7 +88,7 @@
                     trusted veterinary care—all in one secure platform.
                 </p>
 
-                <a href="#register" class="primary-btn">
+                <a href="<?php echo URLROOT; ?>/auth/register" class="primary-btn">
                     Register Now
                 </a>
 
@@ -129,21 +133,28 @@
                     Access your pet's healthcare portal
                 </p>
 
-                <form action="#" method="POST">
+                <form action="<?php echo URLROOT; ?>/auth/login" method="POST">
 
                     <div class="form-group">
 
-                        <label for="email">
-                            Email Address
+                        <label for="login">
+                            Email Address or Mobile Number
                         </label>
 
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="owner@example.com"
+                            type="text"
+                            id="login"
+                            name="login"
+                            placeholder="owner@example.com or +94771234567"
+                            value="<?php echo htmlspecialchars($data['login'] ?? ''); ?>"
                             required
                         >
+
+                        <?php if (!empty($data['login_err'])): ?>
+                            <small class="login-error">
+                                <?php echo htmlspecialchars($data['login_err']); ?>
+                            </small>
+                        <?php endif; ?>
 
                     </div>
 
@@ -209,7 +220,7 @@
                 <p class="register-text">
                     New to Happy Paws?
 
-                    <a href="#register">
+                    <a href="<?php echo URLROOT; ?>/auth/register">
                         Register Now
                     </a>
                 </p>
@@ -450,7 +461,7 @@
                 journey from one convenient platform.
             </p>
 
-            <a href="#" class="primary-btn">
+            <a href="<?php echo URLROOT; ?>/auth/register" class="primary-btn">
                 Create Your Account
             </a>
 
@@ -664,6 +675,16 @@
 
 </footer>
 
+<?php if (isset($_SESSION['login_error'])): ?>
+
+<script>
+    alert("<?php echo htmlspecialchars($_SESSION['login_error']); ?>");
+</script>
+
+<?php
+unset($_SESSION['login_error']);
+endif;
+?>
 
 <script src="js/home.js"></script>
 

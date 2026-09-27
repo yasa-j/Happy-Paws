@@ -1,0 +1,957 @@
+/* =====================================================
+   HAPPY PAWS - PET OWNER SIDEBAR
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* Main Sidebar */
+
+.petowner-sidebar {
+    width: 230px;
+    height: 100vh;
+
+    background-color: #f8fafb;
+
+    border-right: 1px solid #e6eaed;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 35px 20px 25px 20px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+/* =====================================================
+   BRAND
+   ===================================================== */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding-left: 8px;
+    margin-bottom: 25px;
+}
+
+.brand-logo {
+    width: 55px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+}
+
+.brand-logo img {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    display: block;
+}
+
+
+.brand-text h2 {
+    margin: 0;
+
+    white-space: nowrap;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #006b67;
+}
+
+
+.brand-text p {
+    margin: 2px 0 0 0;
+
+    font-size: 14px;
+
+    color: #64748b;
+}
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+.sidebar-navigation {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+/* Normal Sidebar Link */
+
+.sidebar-link {
+    width: 100%;
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    color: #374151;
+
+    font-size: 16px;
+
+    font-family: Arial, sans-serif;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+
+/* Hover */
+
+.sidebar-link:hover {
+    background-color: #eef3f5;
+}
+
+
+/* Active Dashboard */
+
+.sidebar-link.active {
+    background-color: #e2eaf2;
+
+    color: #005f66;
+
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   ICONS
+   ===================================================== */
+
+.sidebar-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-icon img {
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    object-fit: contain;
+    display: block;
+}
+
+
+
+
+
+/* Active icon */
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #374151;
+}
+
+.sidebar-link.active {
+    background-color: #e3eaf2;
+    color: #374151;
+}
+
+/* =====================================================
+   DROPDOWNS
+   ===================================================== */
+
+.sidebar-dropdown {
+    width: 100%;
+}
+
+
+/* Dropdown Button */
+
+.dropdown-button {
+    font-family: Arial, sans-serif;
+
+    text-align: left;
+}
+
+
+/* Dropdown title */
+
+.dropdown-title {
+    flex: 1;
+}
+
+
+/* Arrow */
+
+.dropdown-arrow {
+    font-size: 14px;
+
+    color: #64748b;
+
+    margin-left: auto;
+
+    transition: transform 0.2s ease;
+}
+
+
+/* Submenu */
+
+.dropdown-menu {
+    display: none;
+
+    padding-left: 43px;
+
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+
+/* When dropdown is opened */
+
+.dropdown-menu.show {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* Submenu links */
+
+.dropdown-menu a {
+    text-decoration: none;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    padding: 8px 8px;
+
+    border-radius: 6px;
+
+    transition: background-color 0.2s ease;
+}
+
+
+.dropdown-menu a:hover {
+    background-color: #eef3f5;
+
+    color: #006b67;
+}
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+.sidebar-logout {
+    margin-top: auto;
+}
+
+
+.sidebar-logout a {
+    height: 38px;
+
+    background-color: #006b63;
+
+    color: white;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    transition: background-color 0.2s ease;
+}
+
+
+.sidebar-logout a:hover {
+    background-color: #005851;
+}
+
+
+.logout-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logout-icon img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    display: block;
+
+    
+}
+
+/* =====================================================
+   PET OWNER MAIN CONTENT
+   ===================================================== */
+
+.petowner-main {
+    margin-left: 230px;
+
+    min-height: 100vh;
+
+    background-color: #f7f9fa;
+}
+
+
+/* =====================================================
+   TOP BAR
+   ===================================================== */
+
+
+
+/* =====================================================
+   DASHBOARD CONTENT
+   ===================================================== */
+
+.dashboard-content {
+    padding: 24px;
+}
+
+
+/* =====================================================
+   WELCOME CARD
+   ===================================================== */
+
+.welcome-card {
+    min-height: 162px;
+
+    background: linear-gradient(
+        110deg,
+        #ffffff 0%,
+        #ffffff 68%,
+        #eef7f6 100%
+    );
+
+    border-radius: 18px;
+
+    padding: 26px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+}
+
+
+.section-label {
+    color: #006b63;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    margin: 0 0 8px 0;
+}
+
+
+.welcome-text h1 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 30px;
+
+    font-weight: 700;
+}
+
+
+.welcome-description {
+    color: #687b98;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    max-width: 600px;
+
+    margin: 8px 0 0 0;
+}
+
+
+/* Pet Selector */
+
+.pet-selector {
+    min-width: 245px;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    background-color: #f5f7f8;
+
+    border: 1px solid #dce3e8;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+
+.selector-arrow {
+    color: #64748b;
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   STAT CARDS
+   ===================================================== */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 22px;
+
+    margin-bottom: 30px;
+}
+
+
+.stat-card {
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    min-height: 160px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+    margin-bottom: 12px;
+}
+
+.stat-icon img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+}
+
+
+.pets-icon {
+    background-color: #d8f1ff;
+}
+
+
+.appointment-icon {
+    background-color: #d6eeee;
+}
+
+
+.vaccine-icon {
+    background-color: #fff1bf;
+}
+
+
+.notification-icon {
+    background-color: #ffe4e4;
+}
+
+
+.stat-card h2 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 44px;
+
+    line-height: 1;
+
+    font-weight: 700;
+}
+
+
+.stat-card p {
+    margin: 9px 0 0 0;
+
+    color: #637692;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   LOWER DASHBOARD
+   ===================================================== */
+
+.dashboard-lower {
+    display: grid;
+
+    grid-template-columns:
+        1.4fr 1fr;
+
+    gap: 28px;
+}
+
+
+.dashboard-section-title {
+    margin: 0 0 22px 0;
+
+    color: #1e293b;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+.dashboard-section-title span {
+    color: #006b63;
+
+    margin-right: 5px;
+}
+
+
+/* =====================================================
+   QUICK ACTIONS
+   ===================================================== */
+
+.quick-actions-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+.quick-action-card {
+    min-height: 185px;
+
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+
+.quick-action-icon {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 11px;
+
+    background-color: #f0f4f5;
+
+    color: #006b63;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+    margin-bottom: 16px;
+}
+
+
+.quick-action-card h3 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 17px;
+}
+
+
+.quick-action-card p {
+    margin: 15px 0 0 0;
+
+    color: #6c7f9b;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   NEEDS ATTENTION
+   ===================================================== */
+
+.attention-card {
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    margin-bottom: 22px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+
+/* Appointment */
+
+.appointment-card {
+    border: 1px solid #e0e7ee;
+}
+
+
+.attention-card-header {
+    min-height: 58px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    padding: 0 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+.status-badge {
+    background-color: #dcfce7;
+
+    color: #15803d;
+
+    border-radius: 20px;
+
+    padding: 5px 11px;
+
+    font-size: 11px;
+}
+
+
+.appointment-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 20px;
+}
+
+
+.pet-photo {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background-color: #f0f1eb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+}
+
+
+.appointment-content h3 {
+    margin: 0 0 6px 0;
+
+    color: #1e293b;
+
+    font-size: 16px;
+}
+
+
+.appointment-content p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   VACCINATION CARD
+   ===================================================== */
+
+.vaccine-card {
+    border: 1px solid #f7c548;
+
+    border-top: 4px solid #f4b400;
+}
+
+
+.vaccine-content {
+    display: flex;
+
+    gap: 15px;
+
+    padding: 20px;
+}
+
+
+.vaccine-big-icon {
+    width: 45px;
+    height: 45px;
+
+    min-width: 45px;
+
+    border-radius: 50%;
+
+    background-color: #fff1c2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+
+.vaccine-details {
+    flex: 1;
+}
+
+
+.vaccine-title-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.vaccine-title-row h3 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 16px;
+}
+
+
+.days-badge {
+    background-color: #fff1c2;
+
+    color: #b77900;
+
+    border-radius: 20px;
+
+    padding: 5px 9px;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+.vaccine-name {
+    margin: 8px 0 5px 0;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+.vaccine-details p:not(.vaccine-name) {
+    margin: 0;
+
+    color: #6c7f9b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.vaccine-details a {
+    display: inline-block;
+
+    margin-top: 13px;
+
+    color: #006b63;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.vaccine-details a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   SUBMENU ACTIVE STATE
+   ===================================================== */
+
+.dropdown-menu a.submenu-active {
+    background-color: #e2eaf2;
+
+    color: #006b63;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .dashboard-lower {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .petowner-sidebar {
+        width: 200px;
+    }
+
+    .petowner-main {
+        margin-left: 200px;
+    }
+
+    .welcome-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .pet-selector {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+

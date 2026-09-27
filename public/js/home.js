@@ -115,3 +115,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+function focusLoginCard() {
+
+    const loginCard = document.getElementById("login");
+
+    if (!loginCard) {
+        return;
+    }
+
+    loginCard.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}

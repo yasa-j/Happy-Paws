@@ -123,17 +123,37 @@ input {
     color: #ffffff;
     background: #006f6a;
 
+    border: none;
+    outline: none;
     border-radius: 8px;
 
     font-size: 13px;
     font-weight: 600;
+    font-family: inherit;
 
-    transition: 0.3s;
+    cursor: pointer;
+
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .login-nav-btn:hover {
     background: #005a56;
     transform: translateY(-1px);
+}
+
+.login-nav-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.login-nav-btn:active {
+    transform: translateY(0);
+}
+
+.login-card-highlight {
+    box-shadow: 0 0 0 4px rgba(0, 128, 122, 0.25),
+                0 15px 40px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
 }
 
 
