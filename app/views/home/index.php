@@ -49,7 +49,7 @@
                 Dashboard
             </a>
         <?php else: ?>
-            <a href="#login" class="login-nav-btn">
+            <a href="<?php echo URLROOT; ?>/auth/login" class="login-nav-btn">
                 Login
             </a>
         <?php endif; ?>
@@ -140,7 +140,7 @@
                         </span>
                     </div>
 
-                    <a href="<?php echo URLROOT; ?>/dashboard" class="login-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 14px;">
+                    <a href="<?php echo URLROOT; ?>/auth/redirectByRole" class="login-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 14px;">
                         Go to Dashboard →
                     </a>
 
@@ -173,7 +173,7 @@
                                 type="email"
                                 id="email"
                                 name="email"
-                                placeholder="owner@example.com"
+                                placeholder="ow@ex.com"
                                 value="<?php echo htmlspecialchars($_SESSION['login_email_attempt'] ?? ''); unset($_SESSION['login_email_attempt']); ?>"
                                 required
                             >
@@ -209,7 +209,7 @@
 
                     <!-- Demo Credentials Helper Note -->
                     <div style="margin-top: 14px; padding: 10px 12px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 6px; font-size: 0.78rem; color: #475569; text-align: left;">
-                        <strong>🔑 Test Account:</strong> <code>owner@example.com</code> / <code>password123</code>
+                        <strong>🔑 Test Account:</strong> <code>ow@ex.com</code> / <code>password123</code>
                     </div>
 
                     <div class="or-divider">

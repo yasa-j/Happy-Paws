@@ -140,4 +140,55 @@ class User {
         $this->db->bind(':user_id', $userId);
         return $this->db->resultSet();
     }
+
+    public function updateStaff($data){
+
+        $this->db->query(
+            "UPDATE users
+            SET first_name = :first_name,
+                last_name = :last_name,
+                email = :email,
+                phone_number = :phone_number,
+                role = :role,
+                status = :status
+            WHERE user_id = :user_id"
+        );
+
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':last_name', $data['last_name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone_number', $data['phone_number']);
+        $this->db->bind(':role', $data['role']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':user_id', $data['user_id']);
+
+        return $this->db->execute();
+    }
+
+    public function deactivateStaff($userId){
+        
+        $this->db->query(
+            "UPDATE users
+            SET status = 'Inactive'
+            WHERE user_id = :user_id
+            AND role = 'veterinarian'"
+        );
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
+
+    public function deleteStaff($userId){
+
+        $this->db->query(
+            "DELETE FROM users
+            WHERE user_id = :user_id
+            AND role IN ('staff', 'veterinarian')"
+        );
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
 }

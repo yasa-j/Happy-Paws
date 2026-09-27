@@ -1,15 +1,4 @@
 <?php
-/**
- * =======================================================================
- * Happy Paws - Authentication Controller
- * =======================================================================
- * 
- * Handles user authentication workflows including:
- *   - Login form presentation and processing
- *   - Session lifecycle creation and destruction (Logout)
- *   - Credential validation and role assignment
- * =======================================================================
- */
 
 class AuthController extends Controller {
 
@@ -24,6 +13,38 @@ class AuthController extends Controller {
      */
     public function __construct() {
         $this->userModel = $this->model('User');
+    }
+
+    public function redirectByRole(){
+
+        if (!isset($_SESSION['user_id'])) {
+            redirect('auth/login');
+            return;
+        }
+
+        $role = $_SESSION['user_role'] ?? '';
+
+        switch ($role) {
+            case 'admin':
+                $this->redirect('admin');
+                break;
+
+            case 'veterinarian':
+                $this->redirect('dashboard');
+                break;
+
+            case 'pet_owner':
+                $this->redirect('dashboard');
+                break;
+
+            case 'staff':
+                $this->redirect('dashboard');
+                break;
+
+            default:
+                $this->redirect('auth/login');
+                break;
+        }
     }
 
     /**
@@ -76,8 +97,29 @@ class AuthController extends Controller {
                     // Clear any lingering login errors
                     unset($_SESSION['login_error']);
 
-                    // Redirect to the protected dashboard
-                    $this->redirect('dashboard');
+                    // Redirect user based on their role
+                    switch ($loggedInUser->role) {
+                        case 'admin':
+                            $this->redirect('admin');
+                            break;
+
+                        case 'veterinarian':
+                            $this->redirect('dashboard');
+                            break;
+
+                        case 'staff':
+                            $this->redirect('staff');
+                            break;
+
+                        case 'pet_owner':
+                            $this->redirect('dashboard');
+                            break;
+
+                        default:
+                            $this->redirect('dashboard');
+                            break;
+                    }
+
                 } else {
                     $errorMsg = 'Invalid email or password. Please verify your credentials.';
                     

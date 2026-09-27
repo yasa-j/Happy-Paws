@@ -1,196 +1,301 @@
 <?php
-/**
- * Admin Controller
- * Handles System Admin Dashboard and sub-view navigation
- */
+
 class AdminController extends Controller {
 
+    private $adminModel;
+
     public function __construct() {
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
+        // Make sure someone is logged in
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('/auth/login');
+        }
+
+        // Make sure the logged-in user is an admin
+        if (($_SESSION['user_role'] ?? '') !== 'admin') {
+            $this->redirect('/dashboard');
+        }
+
+        // Load Admin model
+        $this->adminModel = $this->model('Admin');
     }
 
+    /**
+     * Get common data used by every admin page.
+     */
     private function getCommonData() {
-        $adminName = $_SESSION['user_name'] ?? 'Sarah Jenkins';
+
+        $userId = $_SESSION['user_id'];
+
+        // Get actual admin from database
+        $admin = $this->adminModel->getAdminById($userId);
+
+        if (!$admin) {
+            session_destroy();
+            $this->redirect('/auth/login');
+        }
+
         return [
-            'adminName' => $adminName,
+            'admin' => $admin,
+            'adminName' => $admin->first_name . ' ' . $admin->last_name,
             'adminRole' => 'System Administrator',
-            'adminAvatar' => URLROOT . '/public/images/admin_avatar.png',
-            'staffList' => [
-                [
-                    'id' => 'STF-001',
-                    'name' => 'Dr. Michael Vance',
-                    'role' => 'Lead Veterinarian',
-                    'status' => 'Active',
-                    'email' => 'm.vance@happypaws.com',
-                    'phone' => '+1 (408) 555-0144',
-                    'joined' => '2023-04-12',
-                    'avatar' => 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=120&q=80'
-                ],
-                [
-                    'id' => 'STF-002',
-                    'name' => 'Dr. Elena Rostova',
-                    'role' => 'Surgeon Specialist',
-                    'status' => 'Active',
-                    'email' => 'e.rostova@happypaws.com',
-                    'phone' => '+1 (408) 555-0188',
-                    'joined' => '2023-08-19',
-                    'avatar' => 'https://images.unsplash.com/photo-1594824813566-88855ce78905?auto=format&fit=crop&w=120&q=80'
-                ],
-                [
-                    'id' => 'STF-003',
-                    'name' => 'James Harrison',
-                    'role' => 'Vet Technician',
-                    'status' => 'On Duty',
-                    'email' => 'j.harrison@happypaws.com',
-                    'phone' => '+1 (408) 555-0211',
-                    'joined' => '2024-01-10',
-                    'avatar' => 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=120&q=80'
-                ],
-                [
-                    'id' => 'STF-004',
-                    'name' => 'Sophia Martinez',
-                    'role' => 'Clinic Manager',
-                    'status' => 'Active',
-                    'email' => 's.martinez@happypaws.com',
-                    'phone' => '+1 (408) 555-0199',
-                    'joined' => '2022-11-05',
-                    'avatar' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
-                ],
-                [
-                    'id' => 'STF-005',
-                    'name' => 'David Kim',
-                    'role' => 'Receptionist',
-                    'status' => 'On Leave',
-                    'email' => 'd.kim@happypaws.com',
-                    'phone' => '+1 (408) 555-0322',
-                    'joined' => '2024-05-20',
-                    'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80'
-                ]
-            ],
-            'clinicInfo' => [
-                'name' => 'Happy Paws Veterinary & Care Center',
-                'address' => '124 Healthcare Avenue, Suite 300, San Jose, CA 95128',
-                'phone' => '+1 (800) 555-PAWS / +1 (408) 555-0199',
-                'email' => 'contact@happypaws.com',
-                'hours' => 'Mon - Sat: 8:00 AM - 8:00 PM | Sun: 10:00 AM - 4:00 PM',
-                'emergency_phone' => '+1 (800) 999-PETS (24/7 Hotline)',
-                'license_no' => 'VET-CA-2026-98124',
-                'total_vets' => 8,
-                'total_rooms' => 12
-            ]
+            'adminAvatar' => URLROOT . '/public/images/admin_avatar.png'
         ];
     }
 
-    // Main Dashboard action
-    public function index() {
-        $data = array_merge($this->getCommonData(), [
+
+    /**
+     * Load the shared admin layout.
+     */
+    private function adminView($page, $data = []) {
+
+        $data = array_merge(
+            $this->getCommonData(),
+            $data
+        );
+
+        // Tell admin.php which content page to load
+        $data['adminContent'] = $page;
+
+        $this->view('admin/admin', $data);
+    }
+
+    public function index(){
+
+        $staffList = $this->adminModel->getStaffList();
+        
+        $data = [
             'title' => 'System Admin Dashboard',
             'activePage' => 'dashboard',
-            'appointmentsReport' => [
-                'total' => 342,
-                'completed' => 285,
-                'pending' => 42,
-                'cancelled' => 15,
-                'recent' => [
-                    ['id' => 'APT-1049', 'pet' => 'Bella (Golden Retriever)', 'owner' => 'Emily Watson', 'vet' => 'Dr. Michael Vance', 'date' => '2026-09-21 10:30 AM', 'status' => 'Completed'],
-                    ['id' => 'APT-1050', 'pet' => 'Milo (Tabby Cat)', 'owner' => 'Robert Chen', 'vet' => 'Dr. Elena Rostova', 'date' => '2026-09-21 11:15 AM', 'status' => 'In Progress'],
-                    ['id' => 'APT-1051', 'pet' => 'Rocky (German Shepherd)', 'owner' => 'Sarah Connor', 'vet' => 'Dr. Michael Vance', 'date' => '2026-09-21 01:00 PM', 'status' => 'Scheduled'],
-                    ['id' => 'APT-1052', 'pet' => 'Luna (Persian Cat)', 'owner' => 'David Miller', 'vet' => 'Dr. Elena Rostova', 'date' => '2026-09-21 02:30 PM', 'status' => 'Scheduled'],
-                    ['id' => 'APT-1053', 'pet' => 'Coco (Poodle)', 'owner' => 'Amanda Brooks', 'vet' => 'James Harrison', 'date' => '2026-09-21 04:00 PM', 'status' => 'Scheduled']
-                ]
-            ],
-            'revenueReport' => [
-                'total_month' => '$48,920.00',
-                'growth' => '+14.2%',
-                'consultation_rev' => '$22,450.00',
-                'surgery_rev' => '$18,300.00',
-                'pharmacy_rev' => '$8,170.00',
-                'monthly' => [
-                    ['month' => 'May', 'amount' => '$38,400'],
-                    ['month' => 'Jun', 'amount' => '$41,200'],
-                    ['month' => 'Jul', 'amount' => '$44,800'],
-                    ['month' => 'Aug', 'amount' => '$46,100'],
-                    ['month' => 'Sep', 'amount' => '$48,920']
-                ]
-            ],
-            'staffPerformance' => [
-                'top_doctor' => 'Dr. Michael Vance (98% Satisfaction)',
-                'total_hours' => 1240,
-                'avg_rating' => 4.9,
-                'performers' => [
-                    ['name' => 'Dr. Michael Vance', 'consultations' => 112, 'rating' => '4.9 ★', 'productivity' => '96%'],
-                    ['name' => 'Dr. Elena Rostova', 'consultations' => 94, 'rating' => '4.8 ★', 'productivity' => '94%'],
-                    ['name' => 'James Harrison', 'consultations' => 78, 'rating' => '4.9 ★', 'productivity' => '92%'],
-                    ['name' => 'Sophia Martinez', 'consultations' => 140, 'rating' => '5.0 ★', 'productivity' => '98%']
-                ]
-            ]
-        ]);
+            // Staff information
+            'staffList' => $staffList,
+            'totalStaff' => 
+                $this->adminModel->getTotalStaff(),
+            'veterinarianCount' => 
+                $this->adminModel->getVeterinarianCount(),
+            'staffCount' => 
+                $this->adminModel->getStaffCount(),
+            'activeStaffCount' => 
+                $this->adminModel->getActiveStaffCount(),
+            // Clinic information
+            'clinicInfo' => 
+                $this->adminModel->getClinicInfo(),
+            // Appointment information
+            'appointmentsReport' => 
+                $this->adminModel->getAppointmentReport(),
+            // Revenue information
+            'revenueReport' => 
+                $this->adminModel->getRevenueReport()
+        ];
 
-        $this->view('admin/dashboard', $data);
+        $this->adminView('dashboard', $data);
     }
 
-    // Staff Management action
     public function staff() {
-        $data = array_merge($this->getCommonData(), [
+
+        $staffList = $this->adminModel->getStaffList();
+
+        $data = [
             'title' => 'Staff Management',
-            'activePage' => 'staff'
-        ]);
-        $this->view('admin/staff', $data);
+            'activePage' => 'staff',
+            'staffList' => $staffList,
+            'totalStaff' => 
+                $this->adminModel->getTotalStaff(),
+            'veterinarianCount' =>
+                $this->adminModel->getVeterinarianCount(),
+            'staffCount' =>
+                $this->adminModel->getStaffCount(),
+            'activeStaffCount' =>
+                $this->adminModel->getActiveStaffCount()
+        ];
+
+        $this->adminView('staff', $data);
     }
 
-    // Staff Accounts action
     public function accounts() {
-        $data = array_merge($this->getCommonData(), [
+
+        $accounts = $this->adminModel->getStaffAccounts();
+
+        $data = [
             'title' => 'Staff Accounts',
-            'activePage' => 'accounts'
-        ]);
-        $this->view('admin/accounts', $data);
+            'activePage' => 'accounts',
+            'accounts' => $accounts
+        ];
+
+        $this->adminView('accounts', $data);
     }
 
-    // Clinic Management action
     public function clinic() {
-        $data = array_merge($this->getCommonData(), [
+
+        $data = [
             'title' => 'Clinic Management',
             'activePage' => 'clinic'
-        ]);
-        $this->view('admin/clinic', $data);
+        ];
+
+        $this->adminView('clinic', $data);
     }
 
-    // Clinic Information action
-    public function clinicInfo() {
-        $data = array_merge($this->getCommonData(), [
+    public function clinicInfo(){
+    
+        $clinicInfo = $this->adminModel->getClinicInfo();
+
+        $data = [
             'title' => 'Clinic Information',
-            'activePage' => 'clinic_info'
-        ]);
-        $this->view('admin/clinic_info', $data);
+            'activePage' => 'clinic_info',
+            'clinicInfo' => $clinicInfo
+        ];
+
+        $this->adminView('clinic_info', $data);
     }
 
-    // Reports action
     public function reports() {
-        $data = array_merge($this->getCommonData(), [
+
+        $data = [
             'title' => 'Reports Overview',
             'activePage' => 'reports'
-        ]);
-        $this->view('admin/reports', $data);
+        ];
+
+        $this->adminView('reports', $data);
     }
 
-    // View Reports action
     public function viewReports() {
-        $data = array_merge($this->getCommonData(), [
+
+        $data = [
             'title' => 'View Reports',
             'activePage' => 'view_reports'
-        ]);
-        $this->view('admin/view_reports', $data);
+        ];
+
+        $this->adminView('view_reports', $data);
     }
 
-    // Settings action
     public function settings() {
-        $data = array_merge($this->getCommonData(), [
+
+        $data = [
             'title' => 'Admin Settings',
             'activePage' => 'settings'
-        ]);
-        $this->view('admin/settings', $data);
+        ];
+
+        $this->adminView('settings', $data);
+    }
+
+    public function addStaff(){
+
+        $data = [
+            'title' => 'Add New Staff',
+            'activePage' => 'staff'
+        ];
+
+        $this->adminView('add_staff', $data);
+    }
+
+    public function createStaff(){
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->addStaff();
+        }
+
+        $userModel = $this->model('User');
+
+        $data = [
+            'first_name' => trim($_POST['first_name']),
+            'last_name' => trim($_POST['last_name']),
+            'email' => trim($_POST['email']),
+            'phone_number' => trim($_POST['phone_number']),
+            'password' => $_POST['password'],
+            'role' => $_POST['role'],
+            'address' => trim($_POST['address'] ?? '')
+        ];
+
+        // Check whether email already exists
+        if ($userModel->findUserByEmail($data['email'])) {
+            $data['error'] = 'A user with this email address already exists.';
+            
+            $this->adminView('add_staff', $data);
+            return;
+        }
+
+        // Create the user
+        $userId = $userModel->register($data);
+
+        if ($userId) {
+            $this->staff();
+            return;
+        }
+
+        $data['error'] = 'Unable to create the staff member.';
+        $this->adminView('add_staff', $data);
+    }
+
+    //gets the id from the url and finds the user and sends the data to edit form
+    public function editStaff($userId){
+
+        $userModel = $this->model('User');
+        $staff = $userModel->findUserById($userId);
+
+        if (!$staff) {
+            redirect('admin/staff');
+            return;
+        }
+
+        $data = [
+            'staff' => $staff
+        ];
+
+        $this->adminView('edit_Staff', $data);
+    }
+
+    public function updateStaff($userId){
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->staff();
+            return;
+        }
+
+        $userModel = $this->model('User');
+
+        $data = [
+            'user_id'      => $userId,
+            'first_name'   => trim($_POST['first_name']),
+            'last_name'    => trim($_POST['last_name']),
+            'email'        => trim($_POST['email']),
+            'phone_number' => trim($_POST['phone_number']),
+            'role'         => $_POST['role'],
+            'status'       => $_POST['status']
+        ];
+
+        if ($userModel->updateStaff($data)) {
+            $this->staff();
+            return;
+        } 
+        else {
+            die('Unable to update staff member.');
+        }
+    }
+
+    public function removeStaff($userId){
+
+        $userModel = $this->model('User');
+        $staff = $userModel->findUserById($userId);
+
+        if (!$staff) {
+            redirect('admin/staff');
+            return;
+        }
+
+        if ($staff->role === 'veterinarian') {
+            // Veterinarians are kept in the database
+            // but their account is deactivated.
+            $userModel->deactivateStaff($userId);
+
+        } 
+        else {
+            // Regular staff can be permanently removed.
+            $userModel->deleteStaff($userId);
+        }
+        $this->redirect('admin/staff');
     }
 }
