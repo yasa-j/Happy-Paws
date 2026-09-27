@@ -12,7 +12,7 @@
 
     background: #f7f9fb;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -54,7 +54,7 @@
     border-radius: 23px;
     background: #006f68;
     color: #ffffff;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -155,9 +155,9 @@
 
     background: transparent;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 13px;
+    font-size: 14px;
 
     color: #334155;
 }
@@ -195,9 +195,9 @@
 
     background: transparent;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 500;
 
@@ -224,9 +224,9 @@
 
     margin-left: auto;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 14px;
+    font-size: 15px;
 
     line-height: 22px;
 
@@ -263,9 +263,9 @@
 
     background: #e5e7e8;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 13px;
+    font-size: 14px;
 
     font-weight: 600;
 
@@ -320,9 +320,9 @@
 
     border-bottom: 1px solid #cbd1d6;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 9px;
+    font-size: 12px;
 
     font-weight: 600;
 
@@ -356,7 +356,7 @@
 
     border-bottom: 1px solid #e4e7e9;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
     color: #182338;
 }
@@ -374,7 +374,7 @@
 
     gap: 3px;
 
-    font-size: 13px;
+    font-size: 15px;
 
     line-height: 22px;
 }
@@ -396,9 +396,9 @@
 
 .invoice-id {
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 
-    font-size: 13px;
+    font-size: 15px;
 
     font-weight: 600;
 

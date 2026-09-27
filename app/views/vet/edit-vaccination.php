@@ -34,7 +34,7 @@ $pet = $data['pet'];
 
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-edit-vaccination.css?v=1000">
+        href="<?php echo URLROOT; ?>/css/vet-edit-vaccination.css?v=1001">
 
 </head>
 
@@ -79,17 +79,6 @@ $pet = $data['pet'];
 
 
             <div class="vet-header-right">
-
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
-                    class="header-action"
-                >
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </a>
 
 
                 <button

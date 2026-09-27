@@ -22,7 +22,7 @@
         
     <!-- Billing Details CSS -->
     <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-billing-details.css">
+          href="<?php echo URLROOT; ?>/css/staff-billing-details.css?v=3">
 
 </head>
 
@@ -59,8 +59,6 @@
 
 
     <div class="header-right">
-
-        <span class="header-icon">?</span>
 
         <span class="header-icon">⚙</span>
 

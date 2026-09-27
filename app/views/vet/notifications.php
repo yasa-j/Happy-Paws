@@ -31,7 +31,7 @@ $currentUrl = $_GET['url'] ?? 'vet/notifications';
     <!-- Notifications CSS -->
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-notifications.css?v=1001"
+        href="<?php echo URLROOT; ?>/css/vet-notifications.css?v=1002"
     >
 
 </head>
@@ -80,25 +80,6 @@ $currentUrl = $_GET['url'] ?? 'vet/notifications';
 
 
             <div class="vet-header-right">
-
-
-                <!-- Notification -->
-
-                <button
-                    type="button"
-                    class="header-icon-button"
-                    id="header-notification-button"
-                    title="Notifications"
-                >
-
-                    ♧
-
-                    <span
-                        class="header-notification-dot"
-                        id="header-notification-dot"
-                    ></span>
-
-                </button>
 
 
                 <!-- Settings -->

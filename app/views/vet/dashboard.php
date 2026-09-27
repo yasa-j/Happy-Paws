@@ -54,11 +54,7 @@
 
             <div class="vet-header-right">
 
-                <!-- Notification -->
-                <span class="header-notification">
-                    ♧
-                    <span class="notification-dot"></span>
-                </span>
+                
 
 
                 <!-- Settings -->
@@ -114,7 +110,7 @@
 
                     <small>TODAY</small>
 
-                    <strong>Oct 24, 2024</strong>
+                    <strong>Sep 28, 2026</strong>
 
                 </div>
 

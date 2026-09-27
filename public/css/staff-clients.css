@@ -24,9 +24,10 @@
 }
 
 .clients-heading h1 {
-    font-size: 31px;
+    font-size: 32px;
 
     font-weight: 700;
+    font-family: 'Playfair Display', serif;
 
     color: #182338;
 }
@@ -56,7 +57,7 @@
 
     border-radius: 22px;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family:  'Playfair Display', serif;
 
     font-size: 13px;
 
@@ -115,13 +116,14 @@
 
     border-bottom: 1px solid #d3dae1;
 
-    font-size: 9px;
+    font-size: 11px;
 
     letter-spacing: 1px;
 
     font-weight: 700;
 
     color: #626b76;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -190,11 +192,12 @@
 }
 
 .client-name {
-    font-size: 14px;
+    font-size: 16px;
 
     font-weight: 600;
 
     white-space: nowrap;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -203,11 +206,12 @@
 .client-id {
     color: #00847b;
 
-    font-size: 12px;
+    font-size: 13px;
 
     font-weight: 600;
 
     white-space: nowrap;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -224,7 +228,8 @@
 .phone {
     color: #69717b;
 
-    font-size: 10px;
+    font-size: 13px;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -236,6 +241,7 @@
     font-size: 17px;
 
     font-weight: 600;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -256,13 +262,14 @@
 }
 
 .showing {
-    font-size: 10px;
+    font-size: 12px;
 
     font-weight: 700;
 
     letter-spacing: 0.8px;
 
     color: #4b5563;
+    font-family: 'Playfair Display', serif;
 }
 
 .pagination {
@@ -284,7 +291,7 @@
 
     border-radius: 5px;
 
-    font-family: 'Inter', Arial, sans-serif;
+    font-family:  'Playfair Display', serif;
 
     font-size: 12px;
 

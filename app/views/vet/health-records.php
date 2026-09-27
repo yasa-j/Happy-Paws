@@ -33,7 +33,7 @@
 
     <link
     rel="stylesheet"
-   href="<?php echo URLROOT; ?>/css/vet-health-records.css?v=1001">
+   href="<?php echo URLROOT; ?>/css/vet-health-records.css?v=1002">
 
 
 </head>
@@ -86,21 +86,6 @@
             <!-- Header Right -->
 
             <div class="vet-header-right">
-
-
-                <!-- Notifications -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
-                    class="header-action notification-button"
-                    title="Notifications"
-                >
-
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </a>
 
 
                 <!-- Settings -->

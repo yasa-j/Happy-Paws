@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -267,7 +267,7 @@ body {
 
     font-family: 'Inter', Arial, sans-serif;
 
-    font-size: 13px;
+    font-size: 15px;
 
     font-weight: 500;
 
@@ -380,7 +380,7 @@ body {
 
     border-radius: 16px;
 
-    font-size: 11px;
+    font-size: 13px;
 
     font-weight: 600;
 }
@@ -444,7 +444,7 @@ body {
 .pet-main-info p {
     margin-top: 3px;
 
-    font-size: 12px;
+    font-size: 14px;
 
     color: #526a74;
 
@@ -479,7 +479,7 @@ body {
 }
 
 .record-label {
-    font-size: 15px;
+    font-size: 18px;
 
     color: #71849c;
 
@@ -532,7 +532,7 @@ body {
     color: #ffffff !important;
 
     font-family: 'Inter', Arial, sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     line-height: 1;
 

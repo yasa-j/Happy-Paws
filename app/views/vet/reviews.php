@@ -29,7 +29,7 @@ $currentUrl = $_GET['url'] ?? 'vet/reviews';
     <!-- Reviews CSS -->
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-reviews.css?v=2"
+        href="<?php echo URLROOT; ?>/css/vet-reviews.css?v=3"
     >
 
 </head>
@@ -77,18 +77,6 @@ $currentUrl = $_GET['url'] ?? 'vet/reviews';
 
             <div class="vet-header-right">
 
-
-                <button
-                    type="button"
-                    class="header-icon-button"
-                    id="notification-button"
-                    title="Notifications"
-                >
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </button>
 
 
                 <button

@@ -23,7 +23,7 @@
 
     <!-- NOTIFICATION CSS -->
     <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-notifications.css">
+          href="<?php echo URLROOT; ?>/css/staff-notifications.css?v=2">
 
 </head>
 
@@ -61,7 +61,6 @@
 
     <div class="header-right">
 
-        <span class="header-icon">?</span>
 
         <span class="header-icon">⚙</span>
 

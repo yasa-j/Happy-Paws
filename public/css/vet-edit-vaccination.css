@@ -4,7 +4,7 @@
 
 body {
     margin: 0;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -151,14 +151,14 @@ body {
 .edit-page-header h1 {
     margin: 0 0 7px;
     color: #17212a;
-    font-size: 29px;
+    font-size: 31px;
     font-weight: 700;
 }
 
 .edit-page-header p {
     margin: 0;
     color: #5f6c70;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .certified-badge {
@@ -166,7 +166,7 @@ body {
     background: #eef4f2;
     border-radius: 8px;
     color: #51615f;
-    font-size: 10px;
+    font-size: 14px;
     white-space: nowrap;
 }
 
@@ -216,13 +216,13 @@ body {
     background: #dff1ef;
     color: #006f68;
     border-radius: 12px;
-    font-size: 9px;
+    font-size: 12px;
 }
 
 .edit-pet-details {
     margin-top: 5px;
     color: #59686c;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .edit-pet-stats {
@@ -230,7 +230,7 @@ body {
     display: flex;
     gap: 18px;
     color: #435257;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .passport-status {
@@ -243,7 +243,7 @@ body {
     display: block;
     margin-bottom: 4px;
     color: #526563;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 600;
 }
 
@@ -289,7 +289,7 @@ body {
 .form-card-header p {
     margin: 0;
     color: #667477;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .last-modified {
@@ -298,7 +298,7 @@ body {
     background: #eef2f0;
     border-radius: 7px;
     color: #687572;
-    font-size: 9px;
+    font-size: 11px;
 }
 
 /* =========================================================
@@ -323,7 +323,7 @@ body {
 .form-group label {
     margin-bottom: 8px;
     color: #263238;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -382,13 +382,13 @@ body {
 #character-count {
     margin-bottom: 8px;
     color: #667477;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .form-group small {
     margin-top: 7px;
     color: #667477;
-    font-size: 9px;
+    font-size: 12px;
 }
 
 .year-preset {
@@ -434,7 +434,7 @@ body {
     justify-content: center;
     border-radius: 7px;
     font-family: 'Inter', Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;

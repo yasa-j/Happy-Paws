@@ -19,7 +19,7 @@
 
     <!-- DASHBOARD CSS -->
     <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-dashboard.css">
+          href="<?php echo URLROOT; ?>/css/staff-dashboard.css?v=2">
 
 </head>
 
@@ -57,7 +57,6 @@
 
     <div class="header-right">
 
-        <span class="header-icon">?</span>
 
         <span class="header-icon">⚙</span>
 
@@ -105,7 +104,7 @@
             <div>
 
                 <h1>
-                    Welcome Back! 👋
+                    Welcome Back!
                 </h1>
 
                 <p>

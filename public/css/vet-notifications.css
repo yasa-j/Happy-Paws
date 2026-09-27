@@ -10,7 +10,7 @@ body {
     margin: 0;
     background: #f6faf9;
     color: #263238;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 }
 
 .vet-page {
@@ -224,7 +224,7 @@ body {
 .notification-heading h1 {
     margin: 0;
 
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
 
     color: #263238;
@@ -299,7 +299,7 @@ body {
     color: #667477;
 
     font-family: inherit;
-    font-size: 12px;
+    font-size: 14px;
 
     cursor: pointer;
 
@@ -363,7 +363,7 @@ body {
     color: #354246;
 
     font-family: inherit;
-    font-size: 12px;
+    font-size: 14px;
 
     outline: none;
 }
@@ -407,14 +407,14 @@ body {
 .notifications-card-header h2 {
     margin: 0;
 
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
 
     color: #263238;
 }
 
 .notifications-card-header span {
-    font-size: 11px;
+    font-size: 13px;
     color: #7a8789;
 }
 

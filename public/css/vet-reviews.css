@@ -12,7 +12,7 @@ body {
     margin: 0;
     background: #f5f9f8;
     color: #243238;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
 }
 
 
@@ -219,7 +219,7 @@ body {
     margin: 0;
     font-size: 31px;
     line-height: 1;
-    color: #006f68;
+    color: #040707;
     font-weight: 700;
 }
 

@@ -48,7 +48,7 @@ $profile = $data['profile'] ?? [
     <!-- EDIT PROFILE CSS -->
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-edit-profile.css"
+        href="<?php echo URLROOT; ?>/css/vet-edit-profile.css?v=2"
     >
 
 </head>
@@ -100,22 +100,6 @@ $profile = $data['profile'] ?? [
             <!-- HEADER RIGHT -->
 
             <div class="vet-header-right">
-
-
-                <!-- Notifications -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
-                    class="header-action"
-                    title="Notifications"
-                >
-
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </a>
-
 
                 <!-- Settings -->
 

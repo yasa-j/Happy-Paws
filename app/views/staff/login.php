@@ -26,7 +26,7 @@
         </div>
 
         <div class="staff-nav-icons">
-            <span>?</span>
+           
             <span>⚙</span>
         </div>
 

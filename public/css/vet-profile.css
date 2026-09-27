@@ -11,7 +11,7 @@ body {
 }
 
 body {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -246,7 +246,7 @@ body {
 .profile-heading h1 {
     margin: 0;
 
-    color: #006f68;
+    color: #080c0c;
 
     font-size: 32px;
     font-weight: 700;

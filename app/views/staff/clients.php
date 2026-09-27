@@ -23,7 +23,7 @@
 
     <!-- Clients CSS -->
     <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-clients.css">
+          href="<?php echo URLROOT; ?>/css/staff-clients.css?v=2">
 
 </head>
 
@@ -60,8 +60,6 @@
 
 
     <div class="header-right">
-
-        <span class="header-icon">?</span>
 
         <span class="header-icon">⚙</span>
 

@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -332,7 +332,7 @@ body {
 }
 
 .appointments-header h2 {
-    font-size: 18px;
+    font-size: 20px;
 
     line-height: 24px;
 
@@ -344,7 +344,7 @@ body {
 .appointments-header p {
     margin-top: 7px;
 
-    font-size: 13px;
+    font-size: 16px;
 
     color: #72859c;
 
@@ -375,7 +375,7 @@ body {
 
     color: #465257;
 
-    font-size: 13px;
+    font-size: 14px;
 
     white-space: nowrap;
 }

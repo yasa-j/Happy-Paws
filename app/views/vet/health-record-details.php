@@ -56,7 +56,7 @@ $treatments = $data['treatments'] ?? [];
 
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-health-record-details.css?v=999">
+        href="<?php echo URLROOT; ?>/css/vet-health-record-details.css?v=1000">
     
 
 </head>
@@ -108,20 +108,6 @@ $treatments = $data['treatments'] ?? [];
             <!-- Header right -->
 
             <div class="vet-header-right">
-
-
-                <!-- Notifications -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
-                    class="header-action"
-                >
-
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </a>
 
 
                 <!-- Settings -->

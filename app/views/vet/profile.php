@@ -35,7 +35,7 @@ $vet = [
     <!-- Profile -->
     <link
         rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-profile.css?v=2"
+        href="<?php echo URLROOT; ?>/css/vet-profile.css?v=3"
     >
 
 </head>
@@ -75,14 +75,7 @@ $vet = [
 
             <div class="vet-header-right">
 
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/notifications"
-                    class="header-action"
-                    title="Notifications"
-                >
-                    ♧
-                    <span class="notification-dot"></span>
-                </a>
+                
 
 
                 <a

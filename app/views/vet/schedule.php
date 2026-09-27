@@ -22,7 +22,7 @@
     >
 
     <!-- Schedule CSS -->
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/vet-schedule.css?v=999">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/vet-schedule.css?v=1000">
 
 </head>
 
@@ -68,11 +68,7 @@
             <!-- Header right -->
             <div class="vet-header-right">
 
-                <!-- Notification -->
-                <button class="header-action notification-button">
-                    ♧
-                    <span class="notification-dot"></span>
-                </button>
+                
 
 
                 <!-- Settings -->
