@@ -195,16 +195,63 @@ CREATE TABLE vaccinations (
 -- Purpose: Pet care products available in the clinic store / pharmacy
 -- =======================================================================
 CREATE TABLE products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for retail product',
-    name VARCHAR(100) NOT NULL COMMENT 'Product title',
-    category ENUM('Food', 'Medicine', 'Grooming', 'Accessories', 'Toys') NOT NULL COMMENT 'Product category',
-    description TEXT DEFAULT NULL COMMENT 'Product details and benefits',
-    price DECIMAL(10,2) NOT NULL COMMENT 'Retail unit price',
-    stock_quantity INT NOT NULL DEFAULT 0 COMMENT 'Number of units remaining in stock',
-    image_url VARCHAR(255) DEFAULT NULL COMMENT 'Image asset path or URL',
-    status ENUM('In Stock', 'Out of Stock', 'Discontinued') NOT NULL DEFAULT 'In Stock' COMMENT 'Availability status',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Entry timestamp'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    product_id INT AUTO_INCREMENT PRIMARY KEY
+        COMMENT 'Unique identifier for each retail product',
+
+    sku VARCHAR(30) NOT NULL UNIQUE
+        COMMENT 'Unique product stock keeping unit',
+
+    name VARCHAR(100) NOT NULL
+        COMMENT 'Product title',
+
+    category ENUM(
+        'Food',
+        'Medicine',
+        'Grooming',
+        'Accessories',
+        'Toys'
+    ) NOT NULL COMMENT 'Product category',
+
+    description TEXT DEFAULT NULL
+        COMMENT 'Product details and benefits',
+
+    brand VARCHAR(100) DEFAULT NULL
+        COMMENT 'Product manufacturer or brand',
+
+    price DECIMAL(10,2) NOT NULL
+        COMMENT 'Retail unit price',
+
+    stock_quantity INT NOT NULL DEFAULT 0
+        COMMENT 'Number of units currently available',
+
+    reorder_level INT NOT NULL DEFAULT 10
+        COMMENT 'Minimum stock quantity before reorder alert',
+
+    unit VARCHAR(30) NOT NULL DEFAULT 'items'
+        COMMENT 'Stock measurement unit',
+
+    image_url VARCHAR(255) DEFAULT NULL
+        COMMENT 'Product image path or URL',
+
+    status ENUM(
+        'In Stock',
+        'Low Stock',
+        'Out of Stock',
+        'Discontinued'
+    ) NOT NULL DEFAULT 'In Stock'
+        COMMENT 'Product availability status',
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        COMMENT 'Product creation timestamp',
+
+    updated_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+        COMMENT 'Last product update timestamp'
+
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -259,10 +306,73 @@ INSERT INTO vaccinations (vaccination_id, pet_id, vet_id, vaccine_name, administ
 (2, 1, 2, 'DHPP Core Dog Vaccine', '2025-10-01', '2026-10-01', 'LOT-DH-2025-12B', 'Upcoming', 'Protection against Distemper, Hepatitis, Parvo, Parainfluenza'),
 (3, 2, 2, 'FVRCP Feline Core Vaccine', '2025-11-15', '2026-11-15', 'LOT-FV-2025-04K', 'Completed', 'Feline viral rhinotracheitis, calicivirus, panleukopenia booster');
 
-
--- 7. Insert Sample Retail Products
-INSERT INTO products (product_id, name, category, description, price, stock_quantity, image_url, status) VALUES
-(1, 'Royal Canin Golden Retriever Adult (12kg)', 'Food', 'Tailor-made nutrition for adult Golden Retrievers with cardiac & skin support nutrients.', 78.50, 24, 'images/products/royal_canin_retriever.jpg', 'In Stock'),
-(2, 'Bravecto Flea & Tick Chew for Dogs', 'Medicine', '3-month persistent flea and tick protection chewable tablet.', 42.00, 50, 'images/products/bravecto.jpg', 'In Stock'),
-(3, 'Oatmeal & Aloe Soothing Pet Shampoo (500ml)', 'Grooming', 'Hypoallergenic calming shampoo specially formulated for dry and sensitive skin.', 18.00, 35, 'images/products/shampoo.jpg', 'In Stock'),
-(4, 'Multi-Level Plush Cat Scratching Tree', 'Toys', 'Sturdy sisal rope scratching posts with resting hammock and toy pom-poms.', 65.00, 12, 'images/products/cat_tree.jpg', 'In Stock');
+INSERT INTO products (
+    product_id,
+    sku,
+    name,
+    category,
+    description,
+    brand,
+    price,
+    stock_quantity,
+    reorder_level,
+    unit,
+    image_url,
+    status
+) VALUES
+(
+    1,
+    'PRD-000001',
+    'Royal Canin Golden Retriever Adult (12kg)',
+    'Food',
+    'Tailor-made nutrition for adult Golden Retrievers with cardiac and skin support nutrients.',
+    'Royal Canin',
+    78.50,
+    24,
+    5,
+    'bags',
+    'images/products/royal_canin_retriever.jpg',
+    'In Stock'
+),
+(
+    2,
+    'PRD-000002',
+    'Bravecto Flea & Tick Chew for Dogs',
+    'Medicine',
+    'Three-month persistent flea and tick protection chewable tablet.',
+    'MSD Animal Health',
+    42.00,
+    50,
+    10,
+    'tablets',
+    'images/products/bravecto.jpg',
+    'In Stock'
+),
+(
+    3,
+    'PRD-000003',
+    'Oatmeal & Aloe Soothing Pet Shampoo (500ml)',
+    'Grooming',
+    'Hypoallergenic calming shampoo formulated for dry and sensitive skin.',
+    NULL,
+    18.00,
+    35,
+    8,
+    'bottles',
+    'images/products/shampoo.jpg',
+    'In Stock'
+),
+(
+    4,
+    'PRD-000004',
+    'Multi-Level Plush Cat Scratching Tree',
+    'Toys',
+    'Sisal rope scratching posts with a resting hammock and toy pom-poms.',
+    NULL,
+    65.00,
+    12,
+    3,
+    'items',
+    'images/products/cat_tree.jpg',
+    'In Stock'
+);
