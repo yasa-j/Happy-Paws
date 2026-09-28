@@ -11,6 +11,10 @@ class PetOwnerController extends Controller
 
     public function __construct()
     {
+        // Check whether the user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('');
+        }
         // Load the Pet model
         $this->petModel = $this->model('Pet');
         // Load the User model
