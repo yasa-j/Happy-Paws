@@ -156,8 +156,8 @@
                 <div class="avatar">SW</div>
 
                 <div>
-                    <strong>Dr. Sarah Wilson</strong>
-                    <small>Clinic Admin</small>
+                    <strong>Sarah Wilson</strong>
+                    
                 </div>
 
             </div>

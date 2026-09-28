@@ -206,8 +206,8 @@ $currentUnit = html_entity_decode($getValue('unit'));
                     <span class="avatar">SW</span>
 
                     <div>
-                        <strong>Dr. Sarah Wilson</strong>
-                        <small>Clinic Admin</small>
+                        <strong>Sarah Wilson</strong>
+                        
                     </div>
 
                 </div>

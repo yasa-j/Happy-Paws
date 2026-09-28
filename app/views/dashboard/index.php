@@ -162,8 +162,8 @@
                 <div class="profile">
 
                     <div>
-                        <strong>Dr. Sarah Wilson</strong>
-                        <small>Clinic Admin</small>
+                        <strong>Sarah Wilson</strong>
+                        
                     </div>
 
                     <span class="avatar">SW</span>
@@ -181,8 +181,8 @@
 
                 <div>
                     <h1>
-                        Welcome back, Dr. Sarah!
-                        <span>Clinic Live</span>
+                        Welcome back
+                        
                     </h1>
 
                     <p>
