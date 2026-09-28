@@ -9,7 +9,10 @@ class PetOwnerController extends Controller
     private $vetScheduleModel;
 
     public function __construct()
-    {
+    {   // Check whether the user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('');
+        }
         // Load the Pet model
         $this->petModel = $this->model('Pet');
         // Load the User model
@@ -24,8 +27,7 @@ class PetOwnerController extends Controller
     /*
      * Pet Owner Dashboard
      */
-    public function dashboard()
-    {
+    public function dashboard(){
         // Get the logged-in user's name from the session
         $userName = $_SESSION['user_name'] ?? 'Pet Owner';
 
@@ -1325,4 +1327,3 @@ class PetOwnerController extends Controller
         $this->view('petowner/health-records', $data);
     }
 }
-

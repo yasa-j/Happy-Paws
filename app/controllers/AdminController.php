@@ -12,7 +12,7 @@ class AdminController extends Controller {
 
         // Make sure someone is logged in
         if (!isset($_SESSION['user_id'])) {
-            $this->redirect('/auth/login');
+            $this->redirect('index.php?url=staffauth/login');
         }
 
         // Make sure the logged-in user is an admin
@@ -36,7 +36,7 @@ class AdminController extends Controller {
 
         if (!$admin) {
             session_destroy();
-            $this->redirect('/auth/login');
+            $this->redirect('index.php?url=staffauth/login');
         }
 
         return [

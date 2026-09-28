@@ -26,7 +26,7 @@ class AuthController extends Controller {
     public function redirectByRole() {
 
         if (!isset($_SESSION['user_id'])) {
-            $this->redirect('auth/login');
+            $this->redirect('');
             return;
         }
 
