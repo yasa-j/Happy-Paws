@@ -204,13 +204,8 @@ CREATE TABLE products (
     name VARCHAR(100) NOT NULL
         COMMENT 'Product title',
 
-    category ENUM(
-        'Food',
-        'Medicine',
-        'Grooming',
-        'Accessories',
-        'Toys'
-    ) NOT NULL COMMENT 'Product category',
+    category VARCHAR(100) NOT NULL
+    COMMENT 'Product category',
 
     description TEXT DEFAULT NULL
         COMMENT 'Product details and benefits',
