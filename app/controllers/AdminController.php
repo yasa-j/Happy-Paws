@@ -213,7 +213,7 @@ class AdminController extends Controller {
             'first_name' => trim($_POST['first_name']),
             'last_name' => trim($_POST['last_name']),
             'email' => trim($_POST['email']),
-            'phone_number' => trim($_POST['phone_number']),
+            'phone_number' => '+94' . trim($_POST['phone_number']),
             'password' => $_POST['password'],
             'role' => $_POST['role'],
             'address' => trim($_POST['address'] ?? '')
@@ -273,7 +273,7 @@ class AdminController extends Controller {
             'first_name'   => trim($_POST['first_name']),
             'last_name'    => trim($_POST['last_name']),
             'email'        => trim($_POST['email']),
-            'phone_number' => trim($_POST['phone_number']),
+            'phone_number' => '+94' . trim($_POST['phone_number']),
             'role'         => $_POST['role'],
             'status'       => $_POST['status']
         ];

@@ -38,10 +38,16 @@
 
         <div>
             <label>Phone Number</label>
+            <span>+94</span>
             <input
                 type="text"
                 name="phone_number"
-                value="<?php echo htmlspecialchars($data['staff']->phone_number ?? ''); ?>">
+                maxlength="9"
+                minlength="9"
+                pattern="[0-9]{9}"
+                inputmode="numeric"
+                value="<?php echo htmlspecialchars(substr($data['staff']->phone_number ?? '', -9)); ?>"
+                required>
         </div>
 
         <div>

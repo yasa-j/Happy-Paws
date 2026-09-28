@@ -214,7 +214,6 @@ class AuthController extends Controller {
                     'This email address is already registered.';
             }
 
-
             // Phone validation
             if (empty($data['phone_number'])) {
 
@@ -222,26 +221,12 @@ class AuthController extends Controller {
                     'Please enter your mobile number.';
 
             } else {
-
-                // Remove spaces
-                $phone = str_replace(' ', '', $data['phone_number']);
-
-                // Accept 9 digit number after +94
-                if (!preg_match('/^[0-9]{9}$/', $phone)) {
-
-                    $data['phone_err'] =
-                        'Please enter a valid mobile number.';
-                } else {
-
-                    // Store phone number as +94XXXXXXXXX
-                    $data['phone_number'] = '+94' . $phone;
-
-                    if ($this->userModel->phoneExists($data['phone_number'])) {
-
-                        $data['phone_err'] =
-                            'This mobile number is already registered.';
+                $phone = $data['phone_number'];
+                    if (!preg_match('/^[0-9]{9}$/', $phone)) {
+                        $data['phone_err'] = 'Please enter exactly 9 digits after +94.';
+                    } else {
+                        $data['phone_number'] = '+94' . $phone;
                     }
-                }
             }
 
 

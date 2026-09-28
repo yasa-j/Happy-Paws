@@ -39,7 +39,17 @@
 
         <div>
             <label>Phone Number</label>
-            <input type="text" name="phone_number">
+            <div>
+                <span>+94</span>
+                <input type="text" 
+                    name="phone_number"
+                    maxlength="9"
+                    minlength="9"
+                    pattern="[0-9]{9}"
+                    inputmode="numeric"
+                    placeholder="771234567"
+                    required >
+            </div>
         </div>
 
         <div>
