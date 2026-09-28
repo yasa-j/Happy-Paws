@@ -42,7 +42,7 @@ class AuthController extends Controller {
                 break;
 
             case 'pet_owner':
-                $this->redirect('dashboard');
+                $this->redirect('petowner/dashboard');
                 break;
 
             case 'staff':
@@ -117,7 +117,7 @@ class AuthController extends Controller {
                             break;
 
                         case 'pet_owner':
-                            $this->redirect('dashboard');
+                            $this->redirect('petowner/dashboard');
                             break;
 
                         default:
