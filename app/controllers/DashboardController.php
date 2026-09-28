@@ -1,61 +1,114 @@
 <?php
+
 /**
- * =======================================================================
- * Happy Paws - Dashboard Controller
- * =======================================================================
- * 
- * Handles authenticated user portal access, displaying pet profiles,
- * upcoming appointments, and user account status.
- * Protected by authentication guard requiring an active session.
- * =======================================================================
+ * Dashboard Controller
+ * URL: http://localhost/paws/public/dashboard/index
  */
-
-class DashboardController extends Controller {
-
-    /**
-     * User model instance
-     * @var User
-     */
-    private $userModel;
+class DashboardController extends Controller
+{
+    // Store the shared database connection.
+    private $db;
 
     /**
-     * Controller constructor.
-     * Enforces authentication guard: unauthenticated users are redirected to login.
+     * Initialize the database connection.
      */
-    public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
-            $this->redirect('auth/login');
-        }
-
-        $this->userModel = $this->model('User');
+    public function __construct()
+    {
+        // Get the singleton database instance.
+        $this->db = Database::getInstance();
     }
 
     /**
-     * Default dashboard view
+     * Display the dashboard page.
      */
-    public function index() {
-        $userId = $_SESSION['user_id'];
+    public function index()
+    {
+        // Get the total number of registered users.
+        $this->db->query('SELECT COUNT(*) AS total_users FROM users');
+        $userResult = $this->db->single();
 
-        // Retrieve current user details from database
-        $user = $this->userModel->findUserById($userId);
-        
-        // Retrieve pets owned by this user
-        $pets = $this->userModel->getPetsByUserId($userId);
-
-        // Retrieve appointments for this user's pets
-        $appointments = $this->userModel->getAppointmentsByUserId($userId);
-
+        // Prepare all data required by the dashboard view.
         $data = [
-            'title' => 'User Dashboard',
-            'user' => $user,
-            'pets' => $pets,
-            'appointments' => $appointments,
-            'flash_success' => $_SESSION['flash_success'] ?? null
+            'pageTitle' => 'Dashboard',
+
+            // Database value.
+            'totalUsers' => (int) ($userResult->total_users ?? 0),
+
+            // Temporary dashboard values.
+            // These can be connected to database tables later.
+            'totalProducts' => 48,
+            'totalOrders' => 12,
+            'lowStockItems' => 3,
+            'totalRevenue' => 24650,
+
+            // Temporary weekly sales data for the chart.
+            'weeklySales' => [
+                ['day' => 'Mon', 'amount' => 10000],
+                ['day' => 'Tue', 'amount' => 14000],
+                ['day' => 'Wed', 'amount' => 18500],
+                ['day' => 'Thu', 'amount' => 26000],
+                ['day' => 'Fri', 'amount' => 33000],
+                ['day' => 'Sat', 'amount' => 38000],
+                ['day' => 'Sun', 'amount' => 25000],
+            ],
+
+            // Temporary recent order records.
+            'recentOrders' => [
+                [
+                    'id' => '#ORD-9421',
+                    'customer' => 'Emily Stone',
+                    'pet' => 'Milo',
+                    'items' => 'Rabies Vaccine',
+                    'total' => 4200,
+                    'status' => 'Completed'
+                ],
+                [
+                    'id' => '#ORD-9420',
+                    'customer' => 'Marcus Vance',
+                    'pet' => 'Luna',
+                    'items' => 'Amoxicillin Drops',
+                    'total' => 1850,
+                    'status' => 'Completed'
+                ],
+                [
+                    'id' => '#ORD-9419',
+                    'customer' => 'Priya Sharma',
+                    'pet' => 'Bella',
+                    'items' => 'Orthopedic Joint Supplement',
+                    'total' => 6400,
+                    'status' => 'Processing'
+                ],
+                [
+                    'id' => '#ORD-9418',
+                    'customer' => 'David Miller',
+                    'pet' => 'Charlie',
+                    'items' => 'Prescription Dental Chews',
+                    'total' => 3100,
+                    'status' => 'Pending'
+                ],
+            ],
+
+            // Temporary critical stock records.
+            'criticalItems' => [
+                [
+                    'name' => 'Amoxicillin 250mg',
+                    'stock' => '4 vials',
+                    'minimum' => 20
+                ],
+                [
+                    'name' => 'Canine Dewormer Tablets',
+                    'stock' => '2 boxes',
+                    'minimum' => 15
+                ],
+                [
+                    'name' => 'Sterile Surgical Gauze 10x10',
+                    'stock' => '5 packs',
+                    'minimum' => 25
+                ],
+            ],
         ];
 
-        // Clear one-time flash message
-        unset($_SESSION['flash_success']);
-
+        // Load app/views/dashboard/index.php and pass the dashboard data.
         $this->view('dashboard/index', $data);
     }
 }

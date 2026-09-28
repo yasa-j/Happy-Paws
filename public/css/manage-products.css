@@ -1,0 +1,810 @@
+/* =========================================
+   HappyPaws Manage Products Page
+   ========================================= */
+
+/* Global color variables */
+:root {
+    --primary: #0f766e;
+    --primary-dark: #065f5b;
+    --mint: #86efac;
+    --background: #f8fafc;
+    --white: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --blue: #38bdf8;
+    --shadow: 0 7px 22px rgba(15, 23, 42, 0.045);
+}
+
+/* Apply border-box sizing to all elements */
+* {
+    box-sizing: border-box;
+}
+
+/* Main page body */
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font: 14px/1.45 Inter, system-ui, sans-serif;
+}
+
+/* Remove default link styles */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Use the same font for form controls */
+button,
+input,
+select {
+    font: inherit;
+}
+
+/* =========================================
+   Sidebar
+   ========================================= */
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 220px;
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    background: var(--white);
+}
+
+/* Application brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 8px 27px;
+}
+
+/* Brand icon */
+.brand > span {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Brand name and subtitle */
+.brand b,
+.brand small {
+    display: block;
+}
+
+.brand b {
+    color: var(--primary);
+    font: 700 16px Poppins, sans-serif;
+}
+
+.brand small,
+.sidebar > p {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* Sidebar menu containers */
+.side-menu,
+.side-footer {
+    display: grid;
+    gap: 5px;
+}
+
+/* Sidebar navigation links */
+.side-menu a,
+.side-footer a {
+    padding: 11px 12px;
+    border-radius: 6px;
+}
+
+/* Active and hover navigation states */
+.side-menu .active,
+.side-menu a:hover {
+    background: var(--mint);
+    color: #065f46;
+}
+
+/* Low-stock notification dot */
+.side-menu i {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    float: right;
+    border-radius: 50%;
+    background: var(--blue);
+}
+
+/* Bottom sidebar links */
+.side-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+/* =========================================
+   Main Content and Topbar
+   ========================================= */
+
+.main-content {
+    margin-left: 220px;
+}
+
+/* Top navigation bar */
+.topbar {
+    height: 64px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+}
+
+/* Top search container */
+.topbar > label {
+    position: relative;
+    width: 335px;
+}
+
+/* Search icons */
+.topbar label span,
+.filter-bar label span {
+    position: absolute;
+    top: 8px;
+    left: 13px;
+    color: var(--muted);
+}
+
+/* Topbar and filter search fields */
+.topbar input,
+.filter-bar input {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    outline: none;
+    background: var(--background);
+}
+
+/* Search focus state */
+.topbar input:focus,
+.filter-bar input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+/* Right-side topbar actions */
+.topbar > div {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-left: auto;
+}
+
+/* Topbar icon buttons */
+.topbar button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Profile name container */
+.topbar > div > span:last-child {
+    display: grid;
+}
+
+/* Profile text */
+.topbar b,
+.topbar small {
+    font-size: 10px;
+}
+
+/* Profile avatar */
+.avatar {
+    width: 33px;
+    height: 33px;
+    display: grid !important;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--mint)
+    );
+    color: var(--white);
+    font-weight: 800;
+}
+
+/* Main content container */
+.page-container {
+    max-width: 1500px;
+    margin: auto;
+    padding: 23px;
+}
+
+/* =========================================
+   Page Heading
+   ========================================= */
+
+.page-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+/* Breadcrumb text */
+.page-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* Active breadcrumb section */
+.page-heading p b {
+    color: var(--primary);
+}
+
+/* Main page title */
+.page-heading h1 {
+    margin: 4px 0;
+    font: 700 27px Poppins, sans-serif;
+}
+
+/* Page description */
+.page-heading > div > span {
+    color: var(--muted);
+}
+
+/* Page action buttons */
+.heading-actions {
+    display: flex;
+    gap: 9px;
+}
+
+/* Bulk action and Add Product buttons */
+.heading-actions button,
+.heading-actions a {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Add Product button */
+.heading-actions a {
+    background: var(--primary);
+    color: var(--white);
+    transition: background 0.2s ease;
+}
+
+.heading-actions a:hover {
+    background: var(--primary-dark);
+}
+
+/* =========================================
+   Summary Cards
+   ========================================= */
+
+.summary-grid {
+    max-width: 950px;
+    margin: 22px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+/* Shared card design */
+.summary-grid article,
+.selection-bar,
+.filter-bar,
+.table-card {
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+}
+
+/* Summary card */
+.summary-grid article {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Summary card label */
+.summary-grid small {
+    font-size: 9px;
+}
+
+/* Summary card value */
+.summary-grid strong {
+    display: block;
+    margin: 5px 0;
+    font: 700 24px Poppins, sans-serif;
+}
+
+/* Summary card badge */
+.summary-grid em {
+    padding: 3px 6px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    font: 600 8px Inter, sans-serif;
+}
+
+/* Blue summary badge */
+.summary-grid .blue {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+/* Red summary badge */
+.summary-grid .red {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Summary card helper text */
+.summary-grid p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* Summary card icon */
+.summary-grid i {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: #ecfeff;
+    color: var(--primary);
+    font-style: normal;
+}
+
+/* Green text */
+.green {
+    color: #059669;
+}
+
+/* Danger text */
+.danger {
+    color: var(--danger);
+}
+
+/* Red summary icon */
+.summary-grid .red-icon {
+    background: #fef2f2;
+    color: var(--danger);
+}
+
+/* =========================================
+   Selection Controls
+   ========================================= */
+
+.selection-bar {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 10px;
+}
+
+/* Selected-row action container */
+.selection-bar > div {
+    display: flex;
+    gap: 7px;
+    margin-left: auto;
+}
+
+/* Selection buttons */
+.selection-bar button {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--white);
+    cursor: pointer;
+}
+
+/* Selection button hover state */
+.selection-bar button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* =========================================
+   Search and Filter Bar
+   ========================================= */
+
+.filter-bar {
+    margin-top: 12px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 1fr 180px 170px auto auto;
+    gap: 9px;
+}
+
+/* Search field wrapper */
+.filter-bar label {
+    position: relative;
+}
+
+/* Filter dropdowns */
+.filter-bar select {
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--background);
+}
+
+/* Filter buttons */
+.filter-bar button {
+    padding: 9px 12px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Main Filter button */
+.filter-bar #manageFilter {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Filter button hover state */
+.filter-bar #manageFilter:hover {
+    background: var(--primary-dark);
+}
+
+/* =========================================
+   Product Table
+   ========================================= */
+
+.table-card {
+    margin-top: 13px;
+    overflow: hidden;
+}
+
+/* Allow horizontal scrolling on smaller screens */
+.table-wrapper {
+    overflow: auto;
+}
+
+/* Inventory table */
+table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+/* Table cells */
+th,
+td {
+    padding: 11px 9px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+/* Table headings */
+th {
+    background: var(--background);
+    color: var(--muted);
+    font-size: 8px;
+    text-transform: uppercase;
+}
+
+/* Table data */
+td {
+    font-size: 9px;
+}
+
+/* Small table text */
+td small {
+    display: block;
+    color: var(--muted);
+}
+
+/* Product details cell */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Product icon */
+.product-cell > span {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 5px;
+    background: #ecfeff;
+    color: var(--primary);
+}
+
+/* Product name and description */
+.product-cell b,
+.product-cell small {
+    display: block;
+}
+
+/* Product name */
+.product-cell b {
+    font-size: 11px;
+}
+
+/* Category badge */
+.product-cell em {
+    display: inline-block;
+    padding: 3px 5px;
+    border-radius: 3px;
+    background: #dbeafe;
+    font: 600 7px Inter, sans-serif;
+}
+
+/* Stock-level meter */
+.meter {
+    width: 72px;
+    height: 4px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #e2e8f0;
+}
+
+/* Filled section of the stock meter */
+.meter i {
+    display: block;
+    height: 100%;
+    background: var(--primary);
+}
+
+/* Product status badge */
+.status {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+/* In-stock status */
+.in-stock {
+    background: #d1fae5;
+    color: #047857;
+}
+
+/* Low-stock status */
+.low-stock {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Out-of-stock status */
+.out-of-stock {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Edit and delete actions */
+.edit-action,
+.delete-action {
+    border: 0;
+    background: transparent;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+/* Edit action */
+.edit-action {
+    margin-right: 5px;
+    color: var(--primary);
+}
+
+/* Edit action hover state */
+.edit-action:hover {
+    text-decoration: underline;
+}
+
+/* Delete action */
+.delete-action {
+    color: var(--danger);
+}
+
+/* Delete action hover state */
+.delete-action:hover {
+    color: #b91c1c;
+}
+
+/* Keep the delete form beside the Edit link */
+.delete-form {
+    display: inline;
+}
+
+/* =========================================
+   Table Footer
+   ========================================= */
+
+.table-card footer {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: var(--background);
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* Move the row count selector to the right */
+.table-card footer label {
+    margin-left: auto;
+}
+
+/* Pagination container */
+.table-card footer nav {
+    display: flex;
+    gap: 4px;
+}
+
+/* Pagination buttons */
+.table-card footer button {
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--white);
+    cursor: pointer;
+}
+
+/* Active pagination button */
+.table-card footer .active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Disabled pagination button */
+.table-card footer button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* =========================================
+   Tablet Responsive Design
+   ========================================= */
+
+@media (max-width: 1000px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-bar label {
+        grid-column: 1 / -1;
+    }
+}
+
+/* =========================================
+   Mobile Responsive Design
+   ========================================= */
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 68px;
+        padding-inline: 8px;
+    }
+
+    .brand div,
+    .sidebar > p,
+    .side-menu a,
+    .side-footer a {
+        font-size: 0;
+    }
+
+    .side-menu a,
+    .side-footer a {
+        text-align: center;
+    }
+
+    .main-content {
+        margin-left: 68px;
+    }
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .topbar > label {
+        width: 60%;
+    }
+
+    .topbar > div > span:last-child {
+        display: none;
+    }
+
+    .page-container {
+        padding: 14px;
+    }
+
+    .page-heading {
+        display: block;
+    }
+
+    .heading-actions {
+        margin-top: 13px;
+    }
+
+    .selection-bar {
+        flex-wrap: wrap;
+    }
+
+    .selection-bar > div {
+        margin-left: 0;
+    }
+
+    .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar label {
+        grid-column: auto;
+    }
+
+    .table-card footer {
+        flex-wrap: wrap;
+    }
+
+    .table-card footer label {
+        margin-left: 0;
+    }
+
+    /* Keep the database delete form beside the Edit link */
+    .delete-form {
+        display: inline;
+    }
+
+     /* Style the server-side delete button */
+    .server-delete-action {
+         border: 0;
+         background: transparent;
+         color: #ef4444;
+         font-size: 9px;
+         cursor: pointer;
+    }
+
+    .server-delete-action:hover {
+        color: #b91c1c;
+    }
+
+    /* Make the existing delete icon more visible */
+    .server-delete-action {
+        border: 0;
+        padding: 3px;
+        background: transparent;
+        color: #dc2626;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    /* Darker red when hovering */
+    .server-delete-action:hover {
+        color: #991b1b;
+        transform: scale(1.15);
+    }
+}

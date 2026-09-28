@@ -1,11 +1,20 @@
-<IfModule mod_rewrite.c>
-    Options -Indexes
-    RewriteEngine On
+# Use index.php as the main application entry point
+DirectoryIndex index.php
 
-    # Prevent direct access to existing files/folders from serving index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+# Prevent users from viewing folder contents
+Options -Indexes
 
-    # Route all requests to index.php
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-</IfModule>
+# Enable URL rewriting
+RewriteEngine On
+
+# HappyPaws public folder location
+RewriteBase /Happy-paws/public/
+
+# Allow real files such as CSS, JavaScript, and images
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Allow real directories to load normally
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Send application routes to index.php
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
