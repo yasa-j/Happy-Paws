@@ -73,6 +73,9 @@ class StaffauthController extends Controller
         }
 
         // Save login information
+        $_SESSION['user_id'] = $user->user_id;
+        $_SESSION['user_role'] = $user->role;
+       
         $_SESSION['staff_logged_in'] = true;
         $_SESSION['staff_user_id'] = $user->user_id;
         $_SESSION['staff_username'] = $user->email;
@@ -83,19 +86,19 @@ class StaffauthController extends Controller
         // Redirect according to role
         if ($user->role === 'veterinarian') {
 
-            $this->redirect('index.php?url=vet');
+            $this->redirect('vet');
             return;
         }
 
         if ($user->role === 'staff') {
 
-            $this->redirect('index.php?url=staff');
+            $this->redirect('staff');
             return;
         }
 
         if ($user->role === 'admin') {
 
-            $this->redirect('index.php?url=staff');
+            $this->redirect('admin');
             return;
         }
 

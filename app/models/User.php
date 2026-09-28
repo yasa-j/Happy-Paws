@@ -93,6 +93,7 @@ class User
                 email,
                 password,
                 phone_number,
+                role,
                 address,
                 status
             )
@@ -103,6 +104,7 @@ class User
                 :email,
                 :password,
                 :phone_number,
+                :role,
                 :address,
                 :status
             )"
@@ -120,6 +122,8 @@ class User
 
         $this->db->bind(':phone_number', $data['phone_number']);
         $this->db->bind(':address', $data['address']);
+
+        $this->db->bind(':role', $data['role'] ?? 'pet_owner');
 
         // Keep the account active after registration
         $this->db->bind(':status', 'Active');

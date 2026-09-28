@@ -64,6 +64,15 @@ class AdminController extends Controller {
         $this->view('admin/admin', $data);
     }
 
+    public function dashboard()
+{
+    $data = [
+        'title' => 'Admin Dashboard'
+    ];
+
+    $this->view('admin/dashboard', $data);
+}
+
     public function index(){
 
         $staffList = $this->adminModel->getStaffList();
