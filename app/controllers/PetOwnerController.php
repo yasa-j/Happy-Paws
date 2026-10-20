@@ -27,6 +27,8 @@ class PetOwnerController extends Controller
         $this->vetScheduleModel = $this->model('VetSchedule');
         // Load the Health Record model
         $this->healthRecordModel = $this->model('HealthRecord');
+        // Load the Notification model
+        $this->notificationModel = $this->model('Notification');
     }
     /*
      * Pet Owner Dashboard
@@ -157,6 +159,160 @@ class PetOwnerController extends Controller
 
         $this->view('petowner/dashboard', $data);
     }
+
+
+    /*
+    * Pet Owner Notifications
+    */
+    public function notifications()
+    {
+        // Get the logged-in pet owner's ID
+        $userId = (int) $_SESSION['user_id'];
+
+        $userName = $_SESSION['user_name'] ?? 'Pet Owner';
+
+        // Determine the selected tab
+        $tab = $_GET['tab'] ?? 'inbox';
+
+        if (!in_array($tab, ['inbox', 'history'], true)) {
+            $tab = 'inbox';
+        }
+
+        // Allowed notification categories
+        $allowedTypes = [
+            'appointment',
+            'vaccination',
+            'reserved_product',
+            'clinic_notice'
+        ];
+
+        // Validate the selected category
+        $type = $_GET['type'] ?? '';
+
+        if (!in_array($type, $allowedTypes, true)) {
+            $type = '';
+        }
+
+        // Load the selected inbox or history records
+        $isArchived = ($tab === 'history');
+
+        $notifications = $this->notificationModel
+            ->getNotificationsByUser(
+                $userId,
+                $isArchived,
+                $type !== '' ? $type : null
+            );
+
+        // Retrieve notification counts
+        $unreadCount = $this->notificationModel
+            ->getUnreadCount($userId);
+
+        $historyCount = $this->notificationModel
+            ->getHistoryCount($userId);
+
+        // Retrieve unread counts by category
+        $categoryCounts = [];
+
+        foreach ($allowedTypes as $notificationType) {
+            $categoryCounts[$notificationType] =
+                $this->notificationModel
+                    ->getUnreadCountByType(
+                        $userId,
+                        $notificationType
+                    );
+        }
+
+        // Data passed to the view
+        $data = [
+            'activePage' => 'notifications',
+            'userName' => $userName,
+            'tab' => $tab,
+            'type' => $type,
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
+            'historyCount' => $historyCount,
+            'categoryCounts' => $categoryCounts
+        ];
+
+        // Load the Notifications page
+        $this->view('petowner/notifications', $data);
+
+    }
+
+    /*
+    * Mark one notification as read
+    */
+    public function markNotificationRead()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('petowner/notifications');
+            return;
+        }
+
+        $userId = (int) $_SESSION['user_id'];
+
+        $notificationId = filter_input(
+            INPUT_POST,
+            'notification_id',
+            FILTER_VALIDATE_INT
+        );
+
+        if ($notificationId && $notificationId > 0) {
+            $this->notificationModel->markAsRead(
+                $notificationId,
+                $userId
+            );
+        }
+
+        $this->redirect('petowner/notifications');
+    }
+
+    /*
+    * Mark all inbox notifications as read
+    */
+    public function markAllNotificationsRead()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('petowner/notifications');
+            return;
+        }
+
+        $userId = (int) $_SESSION['user_id'];
+
+        $this->notificationModel
+            ->markAllAsRead($userId);
+
+        $this->redirect('petowner/notifications');
+    }
+
+    /*
+    * Archive a notification
+    */
+    public function archiveNotification()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('petowner/notifications');
+            return;
+        }
+
+        $userId = (int) $_SESSION['user_id'];
+
+        $notificationId = filter_input(
+            INPUT_POST,
+            'notification_id',
+            FILTER_VALIDATE_INT
+        );
+
+        if ($notificationId && $notificationId > 0) {
+            $this->notificationModel->archiveNotification(
+                $notificationId,
+                $userId
+            );
+        }
+
+        $this->redirect('petowner/notifications');
+    }
+
 
 
 
@@ -382,7 +538,7 @@ class PetOwnerController extends Controller
         unset($_SESSION['registered_pet_id']);
 
         $data = [
-            'activePage' => 'pets',
+            'activePage' => 'register-pet',
 
             'petSuccess' => $petSuccess,
 

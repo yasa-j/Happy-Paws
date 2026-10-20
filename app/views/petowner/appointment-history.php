@@ -954,6 +954,7 @@ $pageTitle = $data['pageTitle'] ?? 'Appointment History';
 
 <!-- Appointment History JavaScript -->
 <script src="<?php echo URLROOT; ?>/js/petowner-appointment-history.js"></script>
+<script src="<?php echo URLROOT; ?>/js/petowner.js"></script>
 
 </body>
 </html>

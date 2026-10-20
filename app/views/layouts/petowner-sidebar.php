@@ -201,9 +201,9 @@ $activePage = $activePage ?? '';
 
 
         <!-- ================= HEALTH RECORDS ================= -->
-
+        <!-- DEBUG: activePage = <?php echo htmlspecialchars((string)($activePage ?? 'NOT SET')); ?> -->
         <a href="<?php echo URLROOT; ?>/petowner/healthRecords"
-           class="sidebar-link
+           class="sidebar-link 
            <?php echo ($activePage == 'health-records') ? 'active' : ''; ?>">
 
             <span class="sidebar-icon">

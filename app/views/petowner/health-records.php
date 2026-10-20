@@ -1,5 +1,5 @@
 <?php
-$activePage = 'health';
+$activePage = 'health-records';
 ?>
 
 <link rel="stylesheet" href="<?= URLROOT ?>/public/css/petowner.css">
@@ -8,8 +8,6 @@ $activePage = 'health';
 <link rel="stylesheet" href="<?= URLROOT ?>/public/css/petowner-health-records.css">
 
 <?php require_once APPROOT . '/views/layouts/petowner-sidebar.php'; ?>
-
-<link rel="stylesheet" href="<?= URLROOT ?>/public/css/petowner-health-records.css">
 
 <div class="health-records-page">
 
@@ -725,3 +723,4 @@ $activePage = 'health';
 </div>
 
 <script src="<?= URLROOT ?>/public/js/petowner-health-records.js"></script>
+<script src="<?php echo URLROOT; ?>/js/petowner.js"></script>
