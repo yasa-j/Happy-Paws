@@ -2,18 +2,20 @@
    HAPPY PAWS
    UPCOMING APPOINTMENTS
    ========================================================= */
-
+.body{
+    font-family: Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
 
 /* ---------------------------------------------------------
    PAGE VARIABLES
    --------------------------------------------------------- */
 
 .upcoming-main {
-    margin-left: 245px;
+    margin-left: 230px;
     min-height: 100vh;
-    width: calc(100% - 245px);
+    width: calc(100% - 230px);
     box-sizing: border-box;
-
+    font-family: Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     background: #f7f9fb;
     overflow-x: hidden;
 }

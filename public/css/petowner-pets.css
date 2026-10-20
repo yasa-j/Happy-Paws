@@ -2,6 +2,9 @@
    HAPPY PAWS - MY PETS PAGE
    ========================================================= */
 
+.petowner-layout{
+    font-family: Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
 .pets-page {
     padding: 28px 24px 50px;
 }
