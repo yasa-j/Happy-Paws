@@ -118,3 +118,44 @@ function togglePassword(inputId, button) {
         );
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const phoneInput = document.getElementById('phone_number');
+
+    if (phoneInput && phoneInput.classList.contains('auth-input-error')) {
+        phoneInput.focus();
+        phoneInput.select();
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const phoneInput = document.getElementById('phone_number');
+
+    if (!phoneInput) return;
+
+    const phoneWrapper = phoneInput.closest('.phone-wrapper');
+    const errorMessage = phoneWrapper
+        ? phoneWrapper.parentElement.querySelector('.field-error')
+        : null;
+
+    function validatePhoneNumber() {
+        // Sri Lankan mobile number: exactly 9 digits after +94
+        const digits = phoneInput.value.replace(/\s/g, '');
+        const isValid = /^[0-9]{9}$/.test(digits);
+
+        if (isValid) {
+            phoneInput.classList.remove('auth-input-error');
+
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        } else if (phoneInput.classList.contains('auth-input-error')) {
+            if (errorMessage) {
+                errorMessage.style.display = 'block';
+            }
+        }
+    }
+
+    phoneInput.addEventListener('input', validatePhoneNumber);
+});

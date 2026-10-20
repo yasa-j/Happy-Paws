@@ -567,3 +567,33 @@
         min-height: 100px;
     }
 }
+
+
+
+/* Error message below the input */
+
+/* Keep the error border aligned with the complete phone field */
+.phone-wrapper {
+    border-radius: 22px;
+}
+
+/* Remove separate borders and apply one continuous red outline */
+.phone-wrapper:has(input.auth-input-error) {
+    outline: 2px solid #dc2626;
+    outline-offset: -2px;
+}
+
+/* Remove the input's separate red border */
+.phone-wrapper input.auth-input-error {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Keep the country code section clean */
+.phone-wrapper:has(input.auth-input-error) .country-code {
+    border: none !important;
+}
+
+
+

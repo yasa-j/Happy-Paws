@@ -165,13 +165,15 @@
 
                         </div>
 
+                        
                         <input
                             type="tel"
                             id="phone_number"
                             name="phone_number"
                             placeholder="77 123 4567"
-                            value="<?php echo htmlspecialchars($data['phone_number']); ?>"
+                            value="<?php echo htmlspecialchars($data['phone_number'] ?? ''); ?>"
                             maxlength="9"
+                            class="<?php echo !empty($data['phone_err']) ? 'auth-input-error' : ''; ?>"
                             required
                         >
 
@@ -181,7 +183,7 @@
                     <?php if (!empty($data['phone_err'])): ?>
 
                         <small class="field-error">
-                            <?php echo $data['phone_err']; ?>
+                            <?php echo htmlspecialchars($data['phone_err']); ?>
                         </small>
 
                     <?php endif; ?>
@@ -191,7 +193,7 @@
                 <div class="form-group">
 
                     <label for="address">
-                        Address
+                        Address (Optional)
                     </label>
 
                     <div class="address-wrapper">

@@ -246,6 +246,79 @@ class Appointment
         return $this->db->resultSet();
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Next Upcoming Appointment For A Specific Pet
+    |--------------------------------------------------------------------------
+    |
+    | Retrieves the next upcoming appointment for a selected pet.
+    | The appointment must belong to the logged-in owner.
+    | Cancelled and past appointments are excluded.
+    |
+    */
+
+    public function getNextAppointmentForPet($petId, $userId)
+    {
+        $this->db->query(
+            "SELECT
+                a.appointment_id,
+                a.pet_id,
+                a.vet_id,
+                a.service_id,
+                a.appointment_date,
+                a.appointment_time,
+                a.status,
+                a.reason,
+
+                p.name AS pet_name,
+                p.species,
+                p.breed,
+
+                CONCAT(u.first_name, ' ', u.last_name) AS vet_name,
+
+                s.name AS service_name,
+                s.description AS service_description,
+                s.duration_minutes
+
+            FROM appointments a
+
+            INNER JOIN pets p
+                ON a.pet_id = p.pet_id
+
+            LEFT JOIN users u
+                ON a.vet_id = u.user_id
+
+            LEFT JOIN services s
+                ON a.service_id = s.service_id
+
+            WHERE a.pet_id = :pet_id
+                AND a.user_id = :user_id
+                AND a.status != 'Cancelled'
+
+                AND (
+                    a.appointment_date > CURDATE()
+
+                    OR (
+                        a.appointment_date = CURDATE()
+                        AND a.appointment_time >= CURTIME()
+                    )
+                )
+
+            ORDER BY
+                a.appointment_date ASC,
+                a.appointment_time ASC
+
+            LIMIT 1"
+        );
+
+        $this->db->bind(':pet_id', $petId);
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->single();
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | Get Single Appointment For User

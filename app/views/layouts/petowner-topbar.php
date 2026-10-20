@@ -22,7 +22,7 @@ $initials = substr($initials, 0, 2);
     <!-- Search -->
     <div class="dashboard-search">
 
-        <img src="<?php echo URLROOT; ?>/Assets/search.png"
+        <img src="<?php echo URLROOT; ?>/Assets/magnifying-glass.png"
              alt="Search"
              class="search-icon">
 
@@ -62,9 +62,7 @@ $initials = substr($initials, 0, 2);
                 <?php echo htmlspecialchars($initials); ?>
             </div>
 
-            <span class="user-arrow">
-                ▾
-            </span>
+           
 
         </a>
 

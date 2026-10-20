@@ -31,15 +31,17 @@ class PetOwnerController extends Controller
     /*
      * Pet Owner Dashboard
      */
+    
     public function dashboard()
     {
-        // Get the logged-in user's name from the session
+        // Logged-in owner
+        $userId = (int) $_SESSION['user_id'];
+
         $userName = $_SESSION['user_name'] ?? 'Pet Owner';
 
-        // Get the current hour
-        $hour = date('H');
+        // Greeting based on current time
+        $hour = (int) date('H');
 
-        // Set greeting according to the time of day
         if ($hour >= 5 && $hour < 12) {
             $greeting = 'Good Morning,';
         } elseif ($hour >= 12 && $hour < 17) {
@@ -48,24 +50,114 @@ class PetOwnerController extends Controller
             $greeting = 'Good Evening,';
         }
 
+        // Retrieve only this owner's registered pets
+        $pets = $this->petModel->getPetsByOwner($userId);
+
+        // Retrieve appointments belonging to this owner
+        $allUpcomingAppointments =
+            $this->appointmentModel->getUpcomingAppointments($userId);
+
+        // Calculate the number of upcoming appointments
+        $upcomingAppointmentCount = count($allUpcomingAppointments);
+
+        // Default selected pet
+        $selectedPet = null;
+
+        // Find the requested pet in the owner's registered pets.
+        // Never trust a pet ID supplied through the URL by itself.
+        $requestedPetId = isset($_GET['pet_id'])
+            ? (int) $_GET['pet_id']
+            : 0;
+
+        if (!empty($pets)) {
+            if ($requestedPetId > 0) {
+                foreach ($pets as $pet) {
+                    if ((int) $pet->pet_id === $requestedPetId) {
+                        $selectedPet = $pet;
+                        break;
+                    }
+                }
+            }
+
+            // Default to the owner's first registered pet
+            if ($selectedPet === null) {
+                $selectedPet = $pets[0];
+            }
+        }
+
+        // Default values for pet-specific information
+        $petHealthSummary = null;
+        $vaccinations = [];
+        $medicalHistory = [];
+        $nextAppointment = null;
+
+        // Dashboard statistics
+        $petCount = count($pets);
+        $vaccinationsDue = 0;
+
+        // Count vaccination records that are overdue or due
+        // within the next 30 days, across this owner's pets.
+        $today = date('Y-m-d');
+        $cutoffDate = date('Y-m-d', strtotime('+30 days'));
+
+        foreach ($pets as $pet) {
+            $petVaccinations = $this->healthRecordModel
+                ->getVaccinations($pet->pet_id, $userId);
+
+            foreach ($petVaccinations as $vaccination) {
+                if (
+                    !empty($vaccination->next_due_date)
+                    && $vaccination->next_due_date <= $cutoffDate
+                ) {
+                    $vaccinationsDue++;
+                }
+            }
+        }
+
+        // Load the selected pet's actual records
+        if ($selectedPet !== null) {
+            $selectedPetId = (int) $selectedPet->pet_id;
+
+            $petHealthSummary = $this->healthRecordModel
+                ->getPetHealthSummary($selectedPetId, $userId);
+
+            $vaccinations = $this->healthRecordModel
+                ->getVaccinations($selectedPetId, $userId);
+
+            $medicalHistory = $this->healthRecordModel
+                ->getMedicalHistory($selectedPetId, $userId);
+
+            $nextAppointment = $this->appointmentModel
+                ->getNextAppointmentForPet($selectedPetId, $userId);
+        }
+
+        // Notifications are not implemented yet, so do not invent a count.
+        $newNotifications = 0;
+
         $data = [
             'activePage' => 'dashboard',
-
-            // Dynamic logged-in user's name
             'userName' => $userName,
-
-            // Dynamic greeting
             'greeting' => $greeting,
 
-            // Dashboard values for now
-            'petCount' => 2,
-            'upcomingAppointments' => 1,
-            'vaccinationsDue' => 1,
-            'newNotifications' => 3
+            // Database-driven statistics
+            'petCount' => $petCount,
+            'upcomingAppointments' => $upcomingAppointmentCount,
+            'vaccinationsDue' => $vaccinationsDue,
+            'newNotifications' => $newNotifications,
+
+            // Actual pet and appointment data
+            'pets' => $pets,
+            'selectedPet' => $selectedPet,
+            'petHealthSummary' => $petHealthSummary,
+            'vaccinations' => $vaccinations,
+            'medicalHistory' => $medicalHistory,
+            'nextAppointment' => $nextAppointment,
+            'allUpcomingAppointments' => $allUpcomingAppointments
         ];
 
         $this->view('petowner/dashboard', $data);
     }
+
 
 
     /*

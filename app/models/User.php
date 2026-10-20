@@ -85,7 +85,12 @@ class User {
         );
 
         $this->db->bind(':phone_number', $data['phone_number']);
-        $this->db->bind(':address', $data['address']);
+        $this->db->bind(
+            ':address',
+            trim($data['address'] ?? '') === ''
+                ? null
+                : trim($data['address'])
+        );
 
         if ($this->db->execute()) {
             return $this->db->lastInsertId();

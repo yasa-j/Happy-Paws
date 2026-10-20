@@ -139,7 +139,7 @@ if (!empty($nextAppointment)) {
 <body>
 
 
-<div class="petowner-layout">
+
 
 
     <!-- =====================================================
@@ -1579,7 +1579,7 @@ if (!empty($nextAppointment)) {
     </main>
 
 
-</div>
+
 
 
 

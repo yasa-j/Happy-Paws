@@ -199,11 +199,11 @@ class AuthController extends Controller {
 
 
             // Address validation
-            if (empty($data['address'])) {
+            /*if (empty($data['address'])) {
 
                 $data['address_err'] =
                     'Please enter your address.';
-            }
+            }*/
 
 
             // Password validation
@@ -256,7 +256,7 @@ class AuthController extends Controller {
                 empty($data['last_name_err']) &&
                 empty($data['email_err']) &&
                 empty($data['phone_err']) &&
-                empty($data['address_err']) &&
+                //empty($data['address_err']) &&
                 empty($data['password_err']) &&
                 empty($data['confirm_password_err']) &&
                 empty($data['terms_err'])
