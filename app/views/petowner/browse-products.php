@@ -32,6 +32,10 @@ $categoryTabs = array_slice($categories, 0, 7);
 
     <link rel="stylesheet"
           href="<?php echo URLROOT; ?>/css/browse-products.css">
+    
+    <link rel="stylesheet"
+      href="<?php echo URLROOT; ?>/css/browse-products-modal.css">
+
 </head>
 
 <body>
@@ -237,7 +241,20 @@ $categoryTabs = array_slice($categories, 0, 7);
                             $product->status === 'In Stock';
                         ?>
 
-                        <article class="product-card">
+                        <article
+                            class="product-card product-quick-view-trigger"
+                            tabindex="0"
+                            role="button"
+                            aria-label="View details for <?php echo $escape($product->name); ?>"
+                            data-product-id="<?php echo (int)$product->product_id; ?>"
+                            data-name="<?php echo $escape($product->name); ?>"
+                            data-description="<?php echo $escape($product->description); ?>"
+                            data-category="<?php echo $escape($product->category_name); ?>"
+                            data-price="<?php echo number_format((float)$product->price, 2, '.', ''); ?>"
+                            data-image="<?php echo $escape($imagePath); ?>"
+                            data-stock="<?php echo $stock; ?>"
+                            data-available="<?php echo $available ? '1' : '0'; ?>"
+                        >
 
                             <div class="product-image-area">
 
@@ -365,6 +382,95 @@ $categoryTabs = array_slice($categories, 0, 7);
 
             </section>
 
+            <!-- Product Quick View Modal -->
+            <div
+                class="product-modal-overlay"
+                id="productQuickView"
+                aria-hidden="true"
+            >
+                <div
+                    class="product-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="quickViewName"
+                >
+                    <button
+                        type="button"
+                        class="product-modal-close"
+                        id="closeProductModal"
+                        aria-label="Close product details"
+                    >&times;</button>
+
+                    <div class="product-modal-image-wrap">
+                        <img id="quickViewImage" src="" alt="">
+                        <div id="quickViewImageFallback" class="quick-image-fallback">
+                            🐾 Happy Paws
+                        </div>
+                    </div>
+
+                    <div class="product-modal-details">
+                        <span id="quickViewCategory" class="quick-view-category"></span>
+
+                        <h2 id="quickViewName"></h2>
+
+                        <p id="quickViewDescription"></p>
+
+                        <div id="quickViewStock" class="quick-view-stock"></div>
+
+                        <div class="quick-view-price">
+                            <span>CLINIC PRICE</span>
+                            <strong id="quickViewPrice"></strong>
+                        </div>
+
+                        <label for="quickViewQuantity">Quantity</label>
+                        <div class="quick-quantity-control">
+                            <button type="button" id="quantityMinus" aria-label="Decrease quantity">−</button>
+                            <input
+                                type="number"
+                                id="quickViewQuantity"
+                                value="1"
+                                min="1"
+                                max="1"
+                                inputmode="numeric"
+                            >
+                            <button type="button" id="quantityPlus" aria-label="Increase quantity">+</button>
+                        </div>
+
+                        <div class="quick-view-actions">
+                            <form
+                                method="POST"
+                                action="<?php echo URLROOT; ?>/petowner/addProductToCart"
+                                id="quickAddToCartForm"
+                            >
+                                <input type="hidden" name="product_id" id="cartProductId">
+                                <input type="hidden" name="quantity" id="cartQuantity" value="1">
+
+                                <button type="submit" id="quickAddToCart" class="quick-cart-button">
+                                    🛒 Add to Cart
+                                </button>
+                            </form>
+
+                            <form
+                                method="POST"
+                                action="<?php echo URLROOT; ?>/petowner/reserveProduct"
+                                id="quickReserveForm"
+                            >
+                                <input type="hidden" name="product_id" id="reserveProductId">
+                                <input type="hidden" name="quantity" id="reserveQuantity" value="1">
+
+                                <button type="submit" id="quickReserve" class="quick-reserve-button">
+                                    Reserve Product
+                                </button>
+                            </form>
+                        </div>
+
+                        <p class="quick-view-note">
+                            Reserved products are collected at the Happy Paws clinic.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Pickup policy -->
             <footer class="store-footer">
                 All reserved products are kept safely at the Happy Paws
@@ -379,6 +485,7 @@ $categoryTabs = array_slice($categories, 0, 7);
     
     <script src="<?php echo URLROOT; ?>/js/petowner.js"></script>
     <script src="<?php echo URLROOT; ?>/js/browse-products.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/browse-products-modal.js"></script>
 
 </body>
 </html>
