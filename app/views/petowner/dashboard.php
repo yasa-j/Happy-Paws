@@ -221,54 +221,237 @@ $careTimeline = array_slice($careTimeline, 0, 5);
                 <?php endif; ?>
             </section>
 
-            <!-- Summary statistics -->
-            <section class="hp-stat-grid" aria-label="Dashboard statistics">
+            
+            
+            <!-- Dashboard Summary Cards -->
+            <div class="hp-stat-grid">
 
-                <article class="hp-stat-card">
-                    <div class="hp-stat-icon hp-icon-teal">
-                        <img src="<?php echo URLROOT; ?>/Assets/myPets.png" alt="Pet health">
-                    </div>
-                    <div>
-                        <p>Registered pets</p>
-                        <strong><?php echo $petCount; ?></strong>
-                        <span>Your registered companions</span>
-                    </div>
-                </article>
+                <!-- 1. REGISTERED PETS -->
+                <div class="hp-stat-card hp-stat-card-pets">
 
-                <article class="hp-stat-card">
-                    <div class="hp-stat-icon hp-icon-blue">
-                        <img src="<?php echo URLROOT; ?>/Assets/upcoming.png" alt="Upcoming Appointments">
+                    <div class="hp-stat-icon">
+                        <img src="<?php echo URLROOT; ?>/Assets/myPets.png"
+                            alt="Pets">
                     </div>
-                    <div>
-                        <p>Upcoming appointments</p>
-                        <strong><?php echo $upcomingAppointments; ?></strong>
-                        <span>Scheduled visits</span>
-                    </div>
-                </article>
 
-                <article class="hp-stat-card">
-                    <div class="hp-stat-icon hp-icon-amber">
-                        <img src="<?php echo URLROOT; ?>/Assets/vaccine1.png" alt="Vaccinations">
+                    <div class="hp-stat-content">
+                        <p>Registered Pets</p>
+
+                        <strong><?php echo (int) ($petCount ?? 0); ?></strong>
+
+                        <span>
+                            <?php echo (int) ($dogCount ?? 0); ?> dogs
+                            &middot;
+                            <?php echo (int) ($catCount ?? 0); ?> cats
+                        </span>
                     </div>
-                    <div>
+
+                    <!-- Chart is outside the text content -->
+                    <div
+                        class="hp-donut-chart"
+                        role="img"
+                        aria-label="Pet species distribution"
+                        style="
+                            --dog-count: <?php echo (int) ($dogCount ?? 0); ?>;
+                            --cat-count: <?php echo (int) ($catCount ?? 0); ?>;
+                            --pet-total: <?php echo max(1, (int) ($petCount ?? 0)); ?>;
+                        "
+                    >
+                        <div class="hp-donut-center">
+                            <span><?php echo (int) ($petCount ?? 0); ?></span>
+                        </div>
+                    </div>
+
+                    <!-- Dog and Cat Color Legend -->
+                    <div class="hp-pet-legend">
+                        <div class="hp-pet-legend-item">
+                            <span class="hp-pet-legend-dot dog"></span>
+                            <span>Dogs</span>
+                        </div>
+
+                        <div class="hp-pet-legend-item">
+                            <span class="hp-pet-legend-dot cat"></span>
+                            <span>Cats</span>
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+
+                <!-- 2. UPCOMING APPOINTMENTS -->
+                <div class="hp-stat-card hp-stat-card-appointments">
+
+                    <div class="hp-stat-icon">
+                        <img src="<?php echo URLROOT; ?>/Assets/upcoming.png"
+                            alt="Appointments">
+                    </div>
+
+                    <div class="hp-stat-content">
+                        <p>Upcoming Appointments</p>
+
+                        <strong>
+                            <?php echo (int) ($upcomingAppointments ?? 0); ?>
+                        </strong>
+
+                        <span>Next 7 days</span>
+                    </div>
+
+                    <!-- Chart is outside the text content -->
+                    <div class="hp-weekly-chart"
+                        role="img"
+                        aria-label="Appointments over the next seven days">
+
+                        <?php
+                        $dailyCounts = $appointmentDailyCounts ?? [];
+
+                        $maxDailyAppointments = 0;
+
+                        foreach ($dailyCounts as $dayData) {
+                            $maxDailyAppointments = max(
+                                $maxDailyAppointments,
+                                (int) ($dayData['count'] ?? 0)
+                            );
+                        }
+                        ?>
+
+                        <?php foreach ($dailyCounts as $day): ?>
+                            <?php
+                            $dayCount = (int) ($day['count'] ?? 0);
+
+                            // Scale bars relative to the busiest day.
+                            $barHeight = $maxDailyAppointments > 0
+                                ? ($dayCount / $maxDailyAppointments) * 62
+                                : 0;
+                            ?>
+
+                            <div class="hp-weekly-chart-column">
+
+                                <div class="hp-weekly-chart-bar-wrap">
+                                    <div
+                                        class="hp-weekly-chart-bar"
+                                        style="--bar-height: <?php echo $barHeight; ?>px;"
+                                        title="<?php echo $dayCount; ?> appointments"
+                                    ></div>
+                                </div>
+
+                                <span>
+                                    <?php echo htmlspecialchars($day['label'] ?? ''); ?>
+                                </span>
+
+                            </div>
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 3. VACCINATION ATTENTION -->
+                <div class="hp-stat-card hp-stat-card-vaccinations">
+
+                    <div class="hp-stat-icon">
+                        <img src="<?php echo URLROOT; ?>/Assets/vaccine1.png"
+                            alt="Vaccinations">
+                    </div>
+
+                    <div class="hp-stat-content">
                         <p>Vaccination Attention</p>
-                        <strong><?php echo $vaccinationsDue; ?></strong>
-                        <span>Overdue or due within 30 days</span>
-                    </div>
-                </article>
 
-                <article class="hp-stat-card">
-                    <div class="hp-stat-icon hp-icon-purple">
-                        <img src="<?php echo URLROOT; ?>/Assets/notification.png" alt="Upcoming Appointments">
-                    </div>
-                    <div>
-                        <p>Notifications</p>
-                        <strong>—</strong>
-                        <span>Notification feature coming soon</span>
-                    </div>
-                </article>
+                        <strong>
+                            <?php echo (int) ($vaccinationsDue ?? 0); ?>
+                        </strong>
 
-            </section>
+                        <span>Require attention</span>
+                    </div>
+
+                    <?php
+                    $overdueCount = (int) ($overdueVaccinations ?? 0);
+                    $dueSoonCount = (int) ($vaccinationsDueSoon ?? 0);
+                    $vaccinationTotal = $overdueCount + $dueSoonCount;
+
+                    $overduePercentage = $vaccinationTotal > 0
+                        ? ($overdueCount / $vaccinationTotal) * 100
+                        : 0;
+                    ?>
+
+                    <!-- Gauge is outside the text content -->
+                    <div class="hp-vaccine-gauge"
+                        role="img"
+                        aria-label="<?php echo $overdueCount; ?> overdue, <?php echo $dueSoonCount; ?> due soon">
+
+                        <div class="hp-vaccine-gauge-track">
+                            <div
+                                class="hp-vaccine-gauge-fill"
+                                style="width: <?php echo $overduePercentage; ?>%;"
+                            ></div>
+                        </div>
+
+                        <div class="hp-vaccine-legend">
+                            <span>
+                                <i class="hp-vaccine-dot hp-vaccine-dot-overdue"></i>
+                                Overdue: <?php echo $overdueCount; ?>
+                            </span>
+
+                            <span>
+                                <i class="hp-vaccine-dot hp-vaccine-dot-soon"></i>
+                                Due soon: <?php echo $dueSoonCount; ?>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 4. UNREAD NOTIFICATIONS -->
+                <div class="hp-stat-card hp-stat-card-notifications">
+
+                    <div class="hp-stat-icon">
+                        <img src="<?php echo URLROOT; ?>/Assets/notification.png"
+                            alt="Notifications">
+                    </div>
+
+                    <div class="hp-stat-content">
+                        <p>Unread Notifications</p>
+
+                        <strong>
+                            <?php echo (int) ($newNotifications ?? 0); ?>
+                        </strong>
+
+                        <span>In your inbox</span>
+                    </div>
+
+                    <!-- Breakdown is outside the text content -->
+                    <div class="hp-notification-breakdown">
+
+                        <?php if (!empty($notificationBreakdown)): ?>
+
+                            <?php foreach ($notificationBreakdown as $type => $count): ?>
+                                <div class="hp-notification-category">
+                                    <span>
+                                        <?php echo htmlspecialchars((string) $type); ?>
+                                    </span>
+
+                                    <strong><?php echo (int) $count; ?></strong>
+                                </div>
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <span class="hp-no-notifications">
+                                You're all caught up!
+                            </span>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
 
             <?php if (empty($pets)): ?>
 

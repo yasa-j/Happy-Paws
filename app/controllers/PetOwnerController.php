@@ -30,15 +30,15 @@ class PetOwnerController extends Controller
         // Load the Notification model
         $this->notificationModel = $this->model('Notification');
     }
-    /*
-     * Pet Owner Dashboard
-     */
     
+    /*
+    * Pet Owner Dashboard
+    */
+
     public function dashboard()
     {
         // Logged-in owner
         $userId = (int) $_SESSION['user_id'];
-
         $userName = $_SESSION['user_name'] ?? 'Pet Owner';
 
         // Greeting based on current time
@@ -52,21 +52,153 @@ class PetOwnerController extends Controller
             $greeting = 'Good Evening,';
         }
 
-        // Retrieve only this owner's registered pets
+        /*
+        * 1. REGISTERED PETS
+        */
+
+        // Retrieve only this owner's pets
         $pets = $this->petModel->getPetsByOwner($userId);
 
-        // Retrieve appointments belonging to this owner
+        $petCount = count($pets);
+        $dogCount = 0;
+        $catCount = 0;
+
+        foreach ($pets as $pet) {
+            $species = strtolower(trim($pet->species ?? ''));
+
+            if ($species === 'dog') {
+                $dogCount++;
+            } elseif ($species === 'cat') {
+                $catCount++;
+            }
+        }
+
+        /*
+        * 2. UPCOMING APPOINTMENTS
+        */
+
+        // Existing model returns this owner's future,
+        // non-cancelled appointments in date/time order.
         $allUpcomingAppointments =
             $this->appointmentModel->getUpcomingAppointments($userId);
 
-        // Calculate the number of upcoming appointments
-        $upcomingAppointmentCount = count($allUpcomingAppointments);
+        // Include today and the following six calendar days.
+        $today = date('Y-m-d');
+        $sevenDayEnd = date('Y-m-d', strtotime('+6 days'));
 
-        // Default selected pet
+        $upcomingAppointmentCount = 0;
+
+        // Prepare seven daily totals for the bar chart.
+        $appointmentDailyCounts = [];
+
+        for ($i = 0; $i < 7; $i++) {
+            $day = date('Y-m-d', strtotime("+$i days"));
+
+            $appointmentDailyCounts[$day] = [
+                'date' => $day,
+                'label' => date('D', strtotime($day)),
+                'count' => 0
+            ];
+        }
+
+        foreach ($allUpcomingAppointments as $appointment) {
+            $appointmentDate = $appointment->appointment_date;
+
+            if (
+                $appointmentDate >= $today &&
+                $appointmentDate <= $sevenDayEnd
+            ) {
+                $upcomingAppointmentCount++;
+
+                if (isset($appointmentDailyCounts[$appointmentDate])) {
+                    $appointmentDailyCounts[$appointmentDate]['count']++;
+                }
+            }
+        }
+
+        // Keep the existing variable used by the dashboard.
+        $upcomingAppointments = $upcomingAppointmentCount;
+
+        /*
+        * 3. VACCINATION ATTENTION
+        */
+
+        $vaccinationsDue = 0;
+        $overdueVaccinations = 0;
+        $vaccinationsDueSoon = 0;
+
+        $today = date('Y-m-d');
+        $vaccinationCutoff = date('Y-m-d', strtotime('+30 days'));
+
+        foreach ($pets as $pet) {
+            $petVaccinations = $this->healthRecordModel
+                ->getVaccinations($pet->pet_id, $userId);
+
+            foreach ($petVaccinations as $vaccination) {
+                // Ignore records without a due date.
+                if (empty($vaccination->next_due_date)) {
+                    continue;
+                }
+
+                $dueDate = $vaccination->next_due_date;
+
+                if ($dueDate < $today) {
+                    // Due date has already passed.
+                    $overdueVaccinations++;
+                } elseif ($dueDate <= $vaccinationCutoff) {
+                    // Due today or within the next 30 days.
+                    $vaccinationsDueSoon++;
+                }
+            }
+        }
+
+        // Total records requiring vaccination attention.
+        $vaccinationsDue =
+            $overdueVaccinations + $vaccinationsDueSoon;
+
+        /*
+        * 4. NOTIFICATIONS
+        */
+
+        // Count actual unread notifications in this owner's inbox.
+        $newNotifications =
+            $this->notificationModel->getUnreadCount($userId);
+
+        // Get this owner's non-archived notifications.
+        $ownerNotifications =
+            $this->notificationModel->getNotificationsByUser(
+                $userId,
+                false
+            );
+
+        // Count unread notifications by their actual category.
+        $notificationBreakdown = [];
+
+        foreach ($ownerNotifications as $notification) {
+            if ((int) $notification->is_read !== 0) {
+                continue;
+            }
+
+            $type = trim($notification->notification_type ?? '');
+
+            if ($type === '') {
+                $type = 'Other';
+            }
+
+            if (!isset($notificationBreakdown[$type])) {
+                $notificationBreakdown[$type] = 0;
+            }
+
+            $notificationBreakdown[$type]++;
+        }
+
+        /*
+        * SELECTED PET
+        */
+
         $selectedPet = null;
 
-        // Find the requested pet in the owner's registered pets.
-        // Never trust a pet ID supplied through the URL by itself.
+        // Only select a pet if it belongs to this owner.
         $requestedPetId = isset($_GET['pet_id'])
             ? (int) $_GET['pet_id']
             : 0;
@@ -81,42 +213,21 @@ class PetOwnerController extends Controller
                 }
             }
 
-            // Default to the owner's first registered pet
+            // Default to the first registered pet.
             if ($selectedPet === null) {
                 $selectedPet = $pets[0];
             }
         }
 
-        // Default values for pet-specific information
+        /*
+        * SELECTED PET HEALTH INFORMATION
+        */
+
         $petHealthSummary = null;
         $vaccinations = [];
         $medicalHistory = [];
         $nextAppointment = null;
 
-        // Dashboard statistics
-        $petCount = count($pets);
-        $vaccinationsDue = 0;
-
-        // Count vaccination records that are overdue or due
-        // within the next 30 days, across this owner's pets.
-        $today = date('Y-m-d');
-        $cutoffDate = date('Y-m-d', strtotime('+30 days'));
-
-        foreach ($pets as $pet) {
-            $petVaccinations = $this->healthRecordModel
-                ->getVaccinations($pet->pet_id, $userId);
-
-            foreach ($petVaccinations as $vaccination) {
-                if (
-                    !empty($vaccination->next_due_date)
-                    && $vaccination->next_due_date <= $cutoffDate
-                ) {
-                    $vaccinationsDue++;
-                }
-            }
-        }
-
-        // Load the selected pet's actual records
         if ($selectedPet !== null) {
             $selectedPetId = (int) $selectedPet->pet_id;
 
@@ -133,21 +244,31 @@ class PetOwnerController extends Controller
                 ->getNextAppointmentForPet($selectedPetId, $userId);
         }
 
-        // Notifications are not implemented yet, so do not invent a count.
-        $newNotifications = 0;
+        /*
+        * SEND DATA TO DASHBOARD VIEW
+        */
 
         $data = [
             'activePage' => 'dashboard',
             'userName' => $userName,
             'greeting' => $greeting,
 
-            // Database-driven statistics
+            // Summary card values
             'petCount' => $petCount,
-            'upcomingAppointments' => $upcomingAppointmentCount,
-            'vaccinationsDue' => $vaccinationsDue,
-            'newNotifications' => $newNotifications,
+            'dogCount' => $dogCount,
+            'catCount' => $catCount,
 
-            // Actual pet and appointment data
+            'upcomingAppointments' => $upcomingAppointments,
+            'appointmentDailyCounts' => $appointmentDailyCounts,
+
+            'vaccinationsDue' => $vaccinationsDue,
+            'overdueVaccinations' => $overdueVaccinations,
+            'vaccinationsDueSoon' => $vaccinationsDueSoon,
+
+            'newNotifications' => $newNotifications,
+            'notificationBreakdown' => $notificationBreakdown,
+
+            // Existing dashboard information
             'pets' => $pets,
             'selectedPet' => $selectedPet,
             'petHealthSummary' => $petHealthSummary,

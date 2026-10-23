@@ -977,3 +977,447 @@
     margin-left: 0 !important;
     border-left: 0 !important;
 }
+
+
+/* =====================================================
+   DASHBOARD SUMMARY CARDS - ANALYTICS STYLE
+   ===================================================== */
+
+.hp-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+    align-items: stretch;
+}
+
+/* =====================================================
+   SUMMARY CARD CONTAINER
+   ===================================================== */
+
+.hp-stat-card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+
+    column-gap: 14px;
+    row-gap: 0;
+
+    min-width: 0;
+    min-height: 310px;
+    padding: 22px 18px;
+    overflow: hidden;
+
+    border: 1px solid #e6eeee;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 5px 18px rgba(28, 69, 69, 0.06);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hp-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(28, 69, 69, 0.10);
+}
+
+/* =====================================================
+   CARD ICONS - LEFT SIDE
+   ===================================================== */
+
+.hp-stat-card > .hp-stat-icon {
+    display: flex;
+    flex: 0 0 48px;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+    margin: 0;
+
+    border-radius: 14px;
+}
+
+.hp-stat-icon img {
+    display: block;
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+}
+
+.hp-stat-card-pets .hp-stat-icon {
+    background: #e0f5ed;
+}
+
+.hp-stat-card-appointments .hp-stat-icon {
+    background: #e5ecff;
+}
+
+.hp-stat-card-vaccinations .hp-stat-icon {
+    background: #fff0d8;
+}
+
+.hp-stat-card-notifications .hp-stat-icon {
+    background: #f0e7ff;
+}
+
+/* =====================================================
+   CARD TEXT - RIGHT SIDE OF ICON
+   ===================================================== */
+
+.hp-stat-card > .hp-stat-content {
+    display: flex;
+    flex: 1 1 calc(100% - 62px);   /* 100% minus icon (48px) and gap (14px) */
+    max-width: calc(100% - 62px);
+    flex-direction: column;
+    align-items: flex-start;
+
+    width: auto;
+    min-width: 0;
+    text-align: left;
+}
+
+.hp-stat-content > p {
+    width: 100%;
+    margin: 2px 0 10px;
+
+    color: #617477;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+    text-align: left;
+}
+
+.hp-stat-content > strong {
+    display: block;
+
+    color: #203238;
+    font-size: 34px;
+    font-weight: 750;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    text-align: left;
+}
+
+.hp-stat-content > span {
+    display: block;
+    margin-top: 8px;
+
+    color: #7b8b8e;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* =====================================================
+   FULL-WIDTH VISUALIZATION LAYOUT
+   Charts are direct children of .hp-stat-card.
+   They occupy a new row and center across the card.
+   ===================================================== */
+
+.hp-stat-card > .hp-donut-chart,
+.hp-stat-card > .hp-weekly-chart,
+.hp-stat-card > .hp-vaccine-gauge,
+.hp-stat-card > .hp-notification-breakdown {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+    margin-left: auto;     /* center within the row */
+    margin-right: auto;
+    align-self: auto;
+}
+
+/* =====================================================
+   1. REGISTERED PETS - DONUT CHART
+   ===================================================== */
+
+.hp-stat-card > .hp-donut-chart {
+    --dog-ratio: calc(var(--dog-count) / var(--pet-total) * 100%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 100px;       /* override the 100% basis from the shared rule */
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 1 / 1;
+    margin-top: 22px;
+    margin-bottom: 0;
+
+    border-radius: 50%;
+    background: conic-gradient(
+        #18a889 0 var(--dog-ratio),
+        #e7a94c var(--dog-ratio) 100%
+    );
+}
+
+.hp-donut-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.hp-donut-center span {
+    color: #203238;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Dog and Cat Legend */
+.hp-stat-card.hp-stat-card-pets > .hp-pet-legend {
+    flex: 0 0 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 14px 0 0;
+    padding: 0;
+    color: #7b8b8e;
+    font-size: 13px;
+}
+
+.hp-pet-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.hp-pet-legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    flex: 0 0 9px;
+    border-radius: 50%;
+}
+
+.hp-pet-legend-dot.dog {
+    background-color: #18a889;
+}
+
+.hp-pet-legend-dot.cat {
+    background-color: #e7a94c;
+}
+
+/* =====================================================
+   2. UPCOMING APPOINTMENTS - WEEKLY BAR CHART
+   ===================================================== */
+
+.hp-stat-card > .hp-weekly-chart {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+
+    gap: 7px;
+    width: 100%;
+    max-width: 280px;
+    height: 100px;
+    margin-top: 66px;
+}
+
+.hp-weekly-chart-column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.hp-weekly-chart-bar-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    width: 100%;
+    height: 72px;
+    border-bottom: 1px solid #e7eded;
+}
+
+.hp-weekly-chart-bar {
+    width: min(24px, 80%);
+    height: var(--bar-height, 0px);
+    max-height: 62px;
+    min-height: 0;
+
+    border-radius: 5px 5px 2px 2px;
+    background: linear-gradient(180deg, #7e9bfa, #4269cb);
+}
+
+.hp-weekly-chart-column > span {
+    margin-top: 8px;
+    color: #879396;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* =====================================================
+   3. VACCINATION ATTENTION - GAUGE
+   ===================================================== */
+
+.hp-stat-card > .hp-vaccine-gauge {
+    width: 100%;
+    max-width: 280px;
+    margin-top: 46px;
+}
+
+.hp-vaccine-gauge-track {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+
+    border-radius: 99px;
+    background: #f4e8d5;
+}
+
+.hp-vaccine-gauge-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: #d86e53;
+    transition: width 0.3s ease;
+}
+
+.hp-vaccine-legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.hp-vaccine-legend span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #68797c;
+    font-size: 12px;
+    text-align: left;
+}
+
+.hp-vaccine-dot {
+    display: inline-block;
+    flex: 0 0 8px;
+
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.hp-vaccine-dot-overdue {
+    background: #d86e53;
+}
+
+.hp-vaccine-dot-soon {
+    background: #e5ad4e;
+}
+
+/* =====================================================
+   4. NOTIFICATIONS - CATEGORY BREAKDOWN
+   ===================================================== */
+
+.hp-stat-card > .hp-notification-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 100%;
+    max-width: 280px;
+    margin-top: 20px;
+}
+
+.hp-notification-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    width: 100%;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #f0edf6;
+}
+
+.hp-notification-category > span {
+    min-width: 0;
+    overflow: hidden;
+
+    color: #68797c;
+    font-size: 12px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hp-notification-category > strong {
+    flex-shrink: 0;
+    color: #8056c7;
+    font-size: 13px;
+}
+
+.hp-stat-card > .hp-notification-breakdown > .hp-no-notifications {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+
+    color: #25846d;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* =====================================================
+   RESPONSIVE LAYOUT
+   ===================================================== */
+
+@media (max-width: 1200px) {
+    .hp-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .hp-stat-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .hp-stat-card {
+        min-height: 280px;
+        padding: 20px 16px;
+        column-gap: 12px;
+    }
+
+    .hp-stat-card > .hp-stat-icon {
+        flex-basis: 44px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .hp-stat-content > strong {
+        font-size: 30px;
+    }
+
+    .hp-stat-card > .hp-donut-chart {
+        width: 90px;
+        height: 90px;
+    }
+
+    .hp-donut-center {
+        width: 62px;
+        height: 62px;
+    }
+
+    .hp-stat-card > .hp-weekly-chart,
+    .hp-stat-card > .hp-vaccine-gauge,
+    .hp-stat-card > .hp-notification-breakdown {
+        max-width: 280px;
+    }
+}
+
