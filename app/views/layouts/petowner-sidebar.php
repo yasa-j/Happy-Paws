@@ -230,8 +230,8 @@ $activePage = $activePage ?? '';
 
             $storeActive =
                 ($activePage == 'store' ||
-                 $activePage == 'cart' ||
-                 $activePage == 'orders');
+                 $activePage == 'reserved' ||
+                 $activePage == 'purchased');
 
             ?>
 
@@ -271,17 +271,17 @@ $activePage = $activePage ?? '';
 
                 </a>
 
-                <a href="<?php echo URLROOT; ?>/petowner/cart"
-                   class="<?php echo ($activePage == 'cart') ? 'submenu-active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/petowner/reserved"
+                   class="<?php echo ($activePage == 'reserved') ? 'submenu-active' : ''; ?>">
 
-                    My Cart
+                    Reserved Products
 
                 </a>
 
-                <a href="<?php echo URLROOT; ?>/petowner/orders"
-                   class="<?php echo ($activePage == 'orders') ? 'submenu-active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/petowner/purchased"
+                   class="<?php echo ($activePage == 'purchased') ? 'submenu-active' : ''; ?>">
 
-                    My Orders
+                    Purchase History
 
                 </a>
 

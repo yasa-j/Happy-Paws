@@ -1744,5 +1744,103 @@ class PetOwnerController extends Controller
 
         $this->view('petowner/health-records', $data);
     }
+
+
+    /*
+    * Add these methods inside your existing PetownerController class.
+    * Do not create a second class with the same name.
+    */
+
+    public function store()
+    {
+    
+       
+        if (
+            !isset($_SESSION['user_id']) ||
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+
+        $productModel = $this->model('Product');
+        $cartModel = $this->model('Cart');
+
+        $search = trim($_GET['search'] ?? '');
+        $categoryId = trim($_GET['category'] ?? '');
+        $sort = $_GET['sort'] ?? 'recommended';
+
+        if (
+            $categoryId !== '' &&
+            !ctype_digit($categoryId)
+        ) {
+            $categoryId = '';
+        }
+
+        $data = [
+            'products' => $productModel->getProducts(
+                $search,
+                $categoryId,
+                $sort
+            ),
+            'categories' => $productModel->getCategories(),
+            'search' => $search,
+            'selectedCategory' => $categoryId,
+            'sort' => $sort,
+            'cartCount' => $cartModel->getItemCount(
+                (int)$_SESSION['user_id']
+            ),
+            'message' => $_SESSION['product_store_message'] ?? ''
+        ];
+
+        unset($_SESSION['product_store_message']);
+
+        $this->view('petowner/browse-products', $data);
+    }
+
+    public function addProductToCart()
+    {
+        
+        if (
+            !isset($_SESSION['user_id']) ||
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . URLROOT . '/petowner/browseProducts');
+            exit;
+        }
+
+        $productId = filter_input(
+            INPUT_POST,
+            'product_id',
+            FILTER_VALIDATE_INT
+        );
+
+        $cartModel = $this->model('Cart');
+
+        $success = $productId && $productId > 0
+            ? $cartModel->addItem(
+                (int)$_SESSION['user_id'],
+                $productId,
+                1
+            )
+            : false;
+
+        $_SESSION['product_store_message'] = $success
+            ? 'Product added to your cart.'
+            : 'Unable to add this product. Please check its availability.';
+
+        header('Location: ' . URLROOT . '/petowner/browseProducts');
+        exit;
+    }
+
 }
 
