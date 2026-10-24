@@ -230,6 +230,7 @@ $activePage = $activePage ?? '';
 
             $storeActive =
                 ($activePage == 'store' ||
+                 $activePage == 'cart' ||
                  $activePage == 'reserved' ||
                  $activePage == 'purchased');
 

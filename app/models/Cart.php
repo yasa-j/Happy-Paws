@@ -103,5 +103,100 @@ class Cart
 
         return (int)$result->item_count;
     }
+
+    // Get all cart items belonging to one pet owner.
+    public function getCartItems($userId)
+    {
+        $this->db->query("
+            SELECT
+                ci.cart_item_id,
+                ci.product_id,
+                ci.quantity,
+                p.name,
+                p.description,
+                p.price,
+                p.stock_quantity,
+                p.image_url,
+                p.status,
+                c.category_name
+            FROM cart_items ci
+            INNER JOIN products p
+                ON ci.product_id = p.product_id
+            INNER JOIN product_categories c
+                ON p.category_id = c.category_id
+            WHERE ci.user_id = :user_id
+            ORDER BY ci.added_at DESC
+        ");
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->resultSet();
+    }
+
+
+    // Update the quantity of an owner's cart item.
+    public function updateQuantity($userId, $cartItemId, $quantity)
+    {
+        if ($quantity < 1) {
+            return false;
+        }
+
+        // Confirm that the item belongs to this owner.
+        $this->db->query("
+            SELECT
+                ci.product_id,
+                p.stock_quantity,
+                p.status
+            FROM cart_items ci
+            INNER JOIN products p
+                ON ci.product_id = p.product_id
+            WHERE ci.cart_item_id = :cart_item_id
+            AND ci.user_id = :user_id
+            LIMIT 1
+        ");
+
+        $this->db->bind(':cart_item_id', $cartItemId);
+        $this->db->bind(':user_id', $userId);
+
+        $item = $this->db->single();
+
+        if (
+            !$item ||
+            $item->status !== 'In Stock' ||
+            $quantity > (int)$item->stock_quantity
+        ) {
+            return false;
+        }
+
+        $this->db->query("
+            UPDATE cart_items
+            SET quantity = :quantity,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE cart_item_id = :cart_item_id
+            AND user_id = :user_id
+        ");
+
+        $this->db->bind(':quantity', $quantity);
+        $this->db->bind(':cart_item_id', $cartItemId);
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
+
+
+    // Remove one item belonging to the logged-in owner.
+    public function removeItem($userId, $cartItemId)
+    {
+        $this->db->query("
+            DELETE FROM cart_items
+            WHERE cart_item_id = :cart_item_id
+            AND user_id = :user_id
+        ");
+
+        $this->db->bind(':cart_item_id', $cartItemId);
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
 }
 ?>

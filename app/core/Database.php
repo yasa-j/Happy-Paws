@@ -165,4 +165,43 @@ class Database {
     public function lastInsertId() {
         return $this->dbh->lastInsertId();
     }
+
+
+    /*
+     * ================================================================
+     * DATABASE TRANSACTION METHODS
+     * ================================================================
+     * Used to save reservation records, reservation items, and stock
+     * changes together. If something fails, the changes can be rolled
+     * back instead of leaving the database partially updated.
+     */
+
+    // Start a database transaction.
+    public function beginTransaction()
+    {
+        return $this->dbh->beginTransaction();
+    }
+
+    // Save all changes made during the transaction.
+    public function commit()
+    {
+        return $this->dbh->commit();
+    }
+
+    // Undo changes made during the transaction.
+    public function rollBack()
+    {
+        if ($this->dbh->inTransaction()) {
+            return $this->dbh->rollBack();
+        }
+
+        return false;
+    }
+
+    // Check whether a transaction is currently active.
+    public function inTransaction()
+    {
+        return $this->dbh->inTransaction();
+    }
+
 }

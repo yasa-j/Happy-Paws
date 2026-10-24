@@ -1842,5 +1842,295 @@ class PetOwnerController extends Controller
         exit;
     }
 
+    // Display the My Cart page.
+    public function cart()
+    {
+        $userId = (int)$_SESSION['user_id'];
+
+        $cartModel = $this->model('Cart');
+
+        $cartItems = $cartModel->getCartItems($userId);
+
+        $data = [
+            'title' => 'My Cart',
+            'activePage' => 'cart',
+            'cartItems' => $cartItems,
+            'cartCount' => $cartModel->getItemCount($userId)
+        ];
+
+        $this->view('petowner/my-cart', $data);
+    }
+
+
+    // Update a cart item's quantity.
+    public function updateCartQuantity()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('petowner/cart');
+            return;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+        $cartItemId = filter_input(
+            INPUT_POST,
+            'cart_item_id',
+            FILTER_VALIDATE_INT
+        );
+        $quantity = filter_input(
+            INPUT_POST,
+            'quantity',
+            FILTER_VALIDATE_INT
+        );
+
+        $cartModel = $this->model('Cart');
+
+        if (
+            $cartItemId && $cartItemId > 0 &&
+            $quantity && $quantity > 0
+        ) {
+            $success = $cartModel->updateQuantity(
+                $userId,
+                $cartItemId,
+                $quantity
+            );
+
+            $_SESSION['cart_message'] = $success
+                ? 'Cart quantity updated.'
+                : 'Unable to update quantity. Please check product availability and stock.';
+        } else {
+            $_SESSION['cart_message'] = 'Please enter a valid quantity.';
+        }
+
+        $this->redirect('petowner/cart');
+    }
+
+
+    // Remove a cart item.
+    public function removeCartItem()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('petowner/cart');
+            return;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+
+        $cartItemId = filter_input(
+            INPUT_POST,
+            'cart_item_id',
+            FILTER_VALIDATE_INT
+        );
+
+        $cartModel = $this->model('Cart');
+
+        if ($cartItemId && $cartItemId > 0) {
+            $success = $cartModel->removeItem(
+                $userId,
+                $cartItemId
+            );
+
+            $_SESSION['cart_message'] = $success
+                ? 'Product removed from your cart.'
+                : 'Unable to remove this product.';
+        }
+
+        $this->redirect('petowner/cart');
+    }
+
+
+    /*
+     * =========================================================
+     * RESERVED PRODUCTS
+     * =========================================================
+     */
+
+    // Display reservations belonging to the logged-in pet owner.
+    public function reserved()
+    {
+        if (
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
+
+        $reservationModel = $this->model('Reservation');
+        $cartModel = $this->model('Cart');
+
+        // Expire old reservations and restore their stock.
+        $reservationModel->expireReservations();
+
+        $reservations = $reservationModel->getReservationsByUser($userId);
+        $summary = $reservationModel->getReservationSummary($userId);
+        $cartCount = $cartModel->getItemCount($userId);
+
+        $message = '';
+
+        if (isset($_SESSION['reservation_message'])) {
+            $message = $_SESSION['reservation_message'];
+            unset($_SESSION['reservation_message']);
+        }
+
+        $this->view('petowner/reserved-products', [
+            'reservations' => $reservations,
+            'summary' => $summary,
+            'cartCount' => $cartCount,
+            'message' => $message
+        ]);
+    }
+
+    // Display completed purchases for the logged-in pet owner.
+    public function purchased()
+    {
+        if (
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+
+        $reservationModel = $this->model('Reservation');
+        $cartModel = $this->model('Cart');
+
+        $search = trim($_GET['search'] ?? '');
+        $period = $_GET['period'] ?? 'all';
+        $sort = $_GET['sort'] ?? 'newest';
+
+        // Accept only supported filter values.
+        $allowedPeriods = ['all', 'month', '3months', '6months', 'year'];
+        $allowedSorts = ['newest', 'oldest', 'total_high', 'total_low'];
+
+        if (!in_array($period, $allowedPeriods, true)) {
+            $period = 'all';
+        }
+
+        if (!in_array($sort, $allowedSorts, true)) {
+            $sort = 'newest';
+        }
+
+        $purchases = $reservationModel->getPurchaseHistoryByUser(
+            $userId,
+            $search,
+            $period,
+            $sort
+        );
+
+        $summary = $reservationModel->getPurchaseHistorySummary($userId);
+        $cartCount = $cartModel->getItemCount($userId);
+
+        $this->view('petowner/purchase-history', [
+            'activePage' => 'purchased',
+            'purchases' => $purchases,
+            'summary' => $summary,
+            'cartCount' => $cartCount,
+            'search' => $search,
+            'period' => $period,
+            'sort' => $sort
+        ]);
+    }
+
+    // Create a reservation from the Browse Products page.
+    public function reserveProduct()
+    {
+        if (
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . URLROOT . '/petowner/store');
+            exit;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+        $productId = isset($_POST['product_id'])
+            ? (int)$_POST['product_id']
+            : 0;
+        $quantity = isset($_POST['quantity'])
+            ? (int)$_POST['quantity']
+            : 1;
+
+        if ($productId <= 0 || $quantity <= 0) {
+            $_SESSION['reservation_message'] =
+                'Please select a valid product and quantity.';
+            header('Location: ' . URLROOT . '/petowner/store');
+            exit;
+        }
+
+        $reservationModel = $this->model('Reservation');
+
+        $reservationId = $reservationModel->createReservation(
+            $userId,
+            $productId,
+            $quantity
+        );
+
+        if ($reservationId !== false) {
+            $_SESSION['reservation_message'] =
+                'Your product has been reserved successfully. '
+                . 'Please collect it within 24 hours.';
+            header('Location: ' . URLROOT . '/petowner/reserved');
+            exit;
+        }
+
+        $_SESSION['reservation_message'] =
+            'Reservation failed. Please check the available stock and try again.';
+
+        header('Location: ' . URLROOT . '/petowner/store');
+        exit;
+    }
+
+    // Cancel an active reservation belonging to the logged-in owner.
+    public function cancelReservation()
+    {
+        if (
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . URLROOT . '/petowner/reserved');
+            exit;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+        $orderId = isset($_POST['order_id'])
+            ? (int)$_POST['order_id']
+            : 0;
+
+        if ($orderId <= 0) {
+            $_SESSION['reservation_message'] =
+                'Invalid reservation selected.';
+            header('Location: ' . URLROOT . '/petowner/reserved');
+            exit;
+        }
+
+        $reservationModel = $this->model('Reservation');
+
+        if ($reservationModel->cancelReservation($orderId, $userId)) {
+            $_SESSION['reservation_message'] =
+                'Your reservation has been cancelled successfully.';
+        } else {
+            $_SESSION['reservation_message'] =
+                'This reservation cannot be cancelled. It may already be '
+                . 'cancelled, expired, collected, or unavailable.';
+        }
+
+        header('Location: ' . URLROOT . '/petowner/reserved');
+        exit;
+    }
+
 }
 

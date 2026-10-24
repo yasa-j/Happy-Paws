@@ -205,7 +205,7 @@ $categoryTabs = array_slice($categories, 0, 7);
                     product<?php echo count($products) === 1 ? '' : 's'; ?> found
                 </p>
 
-                <a href="<?php echo URLROOT; ?>/cart"
+                <a href="<?php echo URLROOT; ?>/petowner/cart"
                    class="view-cart-link">
                     🛒 View Cart
                     <?php if ($cartCount > 0): ?>
