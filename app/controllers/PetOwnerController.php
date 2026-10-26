@@ -1035,6 +1035,37 @@ class PetOwnerController extends Controller
         $this->view('petowner/bookAppointment', $data);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Get Booked Slots (used by the Book Appointment page)
+    |--------------------------------------------------------------------------
+    | Returns the booked times for a vet on a date as JSON, e.g. ["09:00","10:30"]
+    */
+    public function getBookedSlots()
+    {
+        header('Content-Type: application/json');
+
+        $vetId = (int) ($_GET['vet_id'] ?? 0);
+        $date  = $_GET['date'] ?? '';
+
+        // Basic validation
+        if ($vetId <= 0 || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            echo json_encode([]);
+            exit;
+        }
+
+        $booked = $this->appointmentModel->getBookedTimesForVetDate($vetId, $date);
+
+        $times = [];
+
+        foreach ($booked as $row) {
+            $times[] = date('H:i', strtotime($row->appointment_time));
+        }
+
+        echo json_encode($times);
+        exit;
+    }
+
     public function upcomingAppointments()
     {
         // Make sure a user is logged in

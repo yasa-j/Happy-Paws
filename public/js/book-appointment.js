@@ -607,30 +607,59 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    /*
-     * Veterinarian selection
-     */
+        /*
+        * Veterinarian selection
+        */
 
-    document.querySelectorAll(
-        ".veterinarian-card"
-    ).forEach(function(card) {
+        document.querySelectorAll(
+            ".veterinarian-card"
+        ).forEach(function(card) {
 
-        card.addEventListener("click", function() {
+            card.addEventListener("click", function() {
 
-            document.querySelectorAll(
-                ".veterinarian-card"
-            ).forEach(function(otherCard) {
+                document.querySelectorAll(
+                    ".veterinarian-card"
+                ).forEach(function(otherCard) {
 
-                otherCard.classList.remove("selected");
+                    otherCard.classList.remove("selected");
+
+                });
+
+
+                card.classList.add("selected");
+
+
+                /*
+                * If a date is already chosen, reload the time slots
+                * for the newly selected veterinarian.
+                */
+
+                if (selectedAppointmentDate) {
+
+                    const parts = selectedAppointmentDate.split("-");
+
+                    const dateObject = new Date(
+                        parts[0],
+                        parts[1] - 1,
+                        parts[2]
+                    );
+
+                    // Small delay so the radio button is checked
+                    // before loadTimeSlots() reads it
+                    setTimeout(function() {
+
+                        loadTimeSlots(
+                            dateObject,
+                            selectedAppointmentDate
+                        );
+
+                    }, 0);
+
+                }
 
             });
 
-
-            card.classList.add("selected");
-
         });
-
-    });
 
 });
 
@@ -1016,7 +1045,7 @@ function selectAppointmentDate(
      * for the selected date
      */
 
-    loadTimeSlots(dateObject);
+    loadTimeSlots(dateObject, dateString);
 
 }
 
@@ -1141,255 +1170,116 @@ document.addEventListener(
    APPOINTMENT TIME SLOTS
    ===================================================== */
 
-function loadTimeSlots(dateObject) {
+async function loadTimeSlots(dateObject, dateString) {
 
-    const timeSlots =
-        document.getElementById("timeSlots");
-
-
-    if (!timeSlots) {
-        return;
-    }
-
-
-    /*
-     * Clear old time slots
-     */
+    const timeSlots = document.getElementById("timeSlots");
+    if (!timeSlots) return;
 
     timeSlots.innerHTML = "";
 
-
-    /*
-     * Get the day of the week
-     *
-     * 0 = Sunday
-     * 1 = Monday
-     * 2 = Tuesday
-     * 3 = Wednesday
-     * 4 = Thursday
-     * 5 = Friday
-     * 6 = Saturday
-     */
-
-    const dayOfWeek =
-        dateObject.getDay();
-
-
-    /*
-     * Sunday = Clinic Closed
-     */
+    const dayOfWeek = dateObject.getDay();
 
     if (dayOfWeek === 0) {
-
         timeSlots.innerHTML =
             '<p class="clinic-closed">Clinic is closed on Sundays.</p>';
-
         return;
     }
 
+    /* A vet must be chosen first */
+    const vet = document.querySelector('input[name="vet_id"]:checked');
 
-    /*
-     * Define clinic working periods.
-     *
-     * Monday - Friday:
-     * 9:00 AM - 1:00 PM
-     * 2:00 PM - 5:00 PM
-     *
-     * Saturday:
-     * 9:00 AM - 1:00 PM
-     */
+    if (!vet) {
+        timeSlots.innerHTML =
+            '<p class="clinic-closed">Please select a veterinarian first.</p>';
+        return;
+    }
+
+    /* Ask the server which times are already booked */
+    let bookedTimes = [];
+
+    try {
+        const response = await fetch(
+            URLROOT + "/petowner/getBookedSlots?vet_id=" +
+            encodeURIComponent(vet.value) +
+            "&date=" + encodeURIComponent(dateString)
+        );
+        bookedTimes = await response.json();
+        //console.log("vet_id:", vet.value, "date:", dateString, "booked:", bookedTimes);
+    } catch (error) {
+        console.error("Could not load booked slots", error);
+    }
 
     let timePeriods = [];
 
-
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-
         timePeriods = [
-
-            {
-                start: 9 * 60,
-                end: 13 * 60
-            },
-
-            {
-                start: 14 * 60,
-                end: 17 * 60
-            }
-
+            { start: 9 * 60,  end: 13 * 60 },
+            { start: 14 * 60, end: 17 * 60 }
         ];
-
     } else if (dayOfWeek === 6) {
-
-        timePeriods = [
-
-            {
-                start: 9 * 60,
-                end: 13 * 60
-            }
-
-        ];
-
+        timePeriods = [{ start: 9 * 60, end: 13 * 60 }];
     }
 
+    /* For today, hide times that have already passed */
+    const now = new Date();
+    const isToday = dateObject.toDateString() === now.toDateString();
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
-    /*
-     * Create 30-minute appointment slots
-     */
+    let slotCount = 0;
 
-    timePeriods.forEach(function(period) {
+    timePeriods.forEach(function (period) {
 
-        for (
-            let minutes = period.start;
-            minutes < period.end;
-            minutes += 30
-        ) {
+        for (let minutes = period.start; minutes < period.end; minutes += 30) {
 
+            const hour24 = Math.floor(minutes / 60);
+            const minute = minutes % 60;
 
-            /*
-             * Convert minutes into hours
-             */
+            let displayHour = hour24 % 12;
+            if (displayHour === 0) displayHour = 12;
 
-            const hour24 =
-                Math.floor(minutes / 60);
-
-            const minute =
-                minutes % 60;
-
-
-            /*
-             * Convert to 12-hour format
-             */
-
-            let displayHour =
-                hour24 % 12;
-
-
-            if (displayHour === 0) {
-                displayHour = 12;
-            }
-
-
-            const amPm =
-                hour24 >= 12
-                    ? "PM"
-                    : "AM";
-
+            const amPm = hour24 >= 12 ? "PM" : "AM";
 
             const displayTime =
-                displayHour +
-                ":" +
-                String(minute).padStart(2, "0") +
-                " " +
-                amPm;
-
-
-            /*
-             * Database value
-             *
-             * Example:
-             * 09:00:00
-             * 14:30:00
-             */
+                displayHour + ":" + String(minute).padStart(2, "0") + " " + amPm;
 
             const databaseTime =
-                String(hour24).padStart(2, "0") +
-                ":" +
-                String(minute).padStart(2, "0") +
-                ":00";
+                String(hour24).padStart(2, "0") + ":" +
+                String(minute).padStart(2, "0") + ":00";
 
+            /* SKIP booked slots and past times */
+            const slotKey =
+                String(hour24).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
 
-            /*
-             * Create label
-             */
+            if (bookedTimes.includes(slotKey)) continue;
+            if (isToday && minutes <= nowMinutes) continue;
 
-            const label =
-                document.createElement("label");
-
-
-            /*
-             * Create radio button
-             */
-
-            const input =
-                document.createElement("input");
-
+            const label = document.createElement("label");
+            const input = document.createElement("input");
 
             input.type = "radio";
-
-            input.name =
-                "appointment_time";
-
-            input.value =
-                databaseTime;
-
+            input.name = "appointment_time";
+            input.value = databaseTime;
             input.required = true;
 
-
-            /*
-             * Create visible time text
-             */
-
-            const span =
-                document.createElement("span");
-
-
-            span.textContent =
-                displayTime;
-
-
-            /*
-             * Put radio + text inside label
-             */
+            const span = document.createElement("span");
+            span.textContent = displayTime;
 
             label.appendChild(input);
-
             label.appendChild(span);
 
-
-            /*
-             * When the user selects a time
-             */
-
-            input.addEventListener(
-                "change",
-                function() {
-
-                    /*
-                     * Remove selected class
-                     * from all time buttons
-                     */
-
-                    document.querySelectorAll(
-                        ".time-slots label.selected-time"
-                    ).forEach(function(selectedLabel) {
-
-                        selectedLabel.classList.remove(
-                            "selected-time"
-                        );
-
-                    });
-
-
-                    /*
-                     * Highlight selected time
-                     */
-
-                    label.classList.add(
-                        "selected-time"
-                    );
-
-                }
-            );
-
-
-            /*
-             * Add the time slot to the page
-             */
+            input.addEventListener("change", function () {
+                document.querySelectorAll(".time-slots label.selected-time")
+                    .forEach(function (l) { l.classList.remove("selected-time"); });
+                label.classList.add("selected-time");
+            });
 
             timeSlots.appendChild(label);
-
+            slotCount++;
         }
-
     });
 
+    if (slotCount === 0) {
+        timeSlots.innerHTML =
+            '<p class="clinic-closed">No available times for this date. Please choose another day.</p>';
+    }
 }
