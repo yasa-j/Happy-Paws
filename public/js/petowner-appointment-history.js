@@ -5,498 +5,253 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusFilter = document.getElementById("statusFilter");
 
     const clearFilters = document.getElementById("clearFilters");
-
     const sortButton = document.getElementById("sortButton");
     const sortText = document.getElementById("sortText");
 
-    const appointmentList =
-        document.getElementById("appointmentList");
+    const appointmentList = document.getElementById("appointmentList");
+    const noResults = document.getElementById("noResults");
 
-    const noResults =
-        document.getElementById("noResults");
+    const previousPage = document.getElementById("previousPage");
+    const nextPage = document.getElementById("nextPage");
+    const paginationPages = document.querySelector(".pagination-pages");
+
+    const recordStart = document.getElementById("recordStart");
+    const recordEnd = document.getElementById("recordEnd");
+    const recordTotal = document.getElementById("recordTotal");
 
     const cards = Array.from(
         document.querySelectorAll(".appointment-card")
     );
 
-    const previousPage =
-        document.getElementById("previousPage");
+    const pageSize = 4;
 
-    const nextPage =
-        document.getElementById("nextPage");
-
-    const pageButtons =
-        document.querySelectorAll(".page-number");
-
-    const recordStart =
-        document.getElementById("recordStart");
-
-    const recordEnd =
-        document.getElementById("recordEnd");
-
-    const recordTotal =
-        document.getElementById("recordTotal");
+    let currentPage = 1;
+    let sortOrder = "newest";
 
 
-    /*
-    ========================================================
-    FILTER APPOINTMENTS
-    ========================================================
-    */
+    // Filter appointments using the search box and dropdowns.
+    function getFilteredCards() {
 
-    function filterAppointments() {
+        const searchValue = searchInput.value.toLowerCase().trim();
+        const selectedPet = petFilter.value;
+        const selectedStatus = statusFilter.value.toLowerCase();
 
-        const searchValue =
-            searchInput.value
-                .toLowerCase()
-                .trim();
+        return cards
+            .filter(function (card) {
 
-        const selectedPet =
-            petFilter.value;
+                const searchText = card.dataset.search || "";
+                const pet = card.dataset.pet || "";
+                const status = (card.dataset.status || "").toLowerCase();
 
-        const selectedStatus =
-            statusFilter.value;
+                const matchesSearch =
+                    searchText.toLowerCase().includes(searchValue);
 
+                const matchesPet =
+                    selectedPet === "all" || pet === selectedPet;
 
-        let visibleCards = [];
+                const matchesStatus =
+                    selectedStatus === "all" ||
+                    status === selectedStatus;
 
+                return matchesSearch && matchesPet && matchesStatus;
+            })
+            .sort(function (a, b) {
 
-        cards.forEach(function (card) {
+                const dateA = a.dataset.date || "";
+                const dateB = b.dataset.date || "";
 
-            const searchText =
-                card.dataset.search.toLowerCase();
+                const dateComparison = dateA.localeCompare(dateB);
 
-            const pet =
-                card.dataset.pet;
+                if (dateComparison !== 0) {
+                    return sortOrder === "newest"
+                        ? -dateComparison
+                        : dateComparison;
+                }
 
-            const status =
-                card.dataset.status;
-
-
-            const matchesSearch =
-                searchText.includes(searchValue);
-
-            const matchesPet =
-                selectedPet === "all" ||
-                pet === selectedPet;
-
-            const matchesStatus =
-                selectedStatus === "all" ||
-                status === selectedStatus;
-
-
-            if (
-                matchesSearch &&
-                matchesPet &&
-                matchesStatus
-            ) {
-
-                visibleCards.push(card);
-
-            }
-
-        });
-
-
-        updateResults(visibleCards);
+                return sortOrder === "newest"
+                    ? b.dataset.search.localeCompare(a.dataset.search)
+                    : a.dataset.search.localeCompare(b.dataset.search);
+            });
     }
 
 
-    /*
-    ========================================================
-    DISPLAY RESULTS
-    ========================================================
-    */
+    // Update the visible cards, result count and pagination.
+    function renderAppointments() {
 
-    function updateResults(visibleCards) {
+        const filteredCards = getFilteredCards();
+
+        const total = filteredCards.length;
+        const pageCount = Math.ceil(total / pageSize);
+
+        if (pageCount === 0) {
+            currentPage = 1;
+        } else if (currentPage > pageCount) {
+            currentPage = pageCount;
+        }
+
+        const startIndex = (currentPage - 1) * pageSize;
+
+        const pageCards = filteredCards.slice(
+            startIndex,
+            startIndex + pageSize
+        );
 
         cards.forEach(function (card) {
             card.style.display = "none";
         });
 
-
-        if (visibleCards.length === 0) {
-
-            noResults.style.display = "block";
-
-            recordStart.textContent = "0";
-            recordEnd.textContent = "0";
-            recordTotal.textContent = "0";
-
-            return;
-        }
-
-
-        noResults.style.display = "none";
-
-
-        visibleCards.forEach(function (card) {
+        pageCards.forEach(function (card) {
             card.style.display = "grid";
-        });
-
-
-        recordStart.textContent = "1";
-
-        recordEnd.textContent =
-            visibleCards.length;
-
-        recordTotal.textContent =
-            visibleCards.length;
-    }
-
-
-    /*
-    ========================================================
-    SEARCH
-    ========================================================
-    */
-
-    searchInput.addEventListener(
-        "input",
-        filterAppointments
-    );
-
-
-    /*
-    ========================================================
-    PET FILTER
-    ========================================================
-    */
-
-    petFilter.addEventListener(
-        "change",
-        filterAppointments
-    );
-
-
-    /*
-    ========================================================
-    STATUS FILTER
-    ========================================================
-    */
-
-    statusFilter.addEventListener(
-        "change",
-        filterAppointments
-    );
-
-
-    /*
-    ========================================================
-    CLEAR FILTERS
-    ========================================================
-    */
-
-    clearFilters.addEventListener(
-        "click",
-        function () {
-
-            searchInput.value = "";
-
-            petFilter.value = "all";
-
-            statusFilter.value = "all";
-
-            filterAppointments();
-        }
-    );
-
-
-    /*
-    ========================================================
-    SORT APPOINTMENTS
-    ========================================================
-    */
-
-    sortButton.addEventListener(
-        "click",
-        function () {
-
-            const currentOrder =
-                sortButton.dataset.order;
-
-
-            if (currentOrder === "newest") {
-
-                sortButton.dataset.order =
-                    "oldest";
-
-                sortText.textContent =
-                    "Oldest First";
-
-                sortCards("oldest");
-
-            } else {
-
-                sortButton.dataset.order =
-                    "newest";
-
-                sortText.textContent =
-                    "Newest First";
-
-                sortCards("newest");
-            }
-
-        }
-    );
-
-
-    function sortCards(order) {
-
-        const sortedCards =
-            [...cards].sort(function (a, b) {
-
-                const dateA =
-                    new Date(a.dataset.date);
-
-                const dateB =
-                    new Date(b.dataset.date);
-
-
-                if (order === "newest") {
-                    return dateB - dateA;
-                }
-
-                return dateA - dateB;
-            });
-
-
-        sortedCards.forEach(function (card) {
             appointmentList.appendChild(card);
         });
 
+        noResults.style.display = total === 0 ? "block" : "none";
 
-        filterAppointments();
+        recordStart.textContent = total === 0 ? 0 : startIndex + 1;
+        recordEnd.textContent = Math.min(startIndex + pageSize, total);
+        recordTotal.textContent = total;
+
+        renderPagination(pageCount);
     }
 
 
-    /*
-    ========================================================
-    COPY APPOINTMENT REFERENCE
-    ========================================================
-    */
+    // Create the correct number of page buttons.
+    function renderPagination(pageCount) {
 
-    document
-        .querySelectorAll(".copy-reference")
-        .forEach(function (button) {
+        paginationPages.innerHTML = "";
 
-            button.addEventListener(
-                "click",
-                function () {
+        for (let page = 1; page <= pageCount; page++) {
 
-                    const reference =
-                        button.dataset.reference;
+            const button = document.createElement("button");
 
+            button.type = "button";
+            button.className = "page-number";
+            button.dataset.page = page;
+            button.textContent = page;
 
-                    if (
-                        navigator.clipboard &&
-                        navigator.clipboard.writeText
-                    ) {
-
-                        navigator.clipboard.writeText(
-                            reference
-                        );
-
-                        button.textContent = "✓";
-
-                        setTimeout(
-                            function () {
-                                button.textContent = "▣";
-                            },
-                            1200
-                        );
-                    }
-
-                }
-            );
-
-        });
-
-
-    /*
-    ========================================================
-    VIEW DETAILS
-    ========================================================
-    */
-
-    document
-        .querySelectorAll(".details-button")
-        .forEach(function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const appointmentId =
-                        button.dataset.appointment;
-
-                    alert(
-                        "Appointment details for " +
-                        appointmentId +
-                        " will be available here."
-                    );
-
-                }
-            );
-
-        });
-
-
-    /*
-    ========================================================
-    VIEW HEALTH RECORDS
-    ========================================================
-    */
-
-    document
-        .querySelectorAll(".health-record-button")
-        .forEach(function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const pet =
-                        button.dataset.pet;
-
-                    alert(
-                        "Health records for " +
-                        pet +
-                        " will be available here."
-                    );
-
-                }
-            );
-
-        });
-
-
-    /*
-    ========================================================
-    PAGINATION
-    ========================================================
-    */
-
-    pageButtons.forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                pageButtons.forEach(
-                    function (page) {
-                        page.classList.remove(
-                            "active"
-                        );
-                    }
-                );
-
+            if (page === currentPage) {
                 button.classList.add("active");
-
-                const page =
-                    button.dataset.page;
-
-
-                if (page === "1") {
-
-                    previousPage.disabled = true;
-                    nextPage.disabled = false;
-
-                } else if (page === "3") {
-
-                    previousPage.disabled = false;
-                    nextPage.disabled = true;
-
-                } else {
-
-                    previousPage.disabled = false;
-                    nextPage.disabled = false;
-                }
-
             }
-        );
 
+            button.addEventListener("click", function () {
+                currentPage = page;
+                renderAppointments();
+            });
+
+            paginationPages.appendChild(button);
+        }
+
+        previousPage.disabled = currentPage <= 1;
+        nextPage.disabled =
+            pageCount === 0 || currentPage >= pageCount;
+    }
+
+
+    // Search and filters.
+    searchInput.addEventListener("input", function () {
+        currentPage = 1;
+        renderAppointments();
+    });
+
+    petFilter.addEventListener("change", function () {
+        currentPage = 1;
+        renderAppointments();
+    });
+
+    statusFilter.addEventListener("change", function () {
+        currentPage = 1;
+        renderAppointments();
     });
 
 
-    /*
-    ========================================================
-    PREVIOUS PAGE
-    ========================================================
-    */
+    // Clear all filters.
+    clearFilters.addEventListener("click", function () {
 
-    previousPage.addEventListener(
-        "click",
-        function () {
+        searchInput.value = "";
+        petFilter.value = "all";
+        statusFilter.value = "all";
 
-            const activePage =
-                document.querySelector(
-                    ".page-number.active"
+        currentPage = 1;
+        renderAppointments();
+    });
+
+
+    // Switch between newest and oldest.
+    sortButton.addEventListener("click", function () {
+
+        sortOrder = sortOrder === "newest" ? "oldest" : "newest";
+
+        sortButton.dataset.order = sortOrder;
+
+        sortText.textContent =
+            sortOrder === "newest" ? "Newest First" : "Oldest First";
+
+        currentPage = 1;
+        renderAppointments();
+    });
+
+
+    previousPage.addEventListener("click", function () {
+
+        if (currentPage > 1) {
+            currentPage--;
+            renderAppointments();
+        }
+    });
+
+
+    nextPage.addEventListener("click", function () {
+
+        const pageCount = Math.ceil(
+            getFilteredCards().length / pageSize
+        );
+
+        if (currentPage < pageCount) {
+            currentPage++;
+            renderAppointments();
+        }
+    });
+
+
+    // Copy an appointment reference.
+    document.querySelectorAll(".copy-reference").forEach(function (button) {
+
+        button.addEventListener("click", async function () {
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    button.dataset.reference
                 );
 
-            const currentPage =
-                Number(activePage.dataset.page);
+                button.textContent = "✓";
 
+                setTimeout(function () {
+                    button.textContent = "▣";
+                }, 1200);
 
-            if (currentPage > 1) {
-
-                const newPage =
-                    currentPage - 1;
-
-                document
-                    .querySelector(
-                        `.page-number[data-page="${newPage}"]`
-                    )
-                    .click();
-
+            } catch (error) {
+                alert("Unable to copy the appointment reference.");
             }
-
-        }
-    );
-
-
-    /*
-    ========================================================
-    NEXT PAGE
-    ========================================================
-    */
-
-    nextPage.addEventListener(
-        "click",
-        function () {
-
-            const activePage =
-                document.querySelector(
-                    ".page-number.active"
-                );
-
-            const currentPage =
-                Number(activePage.dataset.page);
+        });
+    });
 
 
-            if (currentPage < 3) {
+    // Placeholder until the appointment details view is implemented.
+    document.querySelectorAll(".details-button").forEach(function (button) {
 
-                const newPage =
-                    currentPage + 1;
+        button.addEventListener("click", function () {
 
-                document
-                    .querySelector(
-                        `.page-number[data-page="${newPage}"]`
-                    )
-                    .click();
-
-            }
-
-        }
-    );
+            alert(
+                "Appointment details for appointment ID " +
+                button.dataset.appointment +
+                " will be available here."
+            );
+        });
+    });
 
 
-    /*
-    ========================================================
-    INITIAL LOAD
-    ========================================================
-    */
-
-    filterAppointments();
+    // Initial page render.
+    renderAppointments();
 
 });

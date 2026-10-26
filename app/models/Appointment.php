@@ -395,5 +395,118 @@ class Appointment
         return $this->db->execute();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Get Appointment History For Logged-in Pet Owner
+    |--------------------------------------------------------------------------
+    |
+    | Retrieves the owner's previous appointments and cancelled appointments.
+    | Pet, veterinarian, and service details are retrieved from the database.
+    |
+    */
+    public function getAppointmentHistory($userId)
+    {
+        $this->db->query(
+            "SELECT
+                a.appointment_id,
+                a.user_id,
+                a.pet_id,
+                a.vet_id,
+                a.service_id,
+                a.appointment_date,
+                a.appointment_time,
+                a.status,
+                a.reason,
+
+                p.name AS pet_name,
+                p.species,
+                p.breed,
+                p.date_of_birth,
+
+                CONCAT(u.first_name, ' ', u.last_name) AS vet_name,
+
+                s.name AS service_name,
+                s.description AS service_description,
+                s.duration_minutes
+
+            FROM appointments a
+
+            INNER JOIN pets p
+                ON a.pet_id = p.pet_id
+                AND p.user_id = a.user_id
+
+            LEFT JOIN users u
+                ON a.vet_id = u.user_id
+
+            LEFT JOIN services s
+                ON a.service_id = s.service_id
+
+            WHERE a.user_id = :user_id
+
+            AND (
+                a.appointment_date < CURDATE()
+                OR a.status IN ('Completed', 'Cancelled')
+            )
+
+            ORDER BY
+                a.appointment_date DESC,
+                a.appointment_time DESC"
+        );
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->resultSet();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Appointment History Summary
+    |--------------------------------------------------------------------------
+    |
+    | Calculates appointment statistics for the logged-in owner only.
+    |
+    */
+    public function getAppointmentHistorySummary($userId)
+    {
+        $this->db->query(
+            "SELECT
+                COUNT(*) AS total_appointments,
+
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN LOWER(status) = 'completed'
+                            THEN 1
+                            ELSE 0
+                        END
+                    ), 0
+                ) AS completed_appointments,
+
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN LOWER(status) = 'cancelled'
+                            THEN 1
+                            ELSE 0
+                        END
+                    ), 0
+                ) AS cancelled_appointments
+
+            FROM appointments
+
+            WHERE user_id = :user_id
+
+            AND (
+                appointment_date < CURDATE()
+                OR status IN ('Completed', 'Cancelled')
+            )"
+        );
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->single();
+    }
+
     
 }

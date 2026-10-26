@@ -1593,10 +1593,178 @@ class PetOwnerController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Appointment History
+    |--------------------------------------------------------------------------
+    |
+    | Loads appointment history and statistics for the logged-in owner.
+    |
+    */
     public function appointmentHistory()
     {
+        // Make sure the user is logged in.
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . URLROOT . '/users/login');
+            exit;
+        }
+
+        // Get the logged-in owner's ID.
+        $userId = (int) $_SESSION['user_id'];
+
+        // Retrieve only this owner's historical appointments.
+        $dbAppointments =
+            $this->appointmentModel->getAppointmentHistory($userId);
+
+        // Retrieve this owner's appointment statistics.
+        $summary =
+            $this->appointmentModel->getAppointmentHistorySummary($userId);
+
+        // Prepare appointment data for the view.
+        $appointments = [];
+
+        foreach ($dbAppointments as $appointment) {
+
+            $appointmentDate = $appointment->appointment_date;
+
+            $duration = (int) (
+                $appointment->duration_minutes ?? 30
+            );
+
+            $startTimestamp = strtotime(
+                $appointmentDate . ' ' . $appointment->appointment_time
+            );
+
+            $endTimestamp = strtotime(
+                '+' . $duration . ' minutes',
+                $startTimestamp
+            );
+
+            // Calculate the pet's age at the appointment date.
+            $petAge = 'Age unavailable';
+
+            if (!empty($appointment->date_of_birth)) {
+
+                $birthDate = new DateTime(
+                    $appointment->date_of_birth
+                );
+
+                $visitDate = new DateTime(
+                    $appointmentDate
+                );
+
+                $age = $birthDate->diff($visitDate)->y;
+
+                $petAge = $age . ($age === 1 ? ' year' : ' years');
+            }
+
+            // Format the appointment reference.
+            $reference = 'APT-' . str_pad(
+                $appointment->appointment_id,
+                6,
+                '0',
+                STR_PAD_LEFT
+            );
+
+            $petName = $appointment->pet_name ?? 'Pet';
+            $vetName = trim($appointment->vet_name ?? '');
+            $serviceName = $appointment->service_name
+                ?? 'Veterinary Appointment';
+
+            $status = $appointment->status ?? 'Unknown';
+
+            // Build searchable text for the history page.
+            $searchText = implode(' ', [
+                $reference,
+                $petName,
+                $appointment->breed ?? '',
+                $appointment->species ?? '',
+                $vetName,
+                $serviceName,
+                $status
+            ]);
+
+            $appointments[] = [
+                'appointment_id' => (int) $appointment->appointment_id,
+                'id' => $reference,
+
+                'pet_id' => (int) $appointment->pet_id,
+                'pet_name' => $petName,
+                'species' => $appointment->species ?? 'Pet',
+                'breed' => $appointment->breed ?? '',
+                'pet_age' => $petAge,
+
+                'vet' => $vetName !== ''
+                    ? $vetName
+                    : 'Veterinarian',
+
+                'title' => $serviceName,
+
+                'description' => $appointment->service_description
+                    ?? ($appointment->reason ?? ''),
+
+                'date' => date('d', strtotime($appointmentDate)),
+                'month' => strtoupper(
+                    date('M', strtotime($appointmentDate))
+                ),
+                'year' => date('Y', strtotime($appointmentDate)),
+
+                'appointment_date' => $appointmentDate,
+
+                'time' => date('h:i A', $startTimestamp),
+                'end_time' => date('h:i A', $endTimestamp),
+
+                'duration' => $duration,
+                'status' => $status,
+
+                'search_text' => $searchText
+            ];
+        }
+
+        // Prepare summary values.
+        $totalAppointments = (int) (
+            $summary->total_appointments ?? 0
+        );
+
+        $completedAppointments = (int) (
+            $summary->completed_appointments ?? 0
+        );
+
+        $cancelledAppointments = (int) (
+            $summary->cancelled_appointments ?? 0
+        );
+
+        $completedRate = $totalAppointments > 0
+            ? round(
+                ($completedAppointments / $totalAppointments) * 100,
+                1
+            )
+            : 0;
+
+        $cancelledRate = $totalAppointments > 0
+            ? round(
+                ($cancelledAppointments / $totalAppointments) * 100,
+                1
+            )
+            : 0;
+
+        // Get the owner's pets for the filter dropdown.
+        $pets = $this->petModel->getPetsByOwner($userId);
+
         $data = [
-        'pageTitle' => 'Appointment History'
+            'pageTitle' => 'Appointment History',
+            'activePage' => 'appointments',
+            'activeSubPage' => 'history',
+
+            'appointments' => $appointments,
+            'pets' => $pets,
+
+            'totalAppointments' => $totalAppointments,
+            'completedAppointments' => $completedAppointments,
+            'cancelledAppointments' => $cancelledAppointments,
+
+            'completedRate' => $completedRate,
+            'cancelledRate' => $cancelledRate
         ];
 
         $this->view('petowner/appointment-history', $data);
@@ -1792,7 +1960,8 @@ class PetOwnerController extends Controller
             'cartCount' => $cartModel->getItemCount(
                 (int)$_SESSION['user_id']
             ),
-            'message' => $_SESSION['product_store_message'] ?? ''
+            'message' => $_SESSION['product_store_message'] ?? '',
+            'activePage' => 'store'
         ];
 
         unset($_SESSION['product_store_message']);
@@ -1814,7 +1983,7 @@ class PetOwnerController extends Controller
 
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . URLROOT . '/petowner/browseProducts');
+            header('Location: ' . URLROOT . '/petowner/store');
             exit;
         }
 
@@ -1838,7 +2007,7 @@ class PetOwnerController extends Controller
             ? 'Product added to your cart.'
             : 'Unable to add this product. Please check its availability.';
 
-        header('Location: ' . URLROOT . '/petowner/browseProducts');
+        header('Location: ' . URLROOT . '/petowner/store');
         exit;
     }
 
@@ -1975,6 +2144,7 @@ class PetOwnerController extends Controller
         }
 
         $this->view('petowner/reserved-products', [
+            'activePage' => 'reserved',
             'reservations' => $reservations,
             'summary' => $summary,
             'cartCount' => $cartCount,

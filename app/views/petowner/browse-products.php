@@ -328,7 +328,7 @@ $categoryTabs = array_slice($categories, 0, 7);
                                     <?php if ($available): ?>
 
                                         <form method="POST"
-                                              action="<?php echo URLROOT; ?>/petowner/addToCart"
+                                              action="<?php echo URLROOT; ?>/petowner/addProductToCart"
                                               class="add-to-cart-form">
 
                                             <input type="hidden"
