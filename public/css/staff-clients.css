@@ -27,7 +27,7 @@
     font-size: 32px;
 
     font-weight: 700;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 
     color: #182338;
 }
@@ -57,7 +57,7 @@
 
     border-radius: 22px;
 
-    font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 
     font-size: 13px;
 
@@ -123,7 +123,7 @@
     font-weight: 700;
 
     color: #626b76;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -197,7 +197,7 @@
     font-weight: 600;
 
     white-space: nowrap;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -211,7 +211,7 @@
     font-weight: 600;
 
     white-space: nowrap;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -229,7 +229,7 @@
     color: #69717b;
 
     font-size: 13px;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -241,7 +241,7 @@
     font-size: 17px;
 
     font-weight: 600;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -269,7 +269,7 @@
     letter-spacing: 0.8px;
 
     color: #4b5563;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .pagination {
@@ -291,7 +291,7 @@
 
     border-radius: 5px;
 
-    font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 
     font-size: 12px;
 
@@ -342,5 +342,51 @@
 
     .staff-clients-content {
         padding: 25px 15px;
+    }
+}
+/* =========================================
+   FIX CLIENT PAGE LAYOUT
+========================================= */
+
+.staff-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.staff-main-content {
+    margin-left: 230px;
+    width: calc(100% - 230px);
+    min-width: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.staff-main-content .staff-clients-content {
+    flex: 1;
+    margin-top: 80px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.clients-table {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 750px) {
+    .staff-main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    .staff-main-content .staff-clients-content {
+        padding: 16px;
     }
 }

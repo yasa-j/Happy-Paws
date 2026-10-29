@@ -35,6 +35,11 @@
     rel="stylesheet"
    href="<?php echo URLROOT; ?>/css/vet-health-records.css?v=1002">
 
+    <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
 
 </head>
 
@@ -62,79 +67,7 @@
              TOP HEADER
              ================================================= -->
 
-        <header class="vet-topbar">
-
-
-            <!-- Search -->
-
-            <div class="vet-search">
-
-                <span class="search-icon">
-                    ⌕
-                </span>
-
-                <input
-                    type="text"
-                    id="patient-search"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-
-            <!-- Header Right -->
-
-            <div class="vet-header-right">
-
-
-                <!-- Settings -->
-
-                <button
-                    type="button"
-                    class="header-action"
-                    title="Settings"
-                >
-                    ⚙
-                </button>
-
-
-                <!-- Divider -->
-
-                <div class="header-divider"></div>
-
-
-                <!-- Profile -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/profile"
-                    class="vet-profile"
-                >
-
-                    
-                   <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-
-                    <div class="vet-profile-info">
-
-                        <strong>
-                              <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </header>
-
-
+       <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
 
         <!-- =================================================
              MEDICAL RECORDS CONTENT

@@ -1,15 +1,27 @@
 /* =========================================
    APPOINTMENTS PAGE
 ========================================= */
+/* =========================================
+   MAIN STAFF CONTENT AREA
+========================================= */
+
+
+/* =========================================
+   APPOINTMENTS PAGE CONTENT
+========================================= */
 
 .staff-appointments-content {
-    flex: 1 1 0%;
+    flex: 1;
+    width: 100%;
     min-width: 0;
-    width: 0;
-    max-width: none;
-    padding: 42px 64px;
-}
+    max-width: 100%;
 
+    margin: 0;
+    padding: 32px;
+
+    box-sizing: border-box;
+    overflow-x: auto;
+}
 
 /* =========================================
    PAGE HEADING
@@ -28,7 +40,7 @@
     font-weight: 700;
     color: #182338;
     margin-bottom: 8px;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .appointment-heading p {
@@ -111,7 +123,7 @@
 
     color: #404854;
 
-    font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 
     font-size: 15px;
 
@@ -182,7 +194,7 @@
     font-weight: 700;
 
     letter-spacing: 1px;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -231,14 +243,14 @@
     font-size: 16px;
 
     color: #182338;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .appointment-date-time span {
     font-size: 14px;
 
     color: #69717b;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -287,7 +299,7 @@
     color: #182338;
 
     margin-bottom: 3px;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .pet-details span {
@@ -296,7 +308,7 @@
     font-size: 13px;
 
     color: #69717b;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -310,7 +322,7 @@
     color: #182338;
 
     font-weight: 500;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -328,7 +340,7 @@
     font-size: 16px;
 
     color: #182338;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .vet-icon {
@@ -360,7 +372,7 @@
     font-weight: 700;
 
     letter-spacing: 0.3px;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .status-badge.completed {
@@ -402,7 +414,7 @@
     font-weight: 600;
 
     white-space: nowrap;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .view-details:hover {
@@ -436,7 +448,7 @@
     letter-spacing: 1px;
 
     color: #555d68;
-     font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .appointment-pagination {
@@ -465,7 +477,7 @@
 
     justify-content: center;
 
-    font-family:  'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 
     font-size: 12px;
 
@@ -494,35 +506,20 @@
 ========================================= */
 
 @media (max-width: 1100px) {
-
     .staff-appointments-content {
-        padding: 30px;
+        padding: 24px;
     }
 
     .appointment-table-header,
     .appointment-row {
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
-
-    .appointment-table-header,
-    .appointment-row {
-        grid-template-columns:
-            1fr
-            1.2fr
-            1fr
-            1.1fr
-            0.9fr
-            0.9fr;
-    }
-
 }
 
 @media (max-width: 850px) {
-
     .appointment-heading {
         flex-direction: column;
-
         gap: 20px;
     }
 
@@ -542,5 +539,59 @@
     .appointment-row {
         min-width: 950px;
     }
-
 }
+
+@media (max-width: 750px) {
+    .staff-main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    .staff-appointments-content {
+        padding: 16px;
+    }
+}
+/* Fix appointment page layout */
+.staff-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.staff-main-content {
+    margin-left: 230px;
+    width: calc(100% - 230px);
+    min-width: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Keep appointment content below the fixed header */
+.staff-main-content .staff-appointments-content {
+    margin-top: 80px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+/* Allow the appointment table to scroll horizontally if needed */
+.appointments-table {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 750px) {
+    .staff-main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    .staff-main-content .staff-appointments-content {
+        padding: 16px;
+    }
+}
+

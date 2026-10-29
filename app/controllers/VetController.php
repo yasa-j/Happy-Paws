@@ -16,6 +16,8 @@ class VetController extends Controller
 private $vaccinationModel;
 private $appointmentModel;
 private $petModel;
+private $medicalRecordModel;
+
 
 public function __construct()
 {
@@ -48,6 +50,7 @@ public function __construct()
     $this->vaccinationModel = $this->model('Vaccination');
     $this->appointmentModel = $this->model('Appointment');
     $this->petModel = $this->model('Pet');
+    $this->medicalRecordModel = $this->model('MedicalRecord');
 }
     /*
     |--------------------------------------------------------------------------
@@ -76,8 +79,36 @@ public function __construct()
 
     public function schedule()
     {
+        // The vet who is logged in (set in StaffAuth login)
+        $vetId = (int)($_SESSION['staff_user_id'] ?? 0);
+
+        // Only this vet's appointments come back from the database
+        $rows = $this->appointmentModel
+                     ->getAppointmentsForVetSchedule($vetId);
+
+        // Group by date: ['2026-10-28' => [appointment, appointment], ...]
+        $appointmentsByDate = [];
+
+        foreach ($rows as $row) {
+
+            $appointmentsByDate[$row->appointment_date][] = [
+                'id'       => (int)$row->appointment_id,
+                'time'     => substr($row->appointment_time, 0, 5),
+                'duration' => ($row->duration_minutes ?? 30) . ' min',
+                'pet'      => $row->pet_name,
+                'owner'    => trim(
+                    $row->owner_first_name . ' ' . $row->owner_last_name
+                ),
+                'purpose'  => !empty($row->service_name)
+                    ? $row->service_name
+                    : $row->reason,
+                'status'   => $row->status
+            ];
+        }
+
         $data = [
-            'title' => 'Schedule'
+            'title' => 'Schedule',
+            'appointmentsByDate' => $appointmentsByDate
         ];
 
         $this->view(
@@ -131,6 +162,11 @@ public function __construct()
 if (!$pet) {
     die('Pet not found.');
 }
+// Retrieve saved medical records for this pet
+$medicalRecords = $this->medicalRecordModel->getByPetId($petId);
+
+// Retrieve medicines saved for this pet
+$medicines = $this->medicalRecordModel->getMedicinesByPetId($petId);
 
      // Get vaccinations from database
 $vaccinationsFromDatabase =
@@ -156,11 +192,11 @@ foreach ($vaccinationsFromDatabase as $vaccination) {
         'status' => $vaccination->status,
 
         'next_due' => !empty($vaccination->next_due_date)
-            ? date(
-                'M d, Y',
-                strtotime($vaccination->next_due_date)
-            )
-            : '--',
+    ? date(
+        'M d, Y',
+        strtotime($vaccination->next_due_date)
+    )
+    : '--',
 
         'status_class' =>
             strtolower($vaccination->status) === 'completed'
@@ -243,38 +279,7 @@ foreach ($vaccinationsFromDatabase as $vaccination) {
             | Medications
             |--------------------------------------------------------------------------
             */
-
-            'medications' => [
-
-                [
-                    'name' => 'Amoxicillin Drops',
-
-                    'dose' => '0.5ml',
-
-                    'frequency' =>
-                        'Twice daily (AM/PM)',
-
-                    'duration' =>
-                        '14 days (Ends Nov 5)',
-
-                    'status' => 'ONGOING'
-                ],
-
-
-                [
-                    'name' => 'Monthly Preventative',
-
-                    'dose' => '1 Tube Topical',
-
-                    'frequency' =>
-                        '1st of every month',
-
-                    'duration' => '',
-
-                    'status' => 'ONGOING'
-                ]
-
-            ],
+'medicines' => $medicines,
 
 
             /*
@@ -283,39 +288,7 @@ foreach ($vaccinationsFromDatabase as $vaccination) {
             |--------------------------------------------------------------------------
             */
 
-            'treatments' => [
-
-                [
-                    'title' =>
-                        'Routine Dental Cleaning',
-
-                    'description' =>
-                        'Scale and polish under general anesthesia. Two minor extractions (premolars).',
-
-                    'doctor' =>
-                        'Dr. Sarah Jenkins',
-
-                    'date' =>
-                        'Sep 15, 2023'
-                ],
-
-
-                [
-                    'title' =>
-                        'Minor Wound Care',
-
-                    'description' =>
-                        'Superficial scratch on left forelimb. Cleaned and topical antibiotic applied.',
-
-                    'doctor' =>
-                        'Dr. Michael Chen',
-
-                    'date' =>
-                        'May 02, 2023'
-                ]
-
-            ]
-
+            'medicalRecords' => $medicalRecords,
         ];
 
 
@@ -946,5 +919,351 @@ public function updateProfile()
     );
 
     exit;
+}
+public function addMedicalRecord($petId = null)
+{
+    if (
+        empty($_SESSION['staff_logged_in']) ||
+        empty($_SESSION['staff_user_id']) ||
+        ($_SESSION['staff_role'] ?? '') !== 'veterinarian'
+    ) {
+        $this->redirect('staffauth/login');
+        return;
+    }
+
+    $petId = (int)$petId;
+
+    if ($petId <= 0) {
+        die('Invalid pet ID.');
+    }
+
+    $petModel = $this->model('Pet');
+
+    $pet = $petModel->getPetByIdForVet($petId);
+
+    if (!$pet) {
+        die('Pet not found.');
+    }
+
+    $data = [
+        'title' => 'Add Medical Record',
+
+        'pet' => [
+            'id' => $pet->pet_id,
+            'name' => $pet->name,
+            'type' => $pet->species ?? '',
+            'breed' => $pet->breed ?? '',
+            'owner' => $pet->owner_name ?? ''
+        ],
+
+        'appointments' => [],
+        'error' => ''
+    ];
+
+    $this->view('vet/add-medical-record', $data);
+}
+public function saveMedicalRecord()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $this->redirect('vet/healthRecords');
+        return;
+    }
+
+    if (
+        empty($_SESSION['staff_logged_in']) ||
+        empty($_SESSION['staff_user_id']) ||
+        ($_SESSION['staff_role'] ?? '') !== 'veterinarian'
+    ) {
+        $this->redirect('staffauth/login');
+        return;
+    }
+    
+
+   $petId = (int)($_POST['pet_id'] ?? 0);
+$vetId = (int)$_SESSION['staff_user_id'];
+
+// No appointment is selected manually
+$appointmentId = null;
+
+$visitDate = trim($_POST['visit_date'] ?? '');
+$diagnosis = trim($_POST['diagnosis'] ?? '');
+$treatment = trim($_POST['treatment'] ?? '');
+$prescription = trim($_POST['prescription'] ?? '');
+$followUpDate = trim($_POST['follow_up_date'] ?? '');
+$notes = trim($_POST['notes'] ?? '');
+$status = trim($_POST['status'] ?? 'Completed');
+
+    if (
+        $petId <= 0 ||
+        $vetId <= 0 ||
+        $visitDate === '' ||
+        $diagnosis === '' ||
+        $treatment === ''
+    ) {
+        die('Please fill in all required fields.');
+    }
+
+    $visitDateObject = DateTime::createFromFormat(
+        '!Y-m-d',
+        $visitDate
+    );
+
+    if (
+        !$visitDateObject ||
+        $visitDateObject->format('Y-m-d') !== $visitDate
+    ) {
+        die('Invalid visit date.');
+    }
+
+    if ($visitDate > date('Y-m-d')) {
+        die('The visit date cannot be in the future.');
+    }
+
+    if ($followUpDate !== '') {
+        $followUpObject = DateTime::createFromFormat(
+            '!Y-m-d',
+            $followUpDate
+        );
+
+        if (
+            !$followUpObject ||
+            $followUpObject->format('Y-m-d') !== $followUpDate
+        ) {
+            die('Invalid follow-up date.');
+        }
+
+        if ($followUpDate < $visitDate) {
+            die('The follow-up date cannot be earlier than the visit date.');
+        }
+    }
+
+    $petModel = $this->model('Pet');
+
+    $pet = $petModel->getPetByIdForVet($petId);
+
+    if (!$pet) {
+        die('The selected pet was not found.');
+    }
+
+    $recordData = [
+    'pet_id' => $petId,
+    'vet_id' => $vetId,
+
+    'appointment_id' => $appointmentId,
+    'visit_date' => $visitDate,
+    'diagnosis' => $diagnosis,
+    'treatment' => $treatment,
+
+    'prescription' => $prescription !== ''
+        ? $prescription
+        : null,
+
+    'follow_up_date' => $followUpDate !== ''
+        ? $followUpDate
+        : null,
+
+    'notes' => $notes !== ''
+        ? $notes
+        : null,
+
+    'medicine_name' => trim($_POST['medicine_name'] ?? ''),
+
+    'medicine_dose' => trim($_POST['medicine_dose'] ?? ''),
+
+    'medicine_frequency' => trim($_POST['medicine_frequency'] ?? ''),
+
+    'medicine_duration' => trim($_POST['medicine_duration'] ?? ''),
+    'status' => $status
+];
+
+    $saved = $this->medicalRecordModel->create($recordData);
+
+    if (!$saved) {
+        die('The medical record could not be saved.');
+    }
+
+    header(
+        'Location: ' .
+        URLROOT .
+        '/index.php?url=vet/healthRecordDetails/' .
+        $petId
+    );
+
+    exit;
+}
+public function treatmentDetails($recordId)
+{
+    $recordId = (int)$recordId;
+
+    if ($recordId <= 0) {
+        die('Invalid medical record ID.');
+    }
+
+    $record = $this->medicalRecordModel->getById($recordId);
+
+    if (!$record) {
+        die('Medical record not found.');
+    }
+
+    $petObject = $this->petModel->getPetByIdForVet($record->pet_id);
+
+    if (!$petObject) {
+        die('Pet not found.');
+    }
+
+    $pet = [
+        'id' => $petObject->pet_id,
+        'name' => $petObject->name,
+        'breed' => $petObject->breed,
+        'owner' => trim(
+            ($petObject->owner_first_name ?? '') . ' ' .
+            ($petObject->owner_last_name ?? '')
+        )
+    ];
+
+    $data = [
+        'title' => 'Medical Record Details',
+        'record' => $record,
+        'pet' => $pet
+    ];
+
+    $this->view('vet/treatment-details', $data);
+}
+public function editMedicalRecord($recordId = null)
+{
+    $recordId = (int)$recordId;
+
+    if ($recordId <= 0) {
+        die('Invalid medical record ID.');
+    }
+
+    $record = $this->medicalRecordModel->getById($recordId);
+
+    if (!$record) {
+        die('Medical record not found.');
+    }
+
+    $petObject = $this->petModel->getPetByIdForVet($record->pet_id);
+
+    if (!$petObject) {
+        die('Pet not found.');
+    }
+
+    $pet = [
+        'id' => $petObject->pet_id,
+        'name' => $petObject->name,
+        'breed' => $petObject->breed,
+        'owner' => trim(
+            ($petObject->owner_first_name ?? '') . ' ' .
+            ($petObject->owner_last_name ?? '')
+        )
+    ];
+
+    $this->view('vet/edit-medical-record', [
+        'title' => 'Edit Medical Record',
+        'record' => $record,
+        'pet' => $pet,
+        'error' => ''
+    ]);
+}
+
+public function updateMedicalRecord($recordId = null)
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        die('Invalid request method.');
+    }
+
+    $recordId = (int)$recordId;
+    $postedRecordId = (int)($_POST['record_id'] ?? 0);
+    $petId = (int)($_POST['pet_id'] ?? 0);
+
+    if ($recordId <= 0 || $postedRecordId !== $recordId || $petId <= 0) {
+        die('Invalid medical record information.');
+    }
+
+    $existingRecord = $this->medicalRecordModel->getById($recordId);
+
+    if (!$existingRecord || (int)$existingRecord->pet_id !== $petId) {
+        die('Medical record not found.');
+    }
+
+    $status = $_POST['status'] ?? '';
+
+    if (!in_array($status, ['Ongoing', 'Completed'], true)) {
+        die('Invalid treatment status.');
+    }
+
+    $visitDate = $_POST['visit_date'] ?? '';
+    $followUpDate = $_POST['follow_up_date'] ?? '';
+
+    if ($visitDate === '' ||
+        strtotime($visitDate) === false ||
+        ($followUpDate !== '' && strtotime($followUpDate) === false)) {
+        die('Please enter valid dates.');
+    }
+
+    if ($followUpDate !== '' && $followUpDate < $visitDate) {
+        die('The follow-up date cannot be earlier than the visit date.');
+    }
+
+    $data = [
+        'record_id' => $recordId,
+        'pet_id' => $petId,
+        'visit_date' => $visitDate,
+        'diagnosis' => trim($_POST['diagnosis'] ?? ''),
+        'treatment' => trim($_POST['treatment'] ?? ''),
+        'prescription' => trim($_POST['prescription'] ?? ''),
+        'follow_up_date' => $followUpDate,
+        'notes' => trim($_POST['notes'] ?? ''),
+        'medicine_name' => trim($_POST['medicine_name'] ?? ''),
+        'medicine_dose' => trim($_POST['medicine_dose'] ?? ''),
+        'medicine_frequency' => trim($_POST['medicine_frequency'] ?? ''),
+        'medicine_duration' => trim($_POST['medicine_duration'] ?? ''),
+        'status' => $status
+    ];
+
+    if ($data['diagnosis'] === '' || $data['treatment'] === '') {
+        die('Diagnosis and treatment are required.');
+    }
+
+    if ($this->medicalRecordModel->update($data)) {
+        header(
+            'Location: ' . URLROOT .
+            '/index.php?url=vet/treatmentDetails/' . $recordId
+        );
+        exit;
+    }
+
+    die('The medical record could not be updated. Please try again.');
+}
+public function deleteMedicalRecord($recordId = null)
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        die('Invalid request method.');
+    }
+
+    $recordId = (int)$recordId;
+    $postedRecordId = (int)($_POST['record_id'] ?? 0);
+    $petId = (int)($_POST['pet_id'] ?? 0);
+
+    if ($recordId <= 0 || $postedRecordId !== $recordId || $petId <= 0) {
+        die('Invalid medical record information.');
+    }
+
+    $record = $this->medicalRecordModel->getById($recordId);
+
+    if (!$record || (int)$record->pet_id !== $petId) {
+        die('Medical record not found.');
+    }
+
+    if ($this->medicalRecordModel->delete($recordId, $petId)) {
+        header(
+            'Location: ' . URLROOT .
+            '/index.php?url=vet/healthRecordDetails/' . $petId
+        );
+        exit;
+    }
+
+    die('Could not delete the medical record. Please try again.');
 }
 }

@@ -20,60 +20,20 @@
 
     <!-- Appointment CSS -->
     <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-appointments.css?v=2">
+          href="<?php echo URLROOT; ?>/css/staff-appointments.css">
+
+           <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
+ 
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/vet-sidebar.css">
 
 </head>
 
 
 <body>
-
-
-<!-- =========================================
-     HEADER
-========================================= -->
-
-<header class="staff-header">
-
-    <div class="header-logo">
-
-        <img
-            src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-            alt="HappyPaws">
-
-        <span>HappyPaws</span>
-
-    </div>
-
-
-    <div class="search-box">
-
-        <span>⌕</span>
-
-        <input
-            type="text"
-            placeholder="Search patients, records...">
-
-    </div>
-
-
-    <div class="header-right">
-
-
-        <span class="header-icon">⚙</span>
-
-        <div class="user-profile">
-
-            <span>Jane D.</span>
-
-            <img
-                src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-                alt="User">
-
-        </div>
-
-    </div>
-
-</header>
 
 
 
@@ -87,7 +47,9 @@
     <!-- SAME SIDEBAR USED BY OTHER PAGES -->
 
     <?php require_once APPROOT . '/views/layouts/staff_sidebar.php'; ?>
+ <div class="staff-main-content">
 
+        <?php require_once APPROOT . '/views/layouts/staff-header.php'; ?>
 
     <!-- =====================================
          APPOINTMENT CONTENT
@@ -244,11 +206,7 @@
 
                 <div class="vet-name">
 
-                    <span class="vet-icon">
-                        ✚
-                    </span>
-
-                    Dr. Sarah Lee
+                Dr. Sarah Lee
 
                 </div>
 
@@ -322,10 +280,6 @@
 
 
                 <div class="vet-name">
-
-                    <span class="vet-icon">
-                        ✚
-                    </span>
 
                     Dr. Mike Ross
 
@@ -402,10 +356,6 @@
 
                 <div class="vet-name">
 
-                    <span class="vet-icon">
-                        ✚
-                    </span>
-
                     Dr. Sarah Lee
 
                 </div>
@@ -480,10 +430,6 @@
 
 
                 <div class="vet-name">
-
-                    <span class="vet-icon">
-                        ✚
-                    </span>
 
                     Dr. Mike Ross
 
@@ -562,7 +508,7 @@
 
 </div>
 
-
+<script src="<?php echo URLROOT; ?>/js/staff-appointments.js"></script>
 
 </body>
 

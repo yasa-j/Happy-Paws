@@ -51,6 +51,12 @@ $profile = $data['profile'] ?? [
         href="<?php echo URLROOT; ?>/css/vet-edit-profile.css?v=2"
     >
 
+    <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
+
 </head>
 
 
@@ -80,72 +86,7 @@ $profile = $data['profile'] ?? [
              TOP HEADER
              ===================================================== -->
 
-        <header class="vet-topbar">
-
-
-            <!-- SEARCH -->
-
-            <div class="vet-search">
-
-                <span class="search-icon">⌕</span>
-
-                <input
-                    type="text"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-            <!-- HEADER RIGHT -->
-
-            <div class="vet-header-right">
-
-                <!-- Settings -->
-
-                <a
-                    href="#"
-                    class="header-action"
-                    title="Settings"
-                >
-                    ⚙
-                </a>
-
-
-                <div class="header-divider"></div>
-
-
-                <!-- Profile -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/profile"
-                    class="vet-profile"
-                >
-
-                    
-                    <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-
-                    <div class="vet-profile-info">
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </header>
-
-
+        <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
         <!-- =====================================================
              EDIT PROFILE CONTENT
              ===================================================== -->

@@ -1,1138 +1,1306 @@
 /* =========================================================
-   MEDICAL RECORD DETAILS
+   HAPPY PAWS — HEALTH RECORD DETAILS
+   Full replacement CSS
+   ========================================================= */
+
+:root {
+    --teal: #006b63;
+    --teal-dark: #005d56;
+    --mint: #dff3ef;
+    --ink: #202b40;
+    --muted: #718096;
+    --line: #e2e9eb;
+    --page: #f6f9fa;
+    --card: #ffffff;
+
+    /* Shared layout dimensions */
+    --sidebar-width: 250px;
+    --header-height: 88px;
+}
+
+/* =========================================================
+   GLOBAL
    ========================================================= */
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+}
+
+html {
+    min-height: 100%;
 }
 
 body {
-    font-family: 'Playfair Display', serif;
-    background: #f7f9f8;
-    color: #263238;
+    margin: 0;
+    min-height: 100vh;
+    background: var(--page);
+    color: var(--ink);
+    font-family: Inter, Arial, sans-serif;
 }
 
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+
 .vet-page {
-    width: 100%;
     min-height: 100vh;
-
-    display: flex;
-
-    background: #f7f9f8;
+    background: var(--page);
 }
 
 .vet-main {
-    margin-left: 250px;
-    width: calc(100% - 250px);
+    /*
+       The sidebar is assumed to be fixed on the left.
+       The header is assumed to be fixed at the top.
+    */
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
     min-width: 0;
-
-    background: #f7f9f8;
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   TOP HEADER
-   ========================================================= */
-
-.vet-topbar {
-    width: 100%;
-    height: 88px;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #e4e9e8;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 42px;
-}
-
-.vet-search {
-    width: 445px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 0 15px;
-
-    background: #f1f4f3;
-
-    border: 1px solid #e2e8e6;
-
-    border-radius: 22px;
-}
-
-.search-icon {
-    font-size: 23px;
-    color: #47555a;
-}
-
-.vet-search input {
-    width: 100%;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    font-family: 'Inter', Arial, sans-serif;
-
-    font-size: 14px;
-
-    color: #334155;
-}
-
-.vet-search input::placeholder {
-    color: #6d797d;
-}
-
-.vet-header-right {
-    display: flex;
-    align-items: center;
-
-    gap: 20px;
-}
-
-.header-action {
+    min-height: 100vh;
+    padding-top: var(--header-height);
     position: relative;
-
-    width: 30px;
-    height: 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-
-    background: transparent;
-
-    color: #344247;
-
-    font-size: 22px;
-
-    text-decoration: none;
-
-    cursor: pointer;
 }
 
-.header-action:hover {
-    color: #006f68;
-}
-
-.notification-dot {
-    position: absolute;
-
-    top: 3px;
-    right: 2px;
-
-    width: 7px;
-    height: 7px;
-
-    background: #d52222;
-
-    border-radius: 50%;
-}
-
-.header-divider {
-    width: 1px;
-    height: 36px;
-
-    background: #d7dfde;
-}
-
-.vet-profile {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    text-decoration: none;
-}
-
-.vet-profile img {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 50%;
-
-    object-fit: cover;
-
-    border: 1px solid #d6dfdd;
-}
-
-.vet-profile-info {
-    display: flex;
-    flex-direction: column;
-
-    gap: 2px;
-}
-
-.vet-profile-info strong {
-    color: #263238;
-
-    font-size: 13px;
-
-    font-weight: 700;
-}
-
-.vet-profile-info span {
-    color: #718084;
-
-    font-size: 10px;
-
-    font-weight: 500;
-}
-
-
-/* =========================================================
-   CONTENT
-   ========================================================= */
+/*
+   Do not add another margin or padding to the main area
+   through .medical-detail-content.
+*/
 
 .medical-detail-content {
     width: 100%;
-    box-sizing: border-box;
-    padding: 30px 42px 50px;
+    max-width: 1600px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 24px 28px 40px;
 }
 
+/* =========================================================
+   HEADER LAYERING
+   ========================================================= */
+
+/*
+   The shared header should remain above the page content.
+   These selectors target common shared-header class names.
+*/
+
+.vet-main header,
+.vet-main .staff-header,
+.vet-main .staff-header-container {
+    z-index: 1000;
+}
 
 /* =========================================================
-   PET PROFILE CARD
+   SECTION LABEL
+   ========================================================= */
+
+.page-kicker {
+    margin: 0 0 12px 2px;
+    color: #a1adb7;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   PET INFORMATION CARD
    ========================================================= */
 
 .pet-profile-card {
     position: relative;
-
-    width: 100%;
-
-    min-height: 190px;
-
     display: flex;
     align-items: center;
+    gap: 24px;
 
-    gap: 28px;
+    width: 100%;
+    min-height: 145px;
 
-    padding: 28px 32px;
+    padding: 24px 30px;
 
-    background:
-        linear-gradient(
-            105deg,
-            #ffffff 0%,
-            #ffffff 67%,
-            #eef9f8 100%
-        );
+    background: linear-gradient(
+        105deg,
+        #ffffff 0%,
+        #ffffff 65%,
+        #e7f7f5 100%
+    );
 
-    border: 1px solid #dce5e4;
+    border: 1px solid #e0e7e9;
+    border-radius: 20px;
 
-    border-radius: 19px;
+    box-shadow: 0 8px 24px rgba(28, 48, 64, 0.035);
 
-    box-shadow:
-        0 2px 6px rgba(30, 50, 55, 0.03);
-
-    margin-bottom: 38px;
+    overflow: hidden;
 }
-
 
 /* Pet image */
 
 .pet-profile-image {
-    width: 120px;
-    height: 120px;
+    width: 88px;
+    height: 88px;
+    flex: 0 0 88px;
 
-    flex-shrink: 0;
+    display: grid;
+    place-items: center;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-
+    border: 3px solid #ffffff;
     border-radius: 50%;
 
-    background: #e9f3f2;
+    background: #e8f4f2;
 
-    border: 2px solid #d5e4e2;
+    box-shadow: 0 0 0 1px #e5ebee;
 
-    box-shadow:
-        0 2px 5px rgba(30, 50, 55, 0.08);
+    font-size: 42px;
 }
-
-.pet-profile-image span {
-    font-size: 65px;
-}
-
 
 /* Pet information */
 
 .pet-profile-main {
     flex: 1;
-
     min-width: 0;
 }
 
 .pet-name-line {
     display: flex;
-
     align-items: center;
-
+    flex-wrap: wrap;
     gap: 12px;
 
-    margin-bottom: 24px;
+    margin: 0 0 16px;
 }
 
 .pet-name-line h1 {
-    font-size: 43px;
+    margin: 0;
 
-    line-height: 48px;
+    color: #202b40;
 
-    color: #18263d;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.2px;
 
-    font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .pet-type-badge {
     display: inline-flex;
-
     align-items: center;
+    justify-content: center;
 
-    gap: 4px;
+    padding: 5px 11px;
 
-    height: 26px;
+    border-radius: 20px;
 
-    padding: 0 12px;
+    background: #1c8178;
+    color: #ffffff;
 
-    border-radius: 15px;
-
-    background: #d1eeeb;
-
-    color: #006f68;
-
-    font-size: 11px;
-
+    font-size: 12px;
     font-weight: 600;
+
+    white-space: nowrap;
 }
 
-
-/* Pet details */
+/* Breed, age, weight and owner */
 
 .pet-details-grid {
     display: grid;
-
-    grid-template-columns:
-        1fr
-        1fr
-        1fr
-        1.3fr;
-
-    gap: 35px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
 }
 
 .pet-detail-item {
     display: flex;
-
     flex-direction: column;
-
     gap: 7px;
+
+    min-width: 0;
 }
 
 .pet-detail-item > span {
-    font-size: 10px;
+    color: #71829a;
 
-    color: #6b7f99;
-
+    font-size: 11px;
     font-weight: 700;
-
-    letter-spacing: 0.7px;
+    letter-spacing: 0.5px;
 }
 
-.pet-detail-item > strong {
+.pet-detail-item strong {
+    color: #20252b;
+
     font-size: 15px;
-
-    color: #202c3e;
-
     font-weight: 500;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
 }
 
 .owner-detail strong {
-    color: #006f68;
+    color: var(--teal);
 }
 
-
-/* Edit button */
+/* Edit pet button */
 
 .edit-pet-button {
     position: absolute;
+    top: 22px;
+    right: 24px;
 
-    top: 31px;
-    right: 31px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    width: 37px;
-    height: 37px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
 
-    border: 1px solid #aec9c7;
+    border: 1px solid #cbdad9;
+    border-radius: 9px;
 
-    border-radius: 8px;
+    background: #edf9f7;
+    color: var(--teal);
 
-    background: transparent;
-
-    color: #006f68;
-
-    font-size: 19px;
+    font-size: 20px;
+    line-height: 1;
 
     cursor: pointer;
 }
 
 .edit-pet-button:hover {
-    background: #e6f2f0;
+    background: #dff3ef;
 }
 
-
 /* =========================================================
-   MAIN TWO-COLUMN GRID
+   TWO-COLUMN CONTENT LAYOUT
    ========================================================= */
 
 .medical-detail-grid {
     display: grid;
 
     grid-template-columns:
-        minmax(0, 1.65fr)
-        minmax(320px, 0.85fr);
+        minmax(0, 1.85fr)
+        minmax(280px, 0.9fr);
 
-    gap: 24px;
-
+    gap: 20px;
     align-items: start;
+
+    width: 100%;
+    min-width: 0;
+
+    margin-top: 24px;
 }
 
 .medical-left-column,
 .medical-right-column {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 24px;
+    min-width: 0;
 }
 
+/* =========================================================
+   MEDICAL RECORD TABS
+   ========================================================= */
+
+.records-tabs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    width: 100%;
+
+    margin: 0 0 14px;
+    padding: 0 0 9px;
+
+    border-bottom: 1px solid var(--line);
+}
+
+.records-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 38px;
+    padding: 10px 13px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #75859a;
+
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.records-tab:hover {
+    background: #eef7f5;
+    color: var(--teal);
+}
+
+.records-tab.active {
+    background: #def3ef;
+    color: #00675f;
+    font-weight: 700;
+}
 
 /* =========================================================
-   CARD
+   GENERAL CARDS
    ========================================================= */
 
 .medical-card {
-    background: #ffffff;
+    min-width: 0;
 
-    border: 1px solid #dce5e4;
+    background: var(--card);
 
-    border-radius: 17px;
+    border: 1px solid #e7edef;
+    border-radius: 18px;
+
+    box-shadow: 0 3px 10px rgba(35, 55, 70, 0.025);
 
     overflow: hidden;
-
-    box-shadow:
-        0 2px 5px rgba(30, 50, 55, 0.025);
 }
 
-
-/* Card header */
-
 .medical-card-header {
-    min-height: 73px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
+    gap: 14px;
 
-    padding: 0 25px;
+    min-height: 58px;
+    padding: 14px 18px;
 
-    border-bottom: 1px solid #dce4e3;
+    border-bottom: 1px solid #edf1f2;
 }
 
 .medical-card-title {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
+
+    min-width: 0;
 }
 
 .medical-card-title h2 {
-    font-size: 18px;
+    margin: 0;
 
-    color: #26364c;
+    color: #2a3548;
 
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
 }
 
 .section-icon {
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 19px;
+    flex: 0 0 auto;
 
-    color: #006f68;
+    font-size: 18px;
+    line-height: 1;
 }
 
-.treatment-icon {
-    color: #47716f;
+.treatment-icon,
+.vaccination-icon {
+    color: #00776e;
 }
 
 .allergy-icon {
-    color: #d11f27;
+    color: #e14c4c;
 }
 
 .medication-icon {
-    color: #a65a38;
+    color: #b76b4d;
 }
-
-
-/* Header button */
-
-.header-text-button {
-    border: none;
-
-    background: transparent;
-
-    color: #006f68;
-
-    font-family: 'Inter', Arial, sans-serif;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.header-text-button:hover {
-    text-decoration: underline;
-}
-
 
 /* =========================================================
-   VACCINATION TABLE
+   ADD RECORD BUTTONS
    ========================================================= */
 
-.vaccination-table {
-    width: 100%;
-}
-
-.vaccination-table-header,
-.vaccination-row {
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        1.15fr
-        1fr
-        1fr;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 0 26px;
-}
-
-.vaccination-table-header {
-    min-height: 47px;
-
-    background: #f9fbfb;
-
-    border-bottom: 1px solid #dce4e3;
-}
-
-.vaccination-table-header span {
-    font-size: 9px;
-
-    color: #657994;
-
-    font-weight: 700;
-
-    letter-spacing: 0.4px;
-}
-
-.vaccination-row {
-    min-height: 54px;
-
-    border-bottom: 1px solid #e6ebea;
-}
-
-.vaccination-row:last-child {
-    border-bottom: none;
-}
-
-.vaccination-row > span {
-    font-size: 13px;
-
-    color: #263238;
-}
-
-.vaccination-date {
-    color: #6c809c !important;
-}
-
-.vaccination-name {
-    font-weight: 500;
-}
-
-.vaccination-status {
+.add-record-button {
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 5px;
 
-    width: fit-content;
+    min-height: 36px;
+    padding: 9px 14px;
 
-    min-height: 25px;
+    border: 0;
+    border-radius: 8px;
 
-    padding: 3px 9px;
+    background: var(--teal);
+    color: #ffffff;
 
-    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
 
-    font-size: 10px !important;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
 
-    font-weight: 600;
+    cursor: pointer;
+
+    transition: background 0.2s ease;
 }
 
-.vaccination-status.completed {
-    background: #d8def2;
-
-    color: #59627c;
+.add-record-button:hover {
+    background: var(--teal-dark);
 }
 
-.vaccination-status.due {
-    background: #ffd9d6;
-
-    color: #c82a2a;
-
-    border: 1px solid #f3a9a3;
+.add-record-button:focus-visible {
+    outline: 2px solid #15978c;
+    outline-offset: 3px;
 }
-
-.vaccination-next-due {
-    color: #6c809c !important;
-}
-
-.vaccination-next-due.danger-date {
-    color: #d10e18 !important;
-
-    font-weight: 500;
-}
-
 
 /* =========================================================
-   CLINICAL TREATMENTS
+   TREATMENT AND VACCINATION TABLES
    ========================================================= */
 
-.treatment-list {
-    padding: 17px 25px 20px;
-}
-
-.treatment-item {
-    position: relative;
-
-    min-height: 118px;
-
-    display: flex;
-
-    padding-left: 26px;
-}
-
-.treatment-item:last-child {
-    min-height: 105px;
-}
-
-.timeline-line {
-    position: absolute;
-
-    left: 0;
-
-    top: 16px;
-
-    bottom: 0;
-
-    width: 2px;
-
-    background: #d5e1df;
-}
-
-.treatment-item:last-child .timeline-line {
-    display: none;
-}
-
-.timeline-dot {
-    position: absolute;
-
-    left: -6px;
-
-    top: 10px;
-
-    width: 13px;
-    height: 13px;
-
-    border-radius: 50%;
-
-    background: #4d6c69;
-
-    border: 2px solid #ffffff;
-}
-
-.treatment-content {
+.treatment-table-wrap,
+.vaccination-table-wrap {
     width: 100%;
+    min-width: 0;
+
+    padding: 0 16px 12px;
+
+    overflow-x: auto;
 }
 
-.treatment-top {
-    display: flex;
+.treatment-table,
+.vaccination-table {
+    width: 100%;
+    min-width: 560px;
 
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
+    border-collapse: collapse;
+    text-align: left;
 }
 
-.treatment-top h3 {
-    font-size: 14px;
+.treatment-table th,
+.vaccination-table th {
+    height: 42px;
+    padding: 12px 9px;
 
-    color: #18242c;
+    border-bottom: 1px solid #edf1f3;
 
+    color: #8293a9;
+
+    font-size: 11px;
     font-weight: 700;
-}
-
-.treatment-top > span {
-    font-size: 10px;
-
-    color: #6c809c;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
 
     white-space: nowrap;
 }
 
-.treatment-content > p {
-    max-width: 650px;
+.treatment-table td,
+.vaccination-table td {
+    padding: 17px 9px;
 
-    margin-top: 6px;
+    border-bottom: 1px solid #f0f3f4;
+
+    color: #3d4a5d;
 
     font-size: 12px;
+    line-height: 1.5;
 
-    line-height: 18px;
-
-    color: #6c809c;
+    vertical-align: top;
 }
 
-.treatment-doctor {
-    margin-top: 9px;
+.treatment-table tbody tr:last-child td,
+.vaccination-table tbody tr:last-child td {
+    border-bottom: 0;
+}
 
-    color: #006f68;
+.treatment-table td strong,
+.vaccination-table td strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #273244;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.treatment-table td small {
+    display: block;
+
+    max-width: 240px;
+
+    color: #8b9aab;
 
     font-size: 11px;
-
-    font-weight: 600;
+    line-height: 1.6;
 }
 
+/* =========================================================
+   STATUS LABELS
+   ========================================================= */
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background: #d9f7e9;
+    color: #219b77;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.status-pill.due {
+    background: #fff0d9;
+    color: #ad6a09;
+}
+
+/* =========================================================
+   VIEW TREATMENT BUTTON
+   ========================================================= */
+
+.text-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 3px;
+
+    border: 0;
+    background: transparent;
+
+    color: #006b63;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.text-action:hover {
+    text-decoration: underline;
+}
+
+.treatment-extra {
+    max-width: 240px;
+    padding-top: 8px;
+
+    color: #66768a;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.treatment-item.is-expanded {
+    background: #fbfefd;
+}
+
+/* =========================================================
+   EMPTY STATES
+   ========================================================= */
+
+.empty-state {
+    padding: 30px 16px !important;
+
+    color: #8b98a8 !important;
+
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+.muted-note {
+    display: block;
+
+    padding: 14px;
+
+    color: #8a969d;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   RIGHT COLUMN
+   ========================================================= */
+
+.medical-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    min-width: 0;
+
+    /*
+       Align the top of the side cards with the treatment card,
+       below the tabs.
+    */
+    padding-top: 52px;
+}
+
+.side-info-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.side-info-card .medical-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    min-height: 58px;
+    padding: 14px 16px;
+
+    background: #fbfcfc;
+}
+
+/* =========================================================
+   PLUS BUTTONS — CENTERED INSIDE CIRCLES
+   ========================================================= */
+
+.round-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 26px;
+
+    width: 26px;
+    min-width: 26px;
+    height: 26px;
+    min-height: 26px;
+
+    margin: 0;
+    padding: 0;
+
+    border: 1.5px solid #8b9db2;
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #637b96;
+
+    font-family: Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+
+    line-height: 1;
+    text-align: center;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.round-action:hover {
+    border-color: var(--teal);
+    background: #edf9f7;
+    color: var(--teal);
+}
+
+.round-action:focus-visible {
+    outline: 2px solid #15978c;
+    outline-offset: 2px;
+}
 
 /* =========================================================
    ALLERGIES
    ========================================================= */
 
-.allergies-card {
-    border-top: 5px solid #cf2026;
-}
-
-.allergies-card .medical-card-header {
-    border-bottom: none;
-
-    min-height: 65px;
-}
-
 .allergy-list {
     display: flex;
-
     flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
 
-    gap: 9px;
+    min-height: 64px;
 
-    padding: 0 25px 24px;
+    padding: 17px 14px 18px;
 }
 
 .allergy-tag {
-    min-height: 29px;
-
     display: inline-flex;
-
     align-items: center;
+    justify-content: center;
 
-    padding: 5px 13px;
+    max-width: 100%;
+
+    padding: 6px 11px;
+
+    border: 1px solid #dce4e2;
+    border-radius: 18px;
 
     background: #edf1f0;
+    color: #53605f;
 
-    border: 1px solid #d8dfdd;
-
-    border-radius: 16px;
-
-    color: #526065;
-
-    font-size: 10px;
-
+    font-size: 11px;
     font-weight: 500;
-}
+    line-height: 1.3;
 
+    overflow-wrap: anywhere;
+}
 
 /* =========================================================
-   MEDICATIONS
+   ACTIVE MEDICATIONS
    ========================================================= */
 
-.medication-card .medical-card-header {
-    min-height: 65px;
+.medication-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 12px;
 }
 
-.add-medication-button {
-    width: 25px;
-    height: 25px;
+.medication-item {
+    min-width: 0;
 
-    border: 1.5px solid #71849c;
+    padding: 12px;
 
-    border-radius: 50%;
+    border: 1px solid #e4ecea;
+    border-radius: 8px;
 
+    background: #f7faf9;
+}
+
+.medication-item-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-bottom: 9px;
+}
+
+.medication-item-title strong {
+    color: #252c2e;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+.medication-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 7px;
+
+    border-radius: 4px;
+
+    background: #c8ece7;
+    color: #1d3835;
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.medication-item p {
+    margin: 6px 0 0;
+
+    color: #596564;
+
+    font-size: 11px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+.medication-item p b {
+    color: #394543;
+    font-weight: 700;
+}
+
+/* =========================================================
+   TAB CONTENT
+   ========================================================= */
+
+.records-tab-content[hidden] {
+    display: none !important;
+}
+
+/* =========================================================
+   QUICK-ADD DIALOG
+   ========================================================= */
+
+.record-dialog {
+    width: min(440px, calc(100% - 32px));
+    max-width: 100%;
+
+    padding: 0;
+
+    border: 1px solid var(--line);
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    box-shadow: 0 18px 60px rgba(28, 52, 64, 0.17);
+}
+
+.record-dialog::backdrop {
+    background: rgba(20, 37, 46, 0.4);
+    backdrop-filter: blur(2px);
+}
+
+.record-dialog form {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+
+    padding: 28px;
+}
+
+.record-dialog h2 {
+    margin: 0;
+
+    color: var(--ink);
+
+    font-size: 22px;
+    font-weight: 750;
+}
+
+.record-dialog p {
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.record-dialog label {
+    color: #354255;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.record-dialog input {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 11px 12px;
+
+    border: 1px solid #cfdcdd;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    outline-color: #00776e;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    border: 0;
     background: transparent;
 
-    color: #64788e;
+    color: #718096;
 
-    font-size: 18px;
-
-    line-height: 20px;
+    font-size: 24px;
+    line-height: 1;
 
     cursor: pointer;
 }
 
-.add-medication-button:hover {
-    background: #edf4f2;
-
-    color: #006f68;
-
-    border-color: #006f68;
-}
-
-.medication-list {
-    padding: 16px;
-}
-
-.medication-item {
-    padding: 14px;
-
-    margin-bottom: 12px;
-
-    background: #f7faf9;
-
-    border: 1px solid #dce6e4;
-
-    border-radius: 9px;
-}
-
-.medication-item:last-child {
-    margin-bottom: 0;
-}
-
-.medication-name-row {
+.dialog-actions {
     display: flex;
-
+    justify-content: flex-end;
     align-items: center;
-
-    justify-content: space-between;
-
     gap: 10px;
 
-    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
-.medication-name-row strong {
-    font-size: 13px;
+.cancel-button {
+    min-height: 36px;
 
-    color: #20292c;
+    padding: 9px 14px;
 
-    font-weight: 700;
-}
+    border: 1px solid #d5dfdf;
+    border-radius: 7px;
 
-.ongoing-badge {
-    height: 19px;
+    background: #ffffff;
+    color: #4c5969;
 
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 0 7px;
-
-    border-radius: 4px;
-
-    background: #c6e8e3;
-
-    color: #41736e;
-
-    font-size: 8px;
-
-    font-weight: 700;
-}
-
-.medication-detail {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    margin-top: 7px;
-
-    color: #536064;
-
-    font-size: 11px;
-
-    line-height: 16px;
-}
-
-.medication-detail > span {
-    width: 15px;
-
-    color: #687f84;
-
-    text-align: center;
-}
-
-.medication-detail strong {
+    font-size: 12px;
     font-weight: 600;
+
+    cursor: pointer;
 }
 
+.cancel-button:hover {
+    background: #f6f9fa;
+}
+
+.dialog-note {
+    color: #89949c;
+
+    font-size: 10px;
+    line-height: 1.6;
+}
 
 /* =========================================================
-   RESPONSIVE
+   KEYBOARD FOCUS
    ========================================================= */
 
-@media (max-width: 1150px) {
+.medical-detail-content button:focus-visible,
+.medical-detail-content a:focus-visible {
+    outline: 2px solid #15978c;
+    outline-offset: 3px;
+}
 
+/* =========================================================
+   TABLET LAYOUT
+   ========================================================= */
+
+@media (max-width: 1100px) {
     .medical-detail-content {
-        padding: 30px;
+        padding-right: 20px;
+        padding-left: 20px;
     }
 
     .medical-detail-grid {
-        grid-template-columns: 1fr;
-    }
+        grid-template-columns:
+            minmax(0, 1.5fr)
+            minmax(250px, 0.9fr);
 
-    .medical-right-column {
-        display: grid;
-
-        grid-template-columns: 1fr 1fr;
-
-        align-items: start;
-    }
-
-}
-
-
-@media (max-width: 900px) {
-
-    .vet-topbar {
-        padding: 0 25px;
-    }
-
-    .vet-search {
-        width: 320px;
+        gap: 14px;
     }
 
     .pet-profile-card {
-        align-items: flex-start;
-
-        padding: 25px;
+        gap: 18px;
+        padding: 22px;
     }
 
     .pet-details-grid {
-        grid-template-columns:
-            1fr
-            1fr;
-    }
-
-    .medical-right-column {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-@media (max-width: 700px) {
-
-    .vet-topbar {
-        height: 70px;
-    }
-
-    .vet-search {
-        display: none;
-    }
-
-    .medical-detail-content {
-        padding: 22px 15px 45px;
-    }
-
-    .pet-profile-card {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        padding: 22px;
-
-        gap: 18px;
-    }
-
-    .pet-profile-image {
-        width: 90px;
-        height: 90px;
+        gap: 12px;
     }
 
     .pet-name-line h1 {
         font-size: 34px;
     }
 
-    .pet-details-grid {
-        grid-template-columns: 1fr 1fr;
+    .medical-card-header {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+}
 
+/* =========================================================
+   NARROWER TABLETS
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .medical-detail-content {
+        padding: 20px 16px 30px;
+    }
+
+    .medical-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
         gap: 18px;
     }
 
-    .edit-pet-button {
-        top: 20px;
-        right: 20px;
+    .medical-right-column {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+
+        padding-top: 0;
     }
 
-    .vaccination-table {
-        overflow-x: auto;
+    .pet-profile-card {
+        min-height: 0;
     }
-
-    .vaccination-table-header,
-    .vaccination-row {
-        min-width: 650px;
-    }
-
-    .treatment-top {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 4px;
-    }
-
-}
-
-
-@media (max-width: 500px) {
 
     .pet-details-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 13px;
+    }
+
+    .treatment-table,
+    .vaccination-table {
+        min-width: 560px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .medical-detail-content {
+        padding: 16px 10px 24px;
+    }
+
+    .page-kicker {
+        font-size: 11px;
+    }
+
+    .pet-profile-card {
+        align-items: flex-start;
+        gap: 12px;
+
+        padding: 17px 14px;
+        border-radius: 15px;
     }
 
     .pet-profile-image {
-        width: 80px;
-        height: 80px;
-    }
+        width: 60px;
+        height: 60px;
+        flex-basis: 60px;
 
-    .pet-name-line h1 {
         font-size: 30px;
     }
 
+    .pet-profile-main {
+        padding-right: 14px;
+    }
+
+    .pet-name-line {
+        gap: 8px;
+        margin: 5px 0 14px;
+    }
+
+    .pet-name-line h1 {
+        font-size: 28px;
+        letter-spacing: -0.6px;
+    }
+
+    .pet-type-badge {
+        font-size: 10px;
+    }
+
+    .pet-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .pet-detail-item > span {
+        font-size: 10px;
+    }
+
+    .pet-detail-item strong {
+        font-size: 13px;
+    }
+
+    .edit-pet-button {
+        top: 10px;
+        right: 10px;
+
+        width: 30px;
+        height: 30px;
+
+        font-size: 17px;
+    }
+
+    .records-tabs {
+        gap: 4px;
+    }
+
+    .records-tab {
+        flex: 1 1 auto;
+
+        padding: 9px 7px;
+
+        font-size: 11px;
+    }
+
+    .medical-card {
+        border-radius: 13px;
+    }
+
     .medical-card-header {
-        padding: 0 18px;
+        gap: 8px;
+        padding: 12px;
     }
 
-    .treatment-list {
-        padding-left: 18px;
-        padding-right: 18px;
+    .medical-card-title {
+        gap: 7px;
     }
 
+    .medical-card-title h2 {
+        font-size: 14px;
+    }
+
+    .add-record-button {
+        min-height: 33px;
+        padding: 8px 10px;
+
+        font-size: 11px;
+    }
+
+    .medical-right-column {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .treatment-table-wrap,
+    .vaccination-table-wrap {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .allergy-list {
+        padding: 13px 10px 15px;
+    }
+
+    .medication-list {
+        padding: 9px;
+    }
+
+    .record-dialog form {
+        padding: 23px 18px;
+    }
 }
+
 /* =========================================================
-   ADD RECORD BUTTON
+   VERY SMALL SCREENS
    ========================================================= */
 
-.add-record-button {
-    height: 40px;
-    padding: 0 17px;
+@media (max-width: 380px) {
+    .pet-profile-card {
+        gap: 9px;
+        padding: 13px 10px;
+    }
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    .pet-profile-image {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
 
-    gap: 6px;
+        font-size: 25px;
+    }
 
-    border: none;
-    border-radius: 8px;
+    .pet-name-line h1 {
+        font-size: 24px;
+    }
 
-    background: #006f68;
-    color: #ffffff;
+    .pet-profile-main {
+        padding-right: 10px;
+    }
 
-    font-family: 'Inter', Arial, sans-serif;
+    .records-tab {
+        font-size: 10px;
+    }
+
+    .medical-card-title h2 {
+        font-size: 13px;
+    }
+}
+.active-meds-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+}
+
+.medicine-card {
+    padding: 14px;
+    background: #f5faf9;
+    border: 1px solid #dce9e6;
+    border-radius: 10px;
+}
+
+.medicine-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.medicine-link h4 {
+    margin: 0 0 12px;
+    color: #172b3d;
+    font-size: 14px;
+}
+
+.medicine-link p {
+    margin: 8px 0;
     font-size: 13px;
-    font-weight: 600;
+    color: #526579;
+}
 
-    text-decoration: none;
+.medicine-link:hover h4 {
+    color: #00796f;
+}
 
+.delete-medicine-button {
+    margin-top: 10px;
+    padding: 7px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 12px;
     cursor: pointer;
-
-    white-space: nowrap;
-
-    transition:
-        background 0.15s ease,
-        transform 0.15s ease;
 }
 
-
-.add-record-button:hover {
-    background: #005e58;
-    color: #ffffff;
-
-    text-decoration: none;
+.delete-medicine-button:hover {
+    background: #fecaca;
 }
 
-
-.add-record-button:visited {
-    color: #ffffff;
-    text-decoration: none;
+.no-medicines {
+    padding: 12px;
+    color: #64748b;
+    font-size: 14px;
 }
-
-
-.add-record-button:active {
-    color: #ffffff;
-    text-decoration: none;
-
-    transform: translateY(1px);
-}
-
-
-.add-record-button .add-icon {
-    color: #ffffff;
-
-    font-size: 17px;
-    font-weight: 500;
-
-    line-height: 1;
-}
-.vaccination-link {
-    color: #263238;
+.view-treatment-link {
+    color: #00796f;
     text-decoration: none;
     font-weight: 600;
     cursor: pointer;
 }
 
-.vaccination-link:hover {
-    color: #006f68;
-    text-decoration: none;
+.view-treatment-link:hover {
+    color: #005f56;
+    text-decoration: underline;
 }

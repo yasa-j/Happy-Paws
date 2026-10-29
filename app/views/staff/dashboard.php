@@ -1,513 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Paws | Receptionist Dashboard</title>
 
-    <title>HappyPaws - Dashboard</title>
-
-    <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-
-    <!-- COMMON STAFF CSS -->
-    <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-common.css?v=2">
-
-    <!-- DASHBOARD CSS -->
-    <link rel="stylesheet"
-          href="<?php echo URLROOT; ?>/css/staff-dashboard.css?v=2">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/staff-common.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/staff-dashboard.css?v=3">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/shared-staff-header.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/vet-sidebar.css">
 </head>
-
-
 <body>
-
-
-<!-- =========================================
-     HEADER
-========================================= -->
-
-<header class="staff-header">
-
-    <div class="header-logo">
-
-        <img
-            src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-            alt="HappyPaws">
-
-        <span>HappyPaws</span>
-
-    </div>
-
-
-    <div class="search-box">
-
-        <span>⌕</span>
-
-        <input
-            type="text"
-            placeholder="Search patients, records...">
-
-    </div>
-
-
-    <div class="header-right">
-
-
-        <span class="header-icon">⚙</span>
-
-        <div class="user-profile">
-
-            <span>Jane D.</span>
-
-            <img
-                src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-                alt="User">
-
-        </div>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================================
-     SIDEBAR + DASHBOARD
-========================================= -->
 
 <div class="staff-layout">
 
-
-    <!-- SAME SIDEBAR USED BY ALL STAFF PAGES -->
-
+    <!-- Existing sidebar: do not change -->
     <?php require_once APPROOT . '/views/layouts/staff_sidebar.php'; ?>
 
+    <!-- Main area: existing header + dashboard -->
+    <div class="staff-main-area">
 
-    <!-- =====================================
-         DASHBOARD CONTENT
-    ====================================== -->
+        <!-- Existing header: do not change -->
+        <?php require_once APPROOT . '/views/layouts/staff-header.php'; ?>
 
-    <main class="staff-dashboard-content">
+        <main class="staff-dashboard-content">
 
+            <!-- Welcome heading -->
+            <div class="dashboard-heading">
 
-        <!-- =================================
-             PAGE HEADING
-        ================================== -->
-
-        <div class="page-heading">
-
-            <div>
-
-                <h1>
-                    Welcome Back!
-                </h1>
-
-                <p>
-                    <span class="info-symbol">ⓘ</span>
-                    Here's what's happening at HappyPaws clinic today.
-                </p>
-
-            </div>
-
-
-            <div class="date-box">
-
-                <span>▣</span>
-
-                Monday, Oct 25th 2027
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================
-             STAT CARDS
-        ================================== -->
-
-        <section class="stats-grid">
-
-
-            <!-- TODAY'S APPOINTMENTS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div>
-
-                        <p class="stat-title">
-                            TODAY'S APPOINTMENTS
-                        </p>
-
-                        <h2>
-                            12
-                        </h2>
-
-                    </div>
-
-
-                    <div class="stat-icon green-light">
-                        ▣
-                    </div>
+                <div>
+                    <h1>Welcome Back, Emily!</h1>
 
                 </div>
 
-
-                <div class="card-line"></div>
-
-
-                <a href="#">
-                    Details →
-                </a>
-
-            </div>
-
-
-
-            <!-- WALK-INS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div>
-
-                        <p class="stat-title">
-                            WALK-INS
-                        </p>
-
-                        <h2>
-                            4
-                        </h2>
-
-                    </div>
-
-
-                    <div class="stat-icon green">
-                        ♟
-                    </div>
-
-                </div>
-
-
-                <div class="card-line"></div>
-
-
-                <a href="#">
-                    View all →
-                </a>
-
-            </div>
-
-
-
-            <!-- NOTIFICATIONS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div>
-
-                        <p class="stat-title">
-                            NOTIFICATIONS
-                        </p>
-
-                        <h2 class="danger-number">
-                            3
-                        </h2>
-
-                    </div>
-
-
-                    <div class="stat-icon red-light">
-                        ♧
-                    </div>
-
-                </div>
-
-
-                <div class="card-line"></div>
-
-
-                <a href="#" class="danger-link">
-                    Check →
-                </a>
-
-            </div>
-
-
-
-            <!-- PAYMENTS -->
-
-            <div class="stat-card payment-card">
-
-                <div class="stat-top">
-
-                    <div>
-
-                        <p class="stat-title">
-                            PAYMENTS TODAY
-                        </p>
-
-                        <h2>
-                            Rs.10,000
-                        </h2>
-
-                    </div>
-
-
-                    <div class="stat-icon payment-icon">
-                        ▣
-                    </div>
-
-                </div>
-
-
-                <div class="card-line"></div>
-
-
-                <div class="payment-bottom">
-
-                    <span>
-                        CASH: Rs.2.5k
-                    </span>
-
-                    <span>
-                        CARD: Rs.7.5k
-                    </span>
-
-                    <a href="#">
-                        Full Report →
-                    </a>
-
+                <div class="date-box">
+                    <span>▣</span>
+                    Monday, Oct 25th 2027
                 </div>
 
             </div>
 
+            
 
 
-            <!-- NEW CLIENTS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div>
-
-                        <p class="stat-title">
-                            NEW CLIENTS
-                        </p>
-
-                        <h2 class="blue-number">
-                            3
-                        </h2>
-
-                    </div>
-
-
-                    <div class="stat-icon blue-light">
-                        ♙+
-                    </div>
-
-                </div>
-
-
-                <div class="card-line"></div>
-
-
-                <a href="#" class="blue-link">
-                    Profiles →
-                </a>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================
-             RECENT PATIENT ARRIVALS
-        ================================== -->
-
-        <section class="recent-section">
-
-
-            <div class="section-heading">
-
-                <h2>
-
-                    <span></span>
-
-                    Recent Patient Arrivals
-
-                </h2>
-
-
-                <a href="#">
-                    History ↄ
-                </a>
-
-            </div>
-
-
-
-            <div class="patient-table">
-
-
-                <!-- TABLE HEADER -->
-
-                <div class="table-header">
-
-                    <span>
-                        PATIENT & OWNER
-                    </span>
-
-                    <span>
-                        VISIT PURPOSE
-                    </span>
-
-                    <span>
-                        STATUS
-                    </span>
-
-                </div>
-
-
-
-                <!-- PATIENT 1 -->
-
-                <div class="patient-row">
-
-
-                    <div class="patient-info">
-
-                        <div class="pet-image">
-                            🐕
-                        </div>
-
+            <section class="stats-grid" aria-label="Clinic summary">
+                <article class="summary-card">
+                    <div class="summary-card-top">
                         <div>
-
-                            <strong>
-                                Cooper
-                            </strong>
-
-                            <small>
-                                Sarah Jenkins
-                            </small>
-
+                            <p class="summary-label">TODAY'S APPOINTMENTS</p>
+                            <h2>12</h2>
+                            <p class="summary-note">Scheduled for today</p>
                         </div>
-
+                        <div class="summary-icon icon-teal">▦</div>
                     </div>
+                    <a href="<?php echo URLROOT; ?>/index.php?url=staff/appointments">View schedule <span>→</span></a>
+                </article>
 
-
-                    <div>
-
-                        <span class="purpose checkup">
-                            Check-up
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-area">
-
-                        <span class="status checked">
-                            CHECKED IN
-                        </span>
-
-                        <small>
-                            2 MINS AGO
-                        </small>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- PATIENT 2 -->
-
-                <div class="patient-row">
-
-
-                    <div class="patient-info">
-
-                        <div class="pet-image">
-                            🐈
-                        </div>
-
+                <article class="summary-card">
+                    <div class="summary-card-top">
                         <div>
-
-                            <strong>
-                                Luna
-                            </strong>
-
-                            <small>
-                                Mark Robinson
-                            </small>
-
+                            <p class="summary-label">WALK-INS</p>
+                            <h2 class="green-number">4</h2>
+                            <p class="summary-note">Walk-in registrations today</p>
                         </div>
+                        <div class="summary-icon icon-green">♙+</div>
+                    </div>
+                    <a href="<?php echo URLROOT; ?>/index.php?url=staff/walkin">Register walk-in <span>→</span></a>
+                </article>
 
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div>
+                            <p class="summary-label">PAYMENTS TODAY</p>
+                            <h2 class="orange-number">3</h2>
+                            <p class="summary-note">Payments completed</p>
+                        </div>
+                        <div class="summary-icon icon-orange">▱</div>
+                    </div>
+                    <a href="<?php echo URLROOT; ?>/index.php?url=staff/billing">View billing <span>→</span></a>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div>
+                            <p class="summary-label">NEW CLIENTS</p>
+                            <h2 class="blue-number">5</h2>
+                            <p class="summary-note">Registered this week</p>
+                        </div>
+                        <div class="summary-icon icon-blue">♙+</div>
+                    </div>
+                    <a href="<?php echo URLROOT; ?>/index.php?url=staff/clients">View clients <span>→</span></a>
+                </article>
+            </section>
+
+            <section class="dashboard-charts">
+                <article class="dashboard-panel weekly-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2><span class="heading-symbol">▥</span> Weekly Appointments</h2>
+                            <p>Appointment activity throughout the week</p>
+                        </div>
+                        <span class="period-pill">This Week</span>
                     </div>
 
+                    <div class="bar-chart" role="img" aria-label="Weekly appointments: Monday 8, Tuesday 12, Wednesday 9, Thursday 15, Friday 11, Saturday 7, Sunday 4">
+                        <div class="chart-y-labels"><span>20</span><span>15</span><span>10</span><span>5</span><span>0</span></div>
+                        <div class="chart-plot">
+                            <div class="chart-gridline grid-20"></div>
+                            <div class="chart-gridline grid-15"></div>
+                            <div class="chart-gridline grid-10"></div>
+                            <div class="chart-gridline grid-5"></div>
+                            <div class="chart-gridline grid-0"></div>
+                            <div class="bar-column"><span class="bar-value">8</span><div class="bar bar-light" style="--bar-height:40%"></div><span class="bar-day">Mon</span></div>
+                            <div class="bar-column"><span class="bar-value">12</span><div class="bar bar-dark" style="--bar-height:60%"></div><span class="bar-day">Tue</span></div>
+                            <div class="bar-column"><span class="bar-value">9</span><div class="bar bar-light" style="--bar-height:45%"></div><span class="bar-day">Wed</span></div>
+                            <div class="bar-column"><span class="bar-value">15</span><div class="bar bar-dark" style="--bar-height:75%"></div><span class="bar-day">Thu</span></div>
+                            <div class="bar-column"><span class="bar-value">11</span><div class="bar bar-light" style="--bar-height:55%"></div><span class="bar-day">Fri</span></div>
+                            <div class="bar-column"><span class="bar-value">7</span><div class="bar bar-pale" style="--bar-height:35%"></div><span class="bar-day">Sat</span></div>
+                            <div class="bar-column"><span class="bar-value">4</span><div class="bar bar-paler" style="--bar-height:20%"></div><span class="bar-day">Sun</span></div>
+                        </div>
+                    </div>
+                </article>
 
+                <article class="dashboard-panel status-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2><span class="heading-symbol">◷</span> Appointment Status</h2>
+                            <p>Overview of appointment progress</p>
+                        </div>
+                    </div>
+                    <div class="status-chart-content">
+                        <div class="donut-chart" role="img" aria-label="16 appointments: 8 confirmed, 3 pending, 5 completed">
+                            <div class="donut-hole"><strong>16</strong><span>Appointments</span></div>
+                        </div>
+                        <div class="status-legend">
+                            <div><span class="legend-dot confirmed-dot"></span><span>Confirmed</span><strong>8</strong><small>50%</small></div>
+                            <div><span class="legend-dot pending-dot"></span><span>Pending</span><strong>3</strong><small>19%</small></div>
+                            <div><span class="legend-dot completed-dot"></span><span>Completed</span><strong>5</strong><small>31%</small></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="dashboard-panel recent-panel">
+                <div class="recent-heading">
                     <div>
-
-                        <span class="purpose vaccination">
-                            Vaccination
-                        </span>
-
+                        <h2>Recent Appointments</h2>
+                        <p>Keep track of today's patient visits</p>
                     </div>
-
-
-                    <div class="status-area">
-
-                        <span class="status waiting">
-                            WAITING
-                        </span>
-
-                        <small>
-                            15 MINS AGO
-                        </small>
-
-                    </div>
-
-
+                    <a href="<?php echo URLROOT; ?>/index.php?url=staff/appointments">View All →</a>
                 </div>
 
-
-
-                <!-- VIEW MORE -->
-
-                <div class="view-more">
-
-                    VIEW MORE
-
+                <div class="appointments-table-wrap">
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>TIME</th>
+                                <th>PATIENT</th>
+                                <th>OWNER</th>
+                                <th>VISIT TYPE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 AM</td>
+                                <td><span class="pet-avatar dog-avatar">🐶</span><strong>Cooper</strong></td>
+                                <td>Sarah Jenkins</td>
+                                <td><span class="visit-tag checkup-tag">Check-up</span></td>
+                                <td><span class="status-tag confirmed-tag"><i></i>Confirmed</span></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>10:30 AM</td>
+                                <td><span class="pet-avatar cat-avatar">🐱</span><strong>Luna</strong></td>
+                                <td>Mark Robinson</td>
+                                <td><span class="visit-tag vaccination-tag">Vaccination</span></td>
+                                <td><span class="status-tag pending-tag"><i></i>Pending</span></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>11:30 AM</td>
+                                <td><span class="pet-avatar dog-avatar">🐶</span><strong>Milo</strong></td>
+                                <td>Sarah Miller</td>
+                                <td><span class="visit-tag consultation-tag">Consultation</span></td>
+                                <td><span class="status-tag completed-tag"><i></i>Completed</span></td>
+                               
+                        </tbody>
+                    </table>
                 </div>
+            </section>
+        </main>
+    </div>
 
-
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
+    <!-- Reuse your existing sidebar. Do not replace this file. -->
+    <?php require_once APPROOT . '/views/layouts/staff_sidebar.php'; ?>
 </div>
-<script src="<?php echo URLROOT; ?>/js/staff-dashboard.js"></script>
 
 </body>
-
 </html>

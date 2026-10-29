@@ -48,7 +48,12 @@ $pet = $data['pet'] ?? [
     <link
         rel="stylesheet"
         href="<?php echo URLROOT; ?>/css/vet-add-vaccination.css?v=1000">
-    
+        
+    <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
 
 </head>
 
@@ -79,78 +84,7 @@ $pet = $data['pet'] ?? [
              TOP HEADER
              ================================================= -->
 
-        <header class="vet-topbar">
-
-
-            <!-- Search -->
-
-            <div class="vet-search">
-
-                <span class="search-icon">
-                    ⌕
-                </span>
-
-                <input
-                    type="text"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-            <!-- Header Right -->
-
-            <div class="vet-header-right">
-
-
-               
-
-
-                <!-- Settings -->
-
-                <button
-                    type="button"
-                    class="header-action"
-                    title="Settings"
-                >
-                    ⚙
-                </button>
-
-
-                <div class="header-divider"></div>
-
-
-                <!-- Profile -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/profile"
-                    class="vet-profile"
-                >
-
-                    
-                    <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-
-                    <div class="vet-profile-info">
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </header>
-
-
+        <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
 
         <!-- =================================================
              PAGE
@@ -170,14 +104,6 @@ $pet = $data['pet'] ?? [
 
                 <div class="vaccination-heading">
 
-
-                    <a
-                        href="<?php echo URLROOT; ?>/index.php?url=vet/healthRecordDetails/<?php echo $pet['id']; ?>"
-                        class="vaccination-back-button"
-                        title="Back to Medical Record"
-                    >
-                        ←
-                    </a>
 
 
                     <div>
@@ -221,94 +147,6 @@ $pet = $data['pet'] ?? [
                     </div>
 
                 </div>
-
-
-
-                <!-- =================================================
-                     LUNA SUMMARY
-                     ================================================= -->
-
-                <div class="pet-summary-card">
-
-
-                    <div class="pet-summary-top">
-
-
-                        <div class="pet-summary-image">
-
-                            🐱
-
-                        </div>
-
-
-                        <div class="pet-summary-info">
-
-
-                            <div class="pet-summary-name">
-
-                                <?php echo htmlspecialchars($pet['name']); ?>
-
-                                <span class="pet-status">
-                                    Indoor
-                                </span>
-
-                            </div>
-
-
-                            <span>
-                                <?php echo htmlspecialchars($pet['breed']); ?>
-                                •
-                                <?php echo htmlspecialchars($pet['gender']); ?>
-                            </span>
-
-
-                            <span class="pet-owner">
-                                ♙
-                                <?php echo htmlspecialchars($pet['owner']); ?>
-                            </span>
-
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="pet-summary-bottom">
-
-
-                        <div>
-
-                            <span>
-                                VACCINATION STATUS
-                            </span>
-
-                            <strong>
-                                ◉ Up to Date
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                LAST CHECKUP
-                            </span>
-
-                            <strong>
-                                Sep 12, 2024
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
 
             </div>
 

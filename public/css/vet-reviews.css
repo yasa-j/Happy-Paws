@@ -12,7 +12,7 @@ body {
     margin: 0;
     background: #f5f9f8;
     color: #243238;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -29,6 +29,7 @@ body {
 
 .vet-main {
     margin-left: 250px;
+    padding-top: 30px;
     width: calc(100% - 250px);
     min-width: 0;
     box-sizing: border-box;
@@ -217,7 +218,7 @@ body {
 
 .reviews-heading h1 {
     margin: 0;
-    font-size: 31px;
+    font-size: 26px;
     line-height: 1;
     color: #040707;
     font-weight: 700;
@@ -256,7 +257,7 @@ body {
     background: #ffffff;
     color: #3c494c;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     transition: 0.15s ease;
 }
@@ -300,7 +301,7 @@ body {
 
 .feedback-header h2 {
     margin: 0;
-    font-size: 17px;
+    font-size: 15px;
     color: #253238;
 }
 
@@ -309,7 +310,7 @@ body {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 13px;
+    font-size: 12px;
     color: #4d5a5d;
 }
 
@@ -320,7 +321,7 @@ body {
     outline: none;
     color: #4d5a5d;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -351,14 +352,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
+    font-size: 20px;
     margin-bottom: 15px;
 }
 
 
 .reviewer-section h3 {
     margin: 0 0 6px;
-    font-size: 16px;
+    font-size: 15px;
     color: #1e292d;
 }
 
@@ -389,13 +390,13 @@ body {
 
 .stars {
     color: #007a71;
-    font-size: 22px;
+    font-size: 18px;
     letter-spacing: 1px;
 }
 
 
 .review-date {
-    font-size: 13px;
+    font-size: 12px;
     color: #637174;
 }
 
@@ -403,7 +404,7 @@ body {
 .review-text {
     margin: 0;
     max-width: 470px;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.55;
     color: #2e393c;
 }
@@ -429,7 +430,7 @@ body {
     background: #006f68;
     color: #ffffff;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     display: inline-flex;

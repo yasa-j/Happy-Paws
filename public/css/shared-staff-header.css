@@ -1,0 +1,221 @@
+/* =========================================
+   SHARED STAFF HEADER
+   Used by Receptionist and Veterinarian
+========================================= */
+
+.shared-staff-header {
+    position: fixed;
+    top: 0;
+    left: 230px;
+    right: 0;
+
+    width: auto;
+    height: 80px;
+    min-width: 0;
+    padding: 16px 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    background: #f7faf9;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+/* =========================================
+   SEARCH BOX
+========================================= */
+
+.shared-header-search {
+    width: 530px;
+    max-width: 55%;
+    min-width: 180px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 18px;
+
+    background: #f0f4f3;
+    border: 1px solid #e0e7e5;
+    border-radius: 28px;
+
+    box-sizing: border-box;
+}
+
+.shared-search-icon {
+    flex-shrink: 0;
+    font-size: 23px;
+    color: #263b3a;
+}
+
+.shared-header-search input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 15px;
+    color: #263b3a;
+}
+
+.shared-header-search input::placeholder {
+    color: #667574;
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.shared-header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+
+    flex-shrink: 0;
+}
+
+.shared-header-settings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 23px;
+    color: #263b3a;
+    cursor: pointer;
+}
+
+/* Divider */
+
+.shared-header-divider {
+    width: 1px;
+    height: 44px;
+    background: #d3dcda;
+}
+
+/* =========================================
+   USER PROFILE
+========================================= */
+
+.shared-header-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.shared-header-profile img {
+    width: 48px;
+    height: 48px;
+
+    object-fit: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.shared-profile-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.shared-profile-text strong {
+    font-size: 15px;
+    font-weight: 700;
+    color: #172c2b;
+}
+
+.shared-profile-text span {
+    font-size: 12px;
+    color: #62716f;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+    .shared-staff-header {
+        padding: 16px 20px;
+        gap: 16px;
+    }
+
+    .shared-header-search {
+        max-width: 48%;
+    }
+
+    .shared-header-right {
+        gap: 12px;
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+    .shared-staff-header {
+        min-height: 70px;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .shared-header-search {
+        min-width: 0;
+        width: auto;
+        max-width: none;
+        flex: 1;
+        height: 42px;
+        padding: 0 12px;
+    }
+
+    .shared-header-search input {
+        font-size: 12px;
+    }
+
+    .shared-header-right {
+        gap: 8px;
+    }
+
+    .shared-header-settings {
+        width: 30px;
+        font-size: 19px;
+    }
+
+    .shared-header-divider {
+        height: 30px;
+    }
+
+    .shared-header-profile {
+        gap: 6px;
+    }
+
+    .shared-header-profile img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .shared-profile-text strong {
+        font-size: 11px;
+    }
+
+    .shared-profile-text span {
+        font-size: 9px;
+    }
+}

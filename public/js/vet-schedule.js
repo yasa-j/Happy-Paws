@@ -57,108 +57,63 @@ let selectedDate = new Date(
 
     /*
     |--------------------------------------------------------------------------
-    | Dummy appointment data
+    | Appointment data (from the database)
     |--------------------------------------------------------------------------
     |
-    | Later these values will come from your database.
+    | schedule.php prints window.vetAppointments for the logged-in vet:
+    | { "2026-10-28": [ {time, duration, pet, owner, purpose, status}, ... ] }
     |
     */
 
-    const appointments = {
-
-        "2027-10-25": [
-            {
-                time: "09:00",
-                duration: "30 min",
-                pet: "Buddy",
-                owner: "John Smith",
-                purpose: "Annual Checkup",
-                status: "Completed"
-            },
-
-            {
-                time: "09:45",
-                duration: "15 min",
-                pet: "Luna",
-                owner: "Emily Davis",
-                purpose: "Vaccination",
-                status: "Checked In"
-            },
-
-            {
-                time: "10:30",
-                duration: "45 min",
-                pet: "Bella",
-                owner: "Michael Johnson",
-                purpose: "Dental Exam",
-                status: "Pending"
-            }
-        ],
-
-        "2027-10-26": [
-            {
-                time: "09:00",
-                duration: "30 min",
-                pet: "Max",
-                owner: "David Brown",
-                purpose: "Check-up",
-                status: "Pending"
-            }
-        ],
-
-        "2027-10-28": [
-            {
-                time: "10:00",
-                duration: "30 min",
-                pet: "Coco",
-                owner: "Emma Wilson",
-                purpose: "Vaccination",
-                status: "Pending"
-            }
-        ],
-
-        "2027-10-29": [
-            {
-                time: "11:00",
-                duration: "45 min",
-                pet: "Rocky",
-                owner: "James Miller",
-                purpose: "Dental Exam",
-                status: "Pending"
-            }
-        ]
-
-    };
+    const appointments = window.vetAppointments || {};
 
 
     /*
     |--------------------------------------------------------------------------
-    | Calendar Status
+    | Calendar dot colour for a day (based on number of appointments)
     |--------------------------------------------------------------------------
     */
 
-    const calendarStatus = {
+    const BUSY_FROM = 4;     // 4+ appointments  -> orange
+    const BOOKED_FROM = 7;   // 7+ appointments  -> red
 
-        "2027-10-01": "available",
-        "2027-10-02": "available",
+    function getDayStatus(dateKey) {
 
-        "2027-10-04": "busy",
+        const count = (appointments[dateKey] || []).length;
 
-        "2027-10-06": "booked",
+        if (count === 0) return "no-appointments";
+        if (count >= BOOKED_FROM) return "booked";
+        if (count >= BUSY_FROM) return "busy";
 
-        "2027-10-11": "available",
+        return "available";
+    }
 
-        "2027-10-13": "busy",
 
-        "2027-10-18": "available",
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
 
-        "2027-10-20": "booked",
+    function escapeHtml(value) {
 
-        "2027-10-26": "available",
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
-        "2027-10-29": "busy"
+    function getStatusClass(status) {
 
-    };
+        switch (status) {
+            case "Completed":  return "completed";
+            case "Confirmed":  return "confirmed";
+            case "Checked In": return "checked";
+            default:           return "pending";
+        }
+    }
 
 
     /*
@@ -353,14 +308,16 @@ let selectedDate = new Date(
                 | Add status dot
                 */
 
-                if (calendarStatus[dateKey]) {
+                const dayStatus = getDayStatus(dateKey);
+
+                if (dayStatus) {
 
                     const dot =
                         document.createElement("span");
 
                     dot.classList.add(
                         "day-dot",
-                        calendarStatus[dateKey]
+                        dayStatus
                     );
 
                     dayElement.appendChild(dot);
@@ -616,28 +573,8 @@ let selectedDate = new Date(
                 | Status class
                 */
 
-                let statusClass =
-                    "pending";
-
-                if (
-                    appointment.status ===
-                    "Completed"
-                ) {
-
-                    statusClass =
-                        "completed";
-
-                }
-
-                else if (
-                    appointment.status ===
-                    "Checked In"
-                ) {
-
-                    statusClass =
-                        "checked";
-
-                }
+                const statusClass =
+                    getStatusClass(appointment.status);
 
 
                 /*
@@ -645,7 +582,7 @@ let selectedDate = new Date(
                 */
 
                 const purpose =
-                    appointment.purpose;
+                    escapeHtml(appointment.purpose);
 
 
                 /*
@@ -661,7 +598,7 @@ let selectedDate = new Date(
                         </strong>
 
                         <span>
-                            ${appointment.duration}
+                            ${escapeHtml(appointment.duration)}
                         </span>
 
                     </div>
@@ -677,13 +614,13 @@ let selectedDate = new Date(
                     <div class="appointment-pet-info">
 
                         <h3>
-                            ${appointment.pet}
+                            ${escapeHtml(appointment.pet)}
                         </h3>
 
                         <p>
                             Owner:
                             <br>
-                            ${appointment.owner}
+                            ${escapeHtml(appointment.owner)}
                         </p>
 
                     </div>
@@ -698,7 +635,7 @@ let selectedDate = new Date(
 
                     <div class="appointment-status ${statusClass}">
 
-                        ${appointment.status}
+                        ${escapeHtml(appointment.status)}
 
                     </div>
 

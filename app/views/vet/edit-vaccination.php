@@ -36,6 +36,12 @@ $pet = $data['pet'];
         rel="stylesheet"
         href="<?php echo URLROOT; ?>/css/vet-edit-vaccination.css?v=1001">
 
+         <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
+
 </head>
 
 
@@ -61,66 +67,7 @@ $pet = $data['pet'];
              TOP HEADER
              ===================================================== -->
 
-        <header class="vet-topbar">
-
-
-            <div class="vet-search">
-
-                <span class="search-icon">
-                    ⌕
-                </span>
-
-                <input
-                    type="text"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-            <div class="vet-header-right">
-
-
-                <button
-                    type="button"
-                    class="header-action"
-                >
-                    ⚙
-                </button>
-
-
-                <div class="header-divider"></div>
-
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/profile"
-                    class="vet-profile"
-                >
-
-                    
-                    <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-                    <div class="vet-profile-info">
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </header>
-
-
-
+       <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
         <!-- =====================================================
              PAGE CONTENT
              ===================================================== -->

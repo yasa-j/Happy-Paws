@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -28,6 +28,7 @@ body {
 
 .vet-main {
     margin-left: 250px;
+    padding-top: 50px;
     width: calc(100% - 250px);
     box-sizing: border-box;
 }
@@ -204,7 +205,6 @@ body {
 
 .schedule-content {
     width: 100%;
-
     padding: 42px 32px 70px;
 }
 
@@ -222,7 +222,7 @@ body {
 }
 
 .schedule-heading h1 {
-    font-size: 32px;
+    font-size: 26px;
 
     line-height: 40px;
 
@@ -253,7 +253,7 @@ body {
 }
 
 .today-calendar-icon {
-    font-size: 19px;
+    font-size: 14px;
 
     color: #006f68;
 }
@@ -276,7 +276,7 @@ body {
 }
 
 .today-box strong {
-    font-size: 13px;
+    font-size: 12px;
 
     font-weight: 600;
 
@@ -332,7 +332,7 @@ body {
 }
 
 .appointments-header h2 {
-    font-size: 20px;
+    font-size: 17px;
 
     line-height: 24px;
 
@@ -344,7 +344,7 @@ body {
 .appointments-header p {
     margin-top: 7px;
 
-    font-size: 16px;
+    font-size: 15px;
 
     color: #72859c;
 
@@ -375,7 +375,7 @@ body {
 
     color: #465257;
 
-    font-size: 14px;
+    font-size: 13px;
 
     white-space: nowrap;
 }
@@ -454,7 +454,7 @@ body {
 }
 
 .appointment-time strong {
-    font-size: 18px;
+    font-size: 14px;
 
     line-height: 22px;
 
@@ -466,7 +466,7 @@ body {
 .appointment-time span {
     margin-top: 2px;
 
-    font-size: 11px;
+    font-size: 10px;
 
     color: #637995;
 }
@@ -490,7 +490,7 @@ body {
 
     justify-content: center;
 
-    font-size: 25px;
+    font-size: 20px;
 
     color: #344e53;
 }
@@ -510,7 +510,7 @@ body {
 /* Pet information */
 
 .appointment-pet-info h3 {
-    font-size: 18px;
+    font-size: 16px;
 
     line-height: 23px;
 
@@ -522,7 +522,7 @@ body {
 .appointment-pet-info p {
     margin-top: 3px;
 
-    font-size: 13px;
+    font-size: 12px;
 
     line-height: 19px;
 
@@ -548,7 +548,7 @@ body {
 .appointment-status {
     min-height: 34px;
 
-    padding: 7px 12px;
+    padding: 7px 10px;
 
     border-radius: 20px;
 
@@ -560,7 +560,7 @@ body {
 
     text-align: center;
 
-    font-size: 13px;
+    font-size: 12px;
 
     line-height: 16px;
 
@@ -583,6 +583,12 @@ body {
     background: #e0e4e4;
 
     color: #526065;
+}
+
+.appointment-status.confirmed {
+    background: #d9efdc;
+
+    color: #2f6b3a;
 }
 
 

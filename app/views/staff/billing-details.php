@@ -24,58 +24,20 @@
     <link rel="stylesheet"
           href="<?php echo URLROOT; ?>/css/staff-billing-details.css?v=3">
 
+           <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
+
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/vet-sidebar.css">
+
+
+
 </head>
 
 
 <body>
-
-
-<!-- =========================================
-     HEADER
-========================================= -->
-
-<header class="staff-header">
-
-    <div class="header-logo">
-
-        <img
-            src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-            alt="HappyPaws">
-
-        <span>HappyPaws</span>
-
-    </div>
-
-
-    <div class="search-box">
-
-        <span>⌕</span>
-
-        <input
-            type="text"
-            placeholder="Search patients, records...">
-
-    </div>
-
-
-    <div class="header-right">
-
-        <span class="header-icon">⚙</span>
-
-        <div class="user-profile">
-
-            <span>Jane D.</span>
-
-            <img
-                src="<?php echo URLROOT; ?>/images/happy_paws_logo.png"
-                alt="User">
-
-        </div>
-
-    </div>
-
-</header>
-
 
 
 <!-- =========================================
@@ -89,6 +51,10 @@
 
     <?php require_once APPROOT . '/views/layouts/staff_sidebar.php'; ?>
 
+
+    <div class="staff-main-content">
+
+        <?php require_once APPROOT . '/views/layouts/staff-header.php'; ?>
 
 
     <!-- =====================================
@@ -598,6 +564,8 @@
     </main>
 
 </div>
+</div>
+
 <script src="<?php echo URLROOT; ?>/js/staff-billing-details.js"></script>
 
 </body>

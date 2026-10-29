@@ -16,7 +16,11 @@
     <link rel="stylesheet"
           href="<?php echo URLROOT; ?>/css/vet-sidebar.css?v=3">
 
-    <!-- Vet Dashboard CSS -->
+<!-- staff header CSS -->
+ <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
    <!-- Vet Dashboard CSS -->
 <link rel="stylesheet"
       href="<?php echo URLROOT; ?>/css/vet-dashboard.css?v=3">
@@ -38,57 +42,7 @@
 
         <!-- ================= HEADER ================= -->
 
-        <header class="vet-header">
-
-            <div class="vet-search">
-
-                <span class="search-icon">⌕</span>
-
-                <input
-                    type="text"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-            <div class="vet-header-right">
-
-                
-
-
-                <!-- Settings -->
-                <span class="header-settings">
-                    ⚙
-                </span>
-
-
-                <div class="header-divider"></div>
-
-
-                <!-- Vet Profile -->
-                <div class="vet-profile">
-
-                    
-                    <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-
-                    <div>
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>Lead Veterinarian</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </header>
+        <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
 
 
         <!-- ================= WELCOME ================= -->

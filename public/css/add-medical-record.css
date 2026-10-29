@@ -1,0 +1,403 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f5f9f8;
+    color: #172b43;
+}
+
+.vet-page {
+    min-height: 100vh;
+}
+
+.vet-main {
+    margin-left: 270px;
+    min-height: 100vh;
+    width: calc(100% - 270px);
+}
+
+.vet-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 94px;
+    padding: 18px 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    background: #f8fbfa;
+    border-bottom: 1px solid #e1e9e7;
+}
+
+.vet-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(650px, 60%);
+    padding: 14px 20px;
+    border: 1px solid #dce6e3;
+    border-radius: 40px;
+    background: #eff4f2;
+}
+
+.vet-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: 15px;
+}
+
+.search-icon {
+    font-size: 23px;
+}
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.header-action {
+    border: none;
+    background: transparent;
+    color: #173c43;
+    font-size: 23px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-divider {
+    width: 1px;
+    height: 48px;
+    background: #d5dfdc;
+}
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #172b43;
+    text-decoration: none;
+}
+
+.vet-profile img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vet-profile-info strong {
+    font-size: 14px;
+}
+
+.vet-profile-info span {
+    color: #687b89;
+    font-size: 12px;
+}
+
+.medical-form-content {
+    width: min(1500px, 100%);
+    margin: 0 auto;
+    padding: 35px 45px 55px;
+}
+
+.page-heading {
+    margin-bottom: 30px;
+}
+
+.form-badge {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 7px;
+    background: #e1f2ef;
+    color: #00796f;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.page-heading h1 {
+    margin: 14px 0 10px;
+    color: #172b43;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.page-heading p {
+    margin: 0;
+    color: #617587;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.patient-summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    margin-bottom: 28px;
+    border: 1px solid #dce7e4;
+    border-radius: 16px;
+    background: linear-gradient(110deg, #ffffff, #eaf8f6);
+    box-shadow: 0 4px 15px rgba(30, 70, 70, 0.04);
+}
+
+.patient-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border: 2px solid #b6e7df;
+    border-radius: 50%;
+    background: #e3f5f1;
+    font-size: 34px;
+}
+
+.patient-info h2 {
+    margin: 0 0 7px;
+    font-size: 24px;
+}
+
+.patient-info p {
+    margin: 0 0 8px;
+    color: #536b7c;
+    font-size: 15px;
+}
+
+.patient-info span {
+    color: #00796f;
+    font-size: 14px;
+}
+
+.medical-record-form {
+    padding: 32px;
+    border: 1px solid #dce6e4;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(30, 60, 70, 0.04);
+}
+
+.form-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 32px;
+}
+
+.section-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    background: #e0f3ef;
+    font-size: 26px;
+}
+
+.form-section-heading h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.form-section-heading p {
+    margin: 0;
+    color: #657a89;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 30px;
+}
+
+.form-group {
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #172b43;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.form-group label span {
+    color: #d64a4a;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #b8c8d2;
+    border-radius: 9px;
+    outline: none;
+    background: #f9fbfb;
+    color: #172b43;
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input,
+.form-group select {
+    min-height: 50px;
+}
+
+.form-group textarea {
+    min-height: 105px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #008579;
+    box-shadow: 0 0 0 3px rgba(0, 133, 121, 0.12);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+
+    position: static;
+    margin-top: 24px;
+    padding: 20px 0 0;
+    width: 100%;
+
+    border-top: 1px solid #e2e8e8;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.btn-cancel,
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel {
+    border: 1px solid #cbd9d6;
+    background: #ffffff;
+    color: #344b59;
+}
+
+.btn-cancel:hover {
+    background: #f2f7f5;
+}
+
+.btn-submit {
+    border: none;
+    background: #00796f;
+    color: #ffffff;
+}
+
+.btn-submit:hover {
+    background: #00665e;
+}
+
+.form-error {
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    border: 1px solid #efb8b8;
+    border-radius: 9px;
+    background: #fff0f0;
+    color: #a52a2a;
+    font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+    .vet-main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .medical-form-content {
+        padding: 25px;
+    }
+
+    .vet-topbar {
+        padding: 16px 22px;
+    }
+}
+
+@media (max-width: 650px) {
+    .vet-topbar {
+        flex-wrap: wrap;
+    }
+
+    .vet-search {
+        width: 100%;
+    }
+
+    .vet-header-right {
+        gap: 12px;
+    }
+
+    .medical-form-content {
+        padding: 20px 14px 35px;
+    }
+
+    .page-heading h1 {
+        font-size: 27px;
+    }
+
+    .medical-record-form {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
+    }
+}

@@ -1,524 +1,414 @@
 <?php
-
-$pet = $data['pet'] ?? [
-    'id' => 1,
-    'name' => 'Luna',
-    'type' => 'Cat',
-    'breed' => 'Persian Cat',
-    'age' => '3 Years',
-    'weight' => '4.2 kg',
-    'owner' => 'Emily Tan',
-    'image' => 'cat'
-];
-
+$pet = $data['pet'] ?? [];
+$petId = (int)($pet['id'] ?? 0);
 $vaccinations = $data['vaccinations'] ?? [];
-
+$treatments = $data['treatments'] ?? [];
 $allergies = $data['allergies'] ?? [];
-
 $medications = $data['medications'] ?? [];
 
-$treatments = $data['treatments'] ?? [];
+$e = static fn($value) =>
+    htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 
+$species = strtolower((string)($pet['type'] ?? 'cat'));
+
+$petEmoji = $species === 'dog'
+    ? '🐶'
+    : ($species === 'rabbit' ? '🐰' : '🐱');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>
-        <?php echo $data['title']; ?>
+        <?= $e($data['title'] ?? 'Health Record Details') ?>
     </title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
 
-    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="<?= URLROOT ?>/css/vet-sidebar.css">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <link rel="stylesheet"
+          href="<?= URLROOT ?>/css/shared-staff-header.css">
 
-
-    <!-- Shared Vet Sidebar -->
-
-    <link
-        rel="stylesheet"
-       href="<?php echo URLROOT; ?>/css/vet-sidebar.css?v=3">
-
-
-    <!-- Medical Record Details CSS -->
-
-    <link
-        rel="stylesheet"
-        href="<?php echo URLROOT; ?>/css/vet-health-record-details.css?v=1000">
-    
-
+    <link rel="stylesheet"
+          href="<?= URLROOT ?>/css/vet-health-record-details.css?v=20261027">
 </head>
-
 
 <body>
 
 <div class="vet-page">
 
-
-    <!-- =====================================================
-         SIDEBAR
-         ===================================================== -->
-
-    <?php require_once APPROOT . '/views/layouts/vet_sidebar.php'; ?>
-
-
-    <!-- =====================================================
-         MAIN
-         ===================================================== -->
+    <?php
+    require_once APPROOT . '/views/layouts/vet_sidebar.php';
+    ?>
 
     <main class="vet-main">
 
-
-        <!-- =================================================
-             TOP HEADER
-             ================================================= -->
-
-        <header class="vet-topbar">
-
-
-            <!-- Search -->
-
-            <div class="vet-search">
-
-                <span class="search-icon">
-                    ⌕
-                </span>
-
-                <input
-                    type="text"
-                    placeholder="Search appointments, patients..."
-                >
-
-            </div>
-
-
-
-            <!-- Header right -->
-
-            <div class="vet-header-right">
-
-
-                <!-- Settings -->
-
-                <button
-                    type="button"
-                    class="header-action"
-                >
-                    ⚙
-                </button>
-
-
-                <div class="header-divider"></div>
-
-
-                <!-- Profile -->
-
-                <a
-                    href="<?php echo URLROOT; ?>/index.php?url=vet/profile"
-                    class="vet-profile"
-                >
-
-                    
-                    <img
-    src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-    alt="Profile">
-
-                    <div class="vet-profile-info">
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </header>
-
-
-
-        <!-- =================================================
-             CONTENT
-             ================================================= -->
+        <?php
+        require APPROOT . '/views/layouts/staff-header.php';
+        ?>
 
         <section class="medical-detail-content">
 
 
-            <!-- =================================================
-                 PET HEADER CARD
-                 ================================================= -->
+            <!-- PET INFORMATION CARD -->
 
-            <section class="pet-profile-card">
+            <section class="pet-profile-card"
+                     aria-label="Pet information">
 
-
-                <!-- Pet image -->
-
-                <div class="pet-profile-image">
-
-                    <span>
-                        🐱
-                    </span>
-
+                <div class="pet-profile-image" aria-hidden="true">
+                    <?= $petEmoji ?>
                 </div>
-
-
-                <!-- Pet main information -->
 
                 <div class="pet-profile-main">
 
                     <div class="pet-name-line">
 
                         <h1>
-                            <?php echo $data['pet']['name']; ?>
+                            <?= $e($pet['name'] ?? 'Pet') ?>
                         </h1>
 
                         <span class="pet-type-badge">
-                            ♧
-                            <?php echo $data['pet']['type']; ?>
+                            ♀ <?= $e($pet['type'] ?? 'Pet') ?>
                         </span>
 
                     </div>
 
-
                     <div class="pet-details-grid">
 
-
                         <div class="pet-detail-item">
-
-                            <span>
-                                BREED
-                            </span>
+                            <span>BREED</span>
 
                             <strong>
-                                <?php echo $data['pet']['breed']; ?>
+                                <?= $e($pet['breed'] ?? '—') ?>
                             </strong>
-
                         </div>
-
 
                         <div class="pet-detail-item">
-
-                            <span>
-                                AGE
-                            </span>
+                            <span>AGE</span>
 
                             <strong>
-                                <?php echo $data['pet']['age']; ?>
+                                <?= $e($pet['age'] ?? '—') ?>
                             </strong>
-
                         </div>
-
 
                         <div class="pet-detail-item">
-
-                            <span>
-                                WEIGHT
-                            </span>
+                            <span>WEIGHT</span>
 
                             <strong>
-                                <?php echo $data['pet']['weight']; ?>
+                                <?= $e($pet['weight'] ?? '—') ?>
                             </strong>
-
                         </div>
-
 
                         <div class="pet-detail-item owner-detail">
-
-                            <span>
-                                OWNER
-                            </span>
+                            <span>OWNER</span>
 
                             <strong>
-                                ♙
-                                <?php echo $data['pet']['owner']; ?>
+                                ♙ <?= $e($pet['owner'] ?? '—') ?>
                             </strong>
-
                         </div>
 
                     </div>
 
                 </div>
 
-
-                <!-- Edit -->
-
-                <button
-                    type="button"
-                    class="edit-pet-button"
-                    id="edit-pet-button"
-                    title="Edit Pet"
-                >
-                    ✎
+                <button type="button"
+                        class="edit-pet-button"
+                        id="edit-pet-button"
+                        aria-label="View pet information"
+                        title="Pet information">
+                    
                 </button>
 
             </section>
 
 
-
-            <!-- =================================================
-                 TWO COLUMN CONTENT
-                 ================================================= -->
+            <!-- MAIN CONTENT -->
 
             <div class="medical-detail-grid">
 
-
-                <!-- =================================================
-                     LEFT COLUMN
-                     ================================================= -->
-
                 <div class="medical-left-column">
 
+                    <!-- TABS -->
 
-                    <!-- =================================================
-                         VACCINATION HISTORY
-                         ================================================= -->
+                    <div class="records-tabs"
+                         role="tablist"
+                         aria-label="Medical record categories">
 
-                    <section class="medical-card vaccination-card">
+                        <button
+                            class="records-tab active"
+                            type="button"
+                            role="tab"
+                            id="tab-treatments"
+                            aria-selected="true"
+                            aria-controls="panel-treatments"
+                            data-tab="treatments">
 
+                            ⊞
+                            <span>
+                                Treatments &amp; Clinical Notes
+                            </span>
 
-                        <div class="medical-card-header">
+                        </button>
 
-                            <div class="medical-card-title">
+                        <button
+                            class="records-tab"
+                            type="button"
+                            role="tab"
+                            id="tab-vaccinations"
+                            aria-selected="false"
+                            aria-controls="panel-vaccinations"
+                            data-tab="vaccinations">
 
-                                <span class="section-icon vaccination-icon">
-                                    ♜
-                                </span>
+                            ♧
+                            <span>
+                                Vaccinations
+                            </span>
 
-                                <h2>
-                                    Vaccination History
-                                </h2>
+                        </button>
 
-                            </div>
-
-
-                     <a
-    href="<?php echo URLROOT; ?>/index.php?url=vet/addVaccination/<?php echo $pet['id']; ?>"
-    class="add-record-button"
->
-    <span class="add-icon">+</span>
-    Add Record
-</a>
-
-                        </div>
-
-
-                        <!-- Table -->
-
-                        <div class="vaccination-table">
-
-
-                            <!-- Header -->
-
-                            <div class="vaccination-table-header">
-
-                                <span>
-                                    DATE GIVEN
-                                </span>
-
-                                <span>
-                                    VACCINE NAME
-                                </span>
-
-                                <span>
-                                    STATUS
-                                </span>
-
-                                <span>
-                                    NEXT DUE
-                                </span>
-
-                            </div>
+                    </div>
 
 
-                            <!-- Rows -->
+                    <!-- TREATMENT HISTORY -->
 
-                            <?php foreach ($data['vaccinations'] as $vaccination): ?>
-
-                                <div class="vaccination-row">
-
-
-                                    <span class="vaccination-date">
-
-                                        <?php
-                                        echo $vaccination['date'];
-                                        ?>
-
-                                    </span>
-
-
-          <span class="vaccination-name">
-
-    <a
-        href="<?php echo URLROOT; ?>/index.php?url=vet/vaccinationDetails/<?php echo $vaccination['id']; ?>"
-        class="vaccination-link"
-    >
-        <?php echo htmlspecialchars($vaccination['vaccine']); ?>
-    </a>
-
-</span>
-
-
-                                    <span>
-
-                                        <?php if ($vaccination['status_class'] === 'completed'): ?>
-
-                                            <span class="vaccination-status completed">
-                                                ✓
-                                                <?php
-                                                echo $vaccination['status'];
-                                                ?>
-                                            </span>
-
-                                        <?php else: ?>
-
-                                            <span class="vaccination-status due">
-                                                △
-                                                <?php
-                                                echo $vaccination['status'];
-                                                ?>
-                                            </span>
-
-                                        <?php endif; ?>
-
-                                    </span>
-
-
-                                    <span
-                                        class="
-                                            vaccination-next-due
-                                            <?php
-                                            echo ($vaccination['status_class'] === 'due')
-                                                ? 'danger-date'
-                                                : '';
-                                            ?>
-                                        "
-                                    >
-
-                                        <?php
-                                        echo $vaccination['next_due'];
-                                        ?>
-
-                                    </span>
-
-                                </div>
-
-                            <?php endforeach; ?>
-
-                        </div>
-
-                    </section>
-
-
-
-                    <!-- =================================================
-                         CLINICAL TREATMENTS
-                         ================================================= -->
-
-                    <section class="medical-card treatments-card">
-
+                    <section
+                        class="medical-card records-tab-content active"
+                        id="panel-treatments"
+                        role="tabpanel"
+                        aria-labelledby="tab-treatments"
+                        data-tab-content="treatments">
 
                         <div class="medical-card-header">
 
                             <div class="medical-card-title">
 
                                 <span class="section-icon treatment-icon">
-                                    ✚
+                                    ♧
                                 </span>
 
-                                <h2>
-                                    Clinical Treatments
-                                </h2>
+                                <h2>Treatment History</h2>
 
                             </div>
 
+                           
+<a href="<?= URLROOT ?>/index.php?url=vet/addMedicalRecord/<?= (int)$data['pet']['id'] ?>"
+   class="add-record-button">
+    <span class="add-icon">+</span>
+    Add Record
+</a>
 
-                            <button
-                                type="button"
-                                class="header-text-button"
-                                id="view-all-treatments"
-                            >
-                                View All
-                            </button>
 
                         </div>
 
 
-                        <!-- Treatment timeline -->
+                        <div class="treatment-table-wrap">
 
-                        <div class="treatment-list">
+                            <table class="treatment-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Treatment / Clinical Note</th>
+                                        <th>Veterinarian</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                               <?php if (!empty($data['medicalRecords'])): ?>
+
+    <?php foreach ($data['medicalRecords'] as $record): ?>
+
+        <tr>
+            <td>
+                <?= htmlspecialchars($record->visit_date ?? '') ?>
+            </td>
+
+            <td>
+                <strong>
+                    <?= htmlspecialchars($record->diagnosis ?? 'No diagnosis') ?>
+                </strong>
+
+                <br>
+
+                <small>
+                    <?= htmlspecialchars($record->treatment ?? '') ?>
+                </small>
+
+                <?php if (!empty($record->notes)): ?>
+                    <br>
+                    <small>
+                        <?= htmlspecialchars($record->notes) ?>
+                    </small>
+                <?php endif; ?>
+            </td>
+
+            <td>
+                <?= htmlspecialchars($record->vet_name ?? 'Not available') ?>
+            </td>
+
+            <td>
+                <span class="status-badge">
+    <?= $e($record->status ?? 'Completed') ?>
+</span>
+            </td>
+
+            <td>
+                <a class="view-treatment-link"
+   href="<?= URLROOT ?>/index.php?url=vet/treatmentDetails/<?= (int)$record->record_id ?>">
+    View
+</a>
+            </td>
+        </tr>
+
+    <?php endforeach; ?>
+
+<?php else: ?>
+
+    <tr>
+        <td colspan="5" style="text-align: center; padding: 35px;">
+            No treatment records available.
+        </td>
+    </tr>
+
+<?php endif; ?>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
 
 
-                            <?php foreach ($data['treatments'] as $treatment): ?>
+                    <!-- VACCINATION HISTORY -->
 
-                                <div class="treatment-item">
+                    <section
+                        class="medical-card records-tab-content"
+                        id="panel-vaccinations"
+                        role="tabpanel"
+                        aria-labelledby="tab-vaccinations"
+                        data-tab-content="vaccinations"
+                        hidden>
 
+                        <div class="medical-card-header">
 
-                                    <div class="timeline-line"></div>
+                            <div class="medical-card-title">
 
+                                <span class="section-icon vaccination-icon">
+                                    ♧
+                                </span>
 
-                                    <div class="timeline-dot"></div>
+                                <h2>Vaccination History</h2>
 
+                            </div>
 
-                                    <div class="treatment-content">
+                            <a
+                                class="add-record-button"
+                                href="<?= URLROOT ?>/index.php?url=vet/addVaccination/<?= $petId ?>">
 
+                                ＋ Add Record
 
-                                        <div class="treatment-top">
+                            </a>
 
-                                            <h3>
-                                                <?php
-                                                echo $treatment['title'];
-                                                ?>
-                                            </h3>
-
-                                            <span>
-                                                <?php
-                                                echo $treatment['date'];
-                                                ?>
-                                            </span>
-
-                                        </div>
-
-
-                                        <p>
-                                            <?php
-                                            echo $treatment['description'];
-                                            ?>
-                                        </p>
+                        </div>
 
 
-                                        <div class="treatment-doctor">
+                        <div class="vaccination-table-wrap">
 
-                                            ♙
+                            <table class="vaccination-table">
 
-                                            <?php
-                                            echo $treatment['doctor'];
-                                            ?>
+                                <thead>
 
-                                        </div>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Vaccine Name</th>
+                                        <th>Status</th>
+                                        <th>Next Due</th>
+                                        <th>Actions</th>
+                                    </tr>
 
-                                    </div>
+                                </thead>
 
-                                </div>
+                                <tbody>
 
-                            <?php endforeach; ?>
+                                <?php if (!$vaccinations): ?>
+
+                                    <tr>
+                                        <td colspan="5"
+                                            class="empty-state">
+
+                                            No vaccination records available.
+
+                                        </td>
+                                    </tr>
+
+                                <?php else: ?>
+
+                                    <?php foreach ($vaccinations as $vaccination): ?>
+
+                                        <tr>
+
+                                            <td>
+                                                <?= $e($vaccination['date'] ?? '—') ?>
+                                            </td>
+
+                                            <td>
+
+                                                <strong>
+                                                    <?= $e($vaccination['vaccine'] ?? 'Vaccine') ?>
+                                                </strong>
+
+                                            </td>
+
+                                            <td>
+
+                                                <span class="status-pill <?= (($vaccination['status_class'] ?? '') === 'due') ? 'due' : '' ?>">
+
+                                                    <?= $e($vaccination['status'] ?? 'Unknown') ?>
+
+                                                </span>
+
+                                            </td>
+
+                                            <td>
+                                                <?= $e($vaccination['next_due'] ?? '—') ?>
+                                            </td>
+
+                                            <td>
+
+                                                <a
+                                                    class="text-action"
+                                                    href="<?= URLROOT ?>/index.php?url=vet/vaccinationDetails/<?= (int)($vaccination['id'] ?? 0) ?>">
+
+                                                    View
+
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+
+                                    <?php endforeach; ?>
+
+                                <?php endif; ?>
+
+                                </tbody>
+
+                            </table>
 
                         </div>
 
@@ -527,201 +417,166 @@ $treatments = $data['treatments'] ?? [];
                 </div>
 
 
+                <!-- RIGHT COLUMN -->
 
-                <!-- =================================================
-                     RIGHT COLUMN
-                     ================================================= -->
-
-                <div class="medical-right-column">
+                <aside class="medical-right-column">
 
 
-                    <!-- =================================================
-                         KNOWN ALLERGIES
-                         ================================================= -->
+                    <!-- ALLERGIES -->
 
-                    <section class="medical-card allergies-card">
-
+                    <section class="medical-card side-info-card">
 
                         <div class="medical-card-header">
 
                             <div class="medical-card-title">
 
                                 <span class="section-icon allergy-icon">
-                                    ✹
+                                    ☷
                                 </span>
 
-                                <h2>
-                                    Known Allergies
-                                </h2>
+                                <h2>Allergies</h2>
 
                             </div>
+
+                            <button
+                                type="button"
+                                class="round-action"
+                                id="add-allergy-button"
+                                aria-label="Add allergy"
+                                title="Add allergy">
+
+                                ＋
+
+                            </button>
 
                         </div>
 
 
-                        <div class="allergy-list">
+                        <div class="allergy-list" id="allergy-list">
 
-                            <?php foreach ($data['allergies'] as $allergy): ?>
+                            <?php if (!$allergies): ?>
 
-                                <span class="allergy-tag">
-
-                                    <?php
-                                    echo $allergy;
-                                    ?>
-
+                                <span class="muted-note">
+                                    No allergies recorded
                                 </span>
 
-                            <?php endforeach; ?>
+                            <?php else: ?>
+
+                                <?php foreach ($allergies as $allergy): ?>
+
+                                    <span class="allergy-tag">
+                                        <?= $e($allergy) ?>
+                                    </span>
+
+                                <?php endforeach; ?>
+
+                            <?php endif; ?>
 
                         </div>
 
                     </section>
 
 
+                    <!-- ACTIVE MEDICATIONS -->
 
-                    <!-- =================================================
-                         ACTIVE MEDICATIONS
-                         ================================================= -->
-
-                    <section class="medical-card medication-card">
-
+                    <section class="medical-card side-info-card medications-card">
 
                         <div class="medical-card-header">
 
                             <div class="medical-card-title">
 
                                 <span class="section-icon medication-icon">
-                                    ♧
+                                    ▤
                                 </span>
 
-                                <h2>
-                                    Active Meds
-                                </h2>
+                                <h2>Active Meds</h2>
 
                             </div>
 
 
-                            <button
-                                type="button"
-                                class="add-medication-button"
-                                id="add-medication-button"
-                                title="Add Medication"
-                            >
-                                +
-                            </button>
-
                         </div>
 
 
-                        <div class="medication-list">
+                       <div class="medication-list" id="medication-list">
 
+    <?php if (!empty($data['medicines'])): ?>
 
-                            <?php foreach ($data['medications'] as $medication): ?>
+        <div class="active-meds-list">
 
-                                <div class="medication-item">
+            <?php foreach ($data['medicines'] as $medicine): ?>
 
+                <div class="medicine-card">
 
-                                    <div class="medication-name-row">
+                    <a
+                        href="<?= URLROOT ?>/index.php?url=vet/treatmentDetails/<?= (int)$medicine->record_id ?>"
+                        class="medicine-link"
+                    >
+                        <h4>
+                            <?= $e($medicine->medicine_name ?? 'Medicine') ?>
+                        </h4>
 
-                                        <strong>
-                                            <?php
-                                            echo $medication['name'];
-                                            ?>
-                                        </strong>
+                        <p>
+                            ♧ <strong>Dose:</strong>
+                            <?= $e($medicine->medicine_dose ?? '--') ?>
+                        </p>
 
-                                        <span class="ongoing-badge">
-                                            <?php
-                                            echo $medication['status'];
-                                            ?>
-                                        </span>
+                        <p>
+                            ◷ <strong>Freq:</strong>
+                            <?= $e($medicine->medicine_frequency ?? '--') ?>
+                        </p>
 
-                                    </div>
+                        <p>
+                            ▦ <strong>Duration:</strong>
+                            <?= $e($medicine->medicine_duration ?? '--') ?>
+                        </p>
+                    </a>
 
+                    <form
+                        action="<?= URLROOT ?>/index.php?url=vet/deleteMedicalRecord"
+                        method="POST"
+                        onsubmit="return confirm('Are you sure you want to delete this medical record?');"
+                    >
+                        <input
+                            type="hidden"
+                            name="record_id"
+                            value="<?= (int)$medicine->record_id ?>"
+                        >
 
-                                    <div class="medication-detail">
+                        <input
+                            type="hidden"
+                            name="pet_id"
+                            value="<?= (int)$medicine->pet_id ?>"
+                        >
 
-                                        <span>
-                                            ⌛
-                                        </span>
-
-                                        <strong>
-                                            Dose:
-                                        </strong>
-
-                                        <?php
-                                        echo $medication['dose'];
-                                        ?>
-
-                                    </div>
-
-
-                                    <div class="medication-detail">
-
-                                        <span>
-                                            ◷
-                                        </span>
-
-                                        <strong>
-                                            Freq:
-                                        </strong>
-
-                                        <?php
-                                        echo $medication['frequency'];
-                                        ?>
-
-                                    </div>
-
-
-                                    <?php if (!empty($medication['duration'])): ?>
-
-                                        <div class="medication-detail">
-
-                                            <span>
-                                                ▣
-                                            </span>
-
-                                            <strong>
-                                                Duration:
-                                            </strong>
-
-                                            <?php
-                                            echo $medication['duration'];
-                                            ?>
-
-                                        </div>
-
-                                    <?php endif; ?>
-
-
-                                </div>
-
-                            <?php endforeach; ?>
-
-                        </div>
-
-                    </section>
+                        <button
+                            type="submit"
+                            class="delete-medicine-button"
+                        >
+                            Delete
+                        </button>
+                    </form>
 
                 </div>
 
-            </div>
+            <?php endforeach; ?>
 
-        </section>
+        </div>
 
-    </main>
+    <?php else: ?>
+
+        <p class="muted-note">
+            No medicines have been added for this pet.
+        </p>
+
+    <?php endif; ?>
 
 </div>
 
 
-
-<!-- =========================================================
-     JAVASCRIPT
-     ========================================================= -->
-
 <script
-    src="<?php echo URLROOT; ?>/js/vet-health-record-details.js"
-></script>
-
+    src="<?= URLROOT ?>/js/vet-health-record-details.js?v=20261027"
+    defer>
+</script>
 
 </body>
-
 </html>

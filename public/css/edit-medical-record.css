@@ -1,0 +1,409 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f5f9f8;
+    color: #172b43;
+}
+
+.vet-main {
+    margin-left: 270px;
+    width: calc(100% - 270px);
+    min-height: 100vh;
+}
+
+.vet-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 94px;
+    padding: 18px 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    background: #f8fbfa;
+    border-bottom: 1px solid #e1e9e7;
+}
+
+.vet-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(650px, 60%);
+    padding: 14px 20px;
+    border: 1px solid #dce6e3;
+    border-radius: 40px;
+    background: #eff4f2;
+}
+
+.vet-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+}
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.header-action {
+    border: 0;
+    background: transparent;
+    color: #173c43;
+    font-size: 23px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-divider {
+    width: 1px;
+    height: 48px;
+    background: #d5dfdc;
+}
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #172b43;
+    text-decoration: none;
+}
+
+.vet-profile img {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vet-profile-info strong {
+    font-size: 14px;
+}
+
+.vet-profile-info span {
+    color: #687b89;
+    font-size: 12px;
+}
+
+.edit-content {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 30px 38px 45px;
+}
+
+.edit-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.edit-heading h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+}
+
+.edit-heading p {
+    margin: 0;
+    color: #617587;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.record-badge {
+    padding: 8px 12px;
+    border-radius: 7px;
+    background: #e9f2f0;
+    color: #52716e;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.pet-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding: 20px;
+    border: 1px solid #dce7e4;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.pet-avatar {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #e0f3ef;
+    font-size: 25px;
+}
+
+.pet-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pet-info h2 {
+    margin: 0 0 5px;
+    font-size: 18px;
+}
+
+.pet-info p {
+    margin: 0;
+    color: #607688;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.pet-record-number {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: right;
+}
+
+.pet-record-number small {
+    color: #718697;
+    font-size: 10px;
+}
+
+.pet-record-number strong {
+    font-size: 13px;
+}
+
+.form-card {
+    margin-bottom: 18px;
+    padding: 22px;
+    border: 1px solid #dce7e4;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.section-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #bfece5;
+    font-size: 20px;
+}
+
+.section-heading h2 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #718697;
+    font-size: 12px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px 24px;
+}
+
+.form-group {
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-group label span {
+    color: #d94c4c;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #b8c8d2;
+    border-radius: 7px;
+    background: #f7faf9;
+    color: #172b43;
+    font: inherit;
+    font-size: 13px;
+}
+
+.form-group input,
+.form-group select {
+    min-height: 44px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #008579;
+    box-shadow: 0 0 0 3px rgba(0, 133, 121, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 15px;
+    border: 1px solid #dce7e4;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.cancel-button,
+.save-button {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: #e9efed;
+    color: #435d5a;
+}
+
+.save-button {
+    background: #00796f;
+    color: #fff;
+}
+
+.save-button:hover {
+    background: #00665e;
+}
+
+.cancel-button:hover {
+    background: #dce7e4;
+}
+
+.form-error {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    border: 1px solid #efb8b8;
+    border-radius: 8px;
+    background: #fff0f0;
+    color: #a52a2a;
+    font-size: 13px;
+}
+
+@media (max-width: 1000px) {
+    .vet-main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .edit-content {
+        padding: 24px;
+    }
+
+    .vet-topbar {
+        padding: 16px 22px;
+    }
+}
+
+@media (max-width: 650px) {
+    .vet-topbar {
+        flex-wrap: wrap;
+    }
+
+    .vet-search {
+        width: 100%;
+    }
+
+    .vet-header-right {
+        gap: 12px;
+    }
+
+    .edit-content {
+        padding: 18px 14px 30px;
+    }
+
+    .edit-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pet-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .pet-record-number {
+        width: 100%;
+        text-align: left;
+    }
+
+    .form-card {
+        padding: 17px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-button,
+    .save-button {
+        width: 100%;
+    }
+}

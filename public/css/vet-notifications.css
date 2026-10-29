@@ -10,7 +10,7 @@ body {
     margin: 0;
     background: #f6faf9;
     color: #263238;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .vet-page {
@@ -21,6 +21,7 @@ body {
 
 .vet-main {
     margin-left: 250px;
+    padding-top: 50px;
     width: calc(100% - 250px);
     min-width: 0;
     box-sizing: border-box;

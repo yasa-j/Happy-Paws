@@ -32,6 +32,12 @@ $currentUrl = $_GET['url'] ?? 'vet/reviews';
         href="<?php echo URLROOT; ?>/css/vet-reviews.css?v=3"
     >
 
+     <!-- staff header CSS -->
+     <link
+    rel="stylesheet"
+    href="<?php echo URLROOT; ?>/css/shared-staff-header.css"
+>
+
 </head>
 
 
@@ -59,67 +65,7 @@ $currentUrl = $_GET['url'] ?? 'vet/reviews';
              TOP HEADER
              ================================================= -->
 
-        <header class="vet-top-header">
-
-
-            <div class="vet-search">
-
-                <span class="search-icon">⌕</span>
-
-                <input
-                    type="text"
-                    id="review-search"
-                    placeholder="Search reviews..."
-                >
-
-            </div>
-
-
-            <div class="vet-header-right">
-
-
-
-                <button
-                    type="button"
-                    class="header-icon-button"
-                    id="settings-button"
-                    title="Settings"
-                >
-                    ⚙
-                </button>
-
-
-                <div class="header-divider"></div>
-               
-
-                   <div class="vet-user">
-
-    <div class="vet-user-avatar">
-        <img
-            src="<?php echo URLROOT; ?>/images/sidebar-icons/profile.png"
-            alt="Profile">
-    </div>
-
-    <div class="vet-user-info">
-
-                        <strong>
-    <?php echo htmlspecialchars($_SESSION['staff_name'] ?? 'Veterinarian'); ?>
-</strong>
-
-                        <span>
-                            Lead Veterinarian
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </header>
-
-
-
+        <?php require APPROOT . '/views/layouts/staff-header.php'; ?>
         <!-- =================================================
              CONTENT
              ================================================= -->

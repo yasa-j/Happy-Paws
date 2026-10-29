@@ -1,195 +1,400 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-    console.log("Happy Paws Medical Record Details loaded.");
+    /* TAB SWITCHING */
 
+    const tabs = [
+        ...document.querySelectorAll('.records-tab')
+    ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Edit Pet
-    |--------------------------------------------------------------------------
-    */
+    const panels = [
+        ...document.querySelectorAll('.records-tab-content')
+    ];
 
-    const editButton =
-        document.getElementById("edit-pet-button");
+    function activateTab(name) {
 
+        tabs.forEach(tab => {
 
-    if (editButton) {
+            const active = tab.dataset.tab === name;
 
-        editButton.addEventListener(
-            "click",
-            function () {
+            tab.classList.toggle('active', active);
 
-                alert(
-                    "Pet information editing will be available here."
-                );
+            tab.setAttribute(
+                'aria-selected',
+                active ? 'true' : 'false'
+            );
 
-            }
-        );
+            tab.tabIndex = active ? 0 : -1;
 
-    }
+        });
 
+        panels.forEach(panel => {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Add Vaccination Record
-    |--------------------------------------------------------------------------
-    */
+            const active = panel.dataset.tabContent === name;
 
-    const addVaccineButton =
-        document.getElementById(
-            "add-vaccine-button"
-        );
+            panel.classList.toggle('active', active);
 
+            panel.hidden = !active;
 
-    if (addVaccineButton) {
-
-        addVaccineButton.addEventListener(
-            "click",
-            function () {
-
-                alert(
-                    "Add vaccination record form will open here."
-                );
-
-            }
-        );
+        });
 
     }
 
+    tabs.forEach((tab, index) => {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Add Medication
-    |--------------------------------------------------------------------------
-    */
+        tab.addEventListener('click', () => {
 
-    const addMedicationButton =
-        document.getElementById(
-            "add-medication-button"
-        );
+            activateTab(tab.dataset.tab);
 
+        });
 
-    if (addMedicationButton) {
+        tab.addEventListener('keydown', event => {
 
-        addMedicationButton.addEventListener(
-            "click",
-            function () {
-
-                alert(
-                    "Add medication form will open here."
-                );
-
+            if (
+                !['ArrowLeft', 'ArrowRight'].includes(event.key)
+            ) {
+                return;
             }
-        );
 
-    }
+            event.preventDefault();
 
+            const next = (
+                index +
+                (event.key === 'ArrowRight' ? 1 : tabs.length - 1)
+            ) % tabs.length;
 
-    /*
-    |--------------------------------------------------------------------------
-    | View All Treatments
-    |--------------------------------------------------------------------------
-    */
+            tabs[next].focus();
 
-    const viewAllTreatments =
-        document.getElementById(
-            "view-all-treatments"
-        );
+            activateTab(tabs[next].dataset.tab);
 
+        });
 
-    if (viewAllTreatments) {
-
-        viewAllTreatments.addEventListener(
-            "click",
-            function () {
-
-                const treatmentItems =
-                    document.querySelectorAll(
-                        ".treatment-item"
-                    );
+    });
 
 
-                treatmentItems.forEach(
-                    function (item) {
+    /* VIEW TREATMENT DETAILS */
 
-                        item.classList.add(
-                            "treatment-highlight"
-                        );
+    document.querySelectorAll('.treatment-view-button')
+        .forEach(button => {
 
-                    }
-                );
+            button.addEventListener('click', () => {
 
+                const row = button.closest('.treatment-item');
 
-                setTimeout(
-                    function () {
+                const details = row?.querySelector('.treatment-extra');
 
-                        treatmentItems.forEach(
-                            function (item) {
-
-                                item.classList.remove(
-                                    "treatment-highlight"
-                                );
-
-                            }
-                        );
-
-                    },
-                    1200
-                );
-
-            }
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Search
-    |--------------------------------------------------------------------------
-    */
-
-    const searchInput =
-        document.querySelector(
-            ".vet-search input"
-        );
-
-
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                const searchText =
-                    this.value
-                        .toLowerCase()
-                        .trim();
-
-
-                const pageText =
-                    document
-                        .querySelector(
-                            ".medical-detail-content"
-                        )
-                        .textContent
-                        .toLowerCase();
-
-
-                if (
-                    searchText !== "" &&
-                    !pageText.includes(searchText)
-                ) {
-
-                    console.log(
-                        "No matching information found."
-                    );
-
+                if (!details) {
+                    return;
                 }
 
-            }
-        );
+                const opening = details.hidden;
+
+                details.hidden = !opening;
+
+                row.classList.toggle('is-expanded', opening);
+
+                button.textContent = opening ? 'Hide' : 'View';
+
+            });
+
+        });
+
+
+    /* QUICK-ADD DIALOG */
+
+    const dialog = document.getElementById('quick-dialog');
+
+    const dialogTitle = document.getElementById('dialog-title');
+
+    const dialogDescription =
+        document.getElementById('dialog-description');
+
+    const dialogLabel = document.getElementById('dialog-label');
+
+    const input = document.getElementById('dialog-value');
+
+    const form = document.getElementById('quick-dialog-form');
+
+    let activeAction = '';
+
+
+    function openQuickDialog(
+        action,
+        title,
+        description,
+        label
+    ) {
+
+        activeAction = action;
+
+        dialogTitle.textContent = title;
+
+        dialogDescription.textContent = description;
+
+        dialogLabel.textContent = label;
+
+        input.value = '';
+
+        if (typeof dialog.showModal === 'function') {
+
+            dialog.showModal();
+
+        } else {
+
+            window.alert(description);
+
+        }
+
+        setTimeout(() => input.focus(), 0);
 
     }
+
+
+    /* PET INFORMATION BUTTON */
+
+    document.getElementById('edit-pet-button')
+        ?.addEventListener('click', () => {
+
+            openQuickDialog(
+                'pet',
+                'Pet information',
+                'Pet details are managed by the pet record in the system.',
+                'Pet name (view only)'
+            );
+
+            input.value =
+                document.querySelector('.pet-name-line h1')
+                    ?.textContent.trim() || '';
+
+        });
+
+
+    /* ADD TREATMENT */
+
+    document.getElementById('add-treatment-button')
+        ?.addEventListener('click', () => {
+
+            openQuickDialog(
+                'treatment',
+                'Add treatment note',
+                'Enter a short treatment note. This preview is added to the page only.',
+                'Treatment / clinical note'
+            );
+
+        });
+
+
+    /* ADD ALLERGY */
+
+    document.getElementById('add-allergy-button')
+        ?.addEventListener('click', () => {
+
+            openQuickDialog(
+                'allergy',
+                'Add allergy',
+                'Enter the allergy name. This preview is added to the page only.',
+                'Allergy'
+            );
+
+        });
+
+
+    /* ADD MEDICATION */
+
+    document.getElementById('add-medication-button')
+        ?.addEventListener('click', () => {
+
+            openQuickDialog(
+                'medication',
+                'Add medication',
+                'Enter the medication name. This preview is added to the page only.',
+                'Medication name'
+            );
+
+        });
+
+
+    /* CANCEL DIALOG */
+
+    document.getElementById('dialog-cancel')
+        ?.addEventListener('click', () => {
+
+            dialog.close('cancel');
+
+        });
+
+
+    /* HANDLE QUICK-ADD SUBMISSION */
+
+    form?.addEventListener('submit', event => {
+
+        event.preventDefault();
+
+        const value = input.value.trim();
+
+        if (!value) {
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        /* ADD ALLERGY PREVIEW */
+
+        if (activeAction === 'allergy') {
+
+            const list = document.getElementById('allergy-list');
+
+            list.querySelector('.muted-note')?.remove();
+
+            const tag = document.createElement('span');
+
+            tag.className = 'allergy-tag';
+
+            tag.textContent = value;
+
+            list.appendChild(tag);
+
+        }
+
+
+        /* ADD MEDICATION PREVIEW */
+
+        else if (activeAction === 'medication') {
+
+            const list = document.getElementById('medication-list');
+
+            list.querySelector('.muted-note')?.remove();
+
+            const card = document.createElement('article');
+
+            card.className = 'medication-item';
+
+            const title = document.createElement('div');
+
+            title.className = 'medication-item-title';
+
+            const name = document.createElement('strong');
+
+            name.textContent = value;
+
+            const status = document.createElement('span');
+
+            status.className = 'medication-status';
+
+            status.textContent = 'ONGOING';
+
+            title.append(name, status);
+
+            card.appendChild(title);
+
+            list.prepend(card);
+
+        }
+
+
+        /* ADD TREATMENT PREVIEW */
+
+        else if (activeAction === 'treatment') {
+
+            const tbody =
+                document.querySelector('#panel-treatments tbody');
+
+            tbody.querySelector('.empty-state')
+                ?.closest('tr')
+                ?.remove();
+
+            const row = document.createElement('tr');
+
+            row.className = 'treatment-item';
+
+            const date = document.createElement('td');
+
+            date.textContent = new Date().toLocaleDateString(
+                undefined,
+                {
+                    month: 'short',
+                    day: '2-digit',
+                    year: 'numeric'
+                }
+            );
+
+            const details = document.createElement('td');
+
+            const strong = document.createElement('strong');
+
+            strong.textContent = value;
+
+            details.appendChild(strong);
+
+            const vet = document.createElement('td');
+
+            vet.textContent = 'Current veterinarian';
+
+            const statusCell = document.createElement('td');
+
+            const status = document.createElement('span');
+
+            status.className = 'status-pill';
+
+            status.textContent = '✓ Added (preview)';
+
+            statusCell.appendChild(status);
+
+            const actions = document.createElement('td');
+
+            actions.textContent = '—';
+
+            row.append(
+                date,
+                details,
+                vet,
+                statusCell,
+                actions
+            );
+
+            tbody.prepend(row);
+
+        }
+
+
+        /* PET INFORMATION IS VIEW-ONLY HERE */
+
+        else if (activeAction === 'pet') {
+
+            dialog.close('ok');
+
+            return;
+
+        }
+
+
+        dialog.close('ok');
+
+    });
+
+
+    /* SEARCH */
+
+    const search = document.querySelector(
+        '.vet-search input, .staff-search input, .header-search input'
+    );
+
+    search?.addEventListener('input', () => {
+
+        const query = search.value.trim().toLowerCase();
+
+        document.querySelectorAll(
+            '.treatment-item, #panel-vaccinations tbody tr, .allergy-tag, .medication-item'
+        ).forEach(item => {
+
+            item.hidden =
+                query !== '' &&
+                !item.textContent.toLowerCase().includes(query);
+
+        });
+
+    });
 
 });

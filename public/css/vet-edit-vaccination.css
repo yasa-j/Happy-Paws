@@ -4,7 +4,7 @@
 
 body {
     margin: 0;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     background: #f7f9f8;
     color: #263238;
 }
@@ -17,6 +17,7 @@ body {
 
 .vet-main {
     margin-left: 250px;
+    padding-top: 30px;
     width: calc(100% - 250px);
     min-width: 0;
     box-sizing: border-box;

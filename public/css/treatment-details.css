@@ -1,0 +1,580 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: #172b43;
+    background: #f5f9f8;
+}
+
+.vet-main {
+    margin-left: 270px;
+    width: calc(100% - 270px);
+    min-height: 100vh;
+}
+
+.vet-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 94px;
+    padding: 18px 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    background: #f8fbfa;
+    border-bottom: 1px solid #e1e9e7;
+}
+
+.vet-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(650px, 60%);
+    padding: 14px 20px;
+    border: 1px solid #dce6e3;
+    border-radius: 40px;
+    background: #eff4f2;
+}
+
+.vet-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+}
+
+.vet-header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.header-action {
+    border: 0;
+    background: transparent;
+    color: #173c43;
+    font-size: 23px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-divider {
+    width: 1px;
+    height: 48px;
+    background: #d5dfdc;
+}
+
+.vet-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #172b43;
+    text-decoration: none;
+}
+
+.vet-profile img {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.vet-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vet-profile-info strong {
+    font-size: 14px;
+}
+
+.vet-profile-info span {
+    color: #687b89;
+    font-size: 12px;
+}
+
+.details-content {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 32px 38px 45px;
+}
+
+.page-heading {
+    margin-bottom: 24px;
+}
+
+.page-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e0f3ef;
+    color: #00796f;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.page-heading h1 {
+    margin: 12px 0 7px;
+    font-size: 29px;
+}
+
+.page-heading p,
+.card-heading p {
+    margin: 0;
+    color: #6b7f8d;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.detail-card {
+    margin-bottom: 18px;
+    padding: 22px;
+    border: 1px solid #dce7e4;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.pet-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(110deg, #fff, #eaf8f6);
+}
+
+.pet-avatar {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e0f3ef;
+    font-size: 25px;
+}
+
+.pet-summary-info {
+    flex: 1;
+}
+
+.pet-summary-info h2 {
+    margin: 0 0 6px;
+    font-size: 21px;
+}
+
+.pet-summary-info p {
+    margin: 0;
+    color: #607688;
+    font-size: 13px;
+}
+
+.record-number {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: right;
+}
+
+.record-number small,
+.detail-item small {
+    color: #718697;
+    font-size: 11px;
+}
+
+.record-number strong {
+    font-size: 14px;
+}
+
+.card-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.heading-icon {
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #e0f3ef;
+    font-size: 21px;
+}
+
+.card-heading h2 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.card-heading > div:nth-child(2) {
+    flex: 1;
+}
+
+.status-pill {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-pill.completed {
+    color: #087c64;
+    background: #d9f5e9;
+}
+
+.status-pill.ongoing {
+    color: #08766e;
+    background: #ccefeb;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.detail-item {
+    min-width: 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f3f7f6;
+}
+
+.detail-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.detail-item small {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.detail-item strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.detail-item p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.medicine-name {
+    margin-bottom: 14px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #e5f5f2;
+    color: #006e65;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.text-panel {
+    padding: 16px;
+    border-radius: 8px;
+    background: #f3f7f6;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.empty-message {
+    margin: 0;
+    color: #718697;
+    font-size: 13px;
+}
+
+.bottom-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 22px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 7px;
+    background: #e4efed;
+    color: #17665f;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background: #d3e8e4;
+}
+
+@media (max-width: 1000px) {
+    .vet-main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .details-content {
+        padding: 24px;
+    }
+
+    .vet-topbar {
+        padding: 16px 22px;
+    }
+}
+
+@media (max-width: 650px) {
+    .vet-topbar {
+        flex-wrap: wrap;
+    }
+
+    .vet-search {
+        width: 100%;
+    }
+
+    .vet-header-right {
+        gap: 12px;
+    }
+
+    .details-content {
+        padding: 20px 14px 30px;
+    }
+
+    .detail-card {
+        padding: 16px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-item.full-width {
+        grid-column: auto;
+    }
+
+    .pet-summary {
+        flex-wrap: wrap;
+    }
+
+    .record-number {
+        width: 100%;
+        text-align: left;
+    }
+
+    .card-heading {
+        flex-wrap: wrap;
+    }
+}.heading-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 12px;
+}
+
+.heading-title-row h1 {
+    margin: 0 0 8px;
+    font-size: 29px;
+}
+
+.heading-title-row p {
+    margin: 0;
+    color: #617587;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.heading-actions form {
+    margin: 0;
+}
+
+.delete-button,
+.edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.delete-button {
+    background: #fff0f0;
+    color: #d62929;
+}
+
+.delete-button:hover {
+    background: #ffe0e0;
+}
+
+.edit-button {
+    background: #00796f;
+    color: #fff;
+}
+
+.edit-button:hover {
+    background: #00665e;
+}
+
+@media (max-width: 800px) {
+    .heading-title-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .heading-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .heading-actions form {
+        flex: 1;
+    }
+
+    .delete-button,
+    .edit-button {
+        width: 100%;
+    }
+
+    .heading-actions form .delete-button {
+        width: 100%;
+    }
+}
+/* Delete confirmation popup */
+.delete-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(24, 38, 40, 0.38);
+}
+
+.delete-modal-overlay.visible {
+    display: flex;
+}
+
+.delete-modal {
+    width: 100%;
+    max-width: 500px;
+    padding: 32px;
+    border-radius: 18px;
+    background: #ffffff;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    animation: modalAppear 0.18s ease-out;
+}
+
+.delete-modal-icon {
+    margin-bottom: 18px;
+    color: #dc2626;
+    font-size: 28px;
+}
+
+.delete-modal h2 {
+    margin: 0 0 14px;
+    color: #172b43;
+    font-size: 25px;
+}
+
+.delete-modal p {
+    margin: 0 auto 25px;
+    max-width: 390px;
+    color: #607688;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.delete-modal-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.delete-modal-actions form {
+    margin: 0;
+}
+
+.modal-cancel-button,
+.modal-delete-button {
+    min-height: 44px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-cancel-button {
+    background: #e9efed;
+    color: #344b59;
+}
+
+.modal-cancel-button:hover {
+    background: #dce7e4;
+}
+
+.modal-delete-button {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.modal-delete-button:hover {
+    background: #b91c1c;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 500px) {
+    .delete-modal {
+        padding: 25px 18px;
+    }
+
+    .delete-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .delete-modal-actions form,
+    .modal-cancel-button,
+    .modal-delete-button {
+        width: 100%;
+    }
+}

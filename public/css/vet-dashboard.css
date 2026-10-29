@@ -10,7 +10,7 @@ body {
 }
 
 body {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     background: #f7faf9;
     color: #182338;
 }
@@ -31,6 +31,7 @@ body {
     margin-left: 250px;
     min-width: 0;
     padding: 0 48px 50px;
+    padding-top: 55px;
     box-sizing: border-box;
 }
 /* ==============================
@@ -63,7 +64,7 @@ body {
 }
 
 .search-icon {
-    font-size: 24px;
+    font-size: 218px;
     color: #38474a;
 }
 
@@ -175,7 +176,7 @@ body {
 }
 
 .welcome-section h1 {
-    font-size: 31px;
+    font-size: 26px;
     font-weight: 700;
 
     color: #171e20;
@@ -199,7 +200,7 @@ body {
 }
 
 .calendar-icon {
-    font-size: 22px;
+    font-size: 20px;
     color: #006f68;
 }
 
@@ -249,7 +250,7 @@ body {
     position: relative;
     z-index: 1;
 
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 700;
 
     color: #006f68;
@@ -263,7 +264,7 @@ body {
 
     display: block;
 
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 
     color: #006f68;
@@ -279,14 +280,14 @@ body {
 
     margin-top: 5px;
 
-    font-size: 23px;
+    font-size: 19px;
     font-weight: 700;
 
     color: #006f68;
 }
 
 .rating-small {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 
@@ -339,7 +340,7 @@ body {
 .card-header a {
     text-decoration: none;
 
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 
     color: #006f68;
@@ -393,7 +394,7 @@ body {
 }
 
 .appointment-time {
-    font-size: 14px;
+    font-size: 13px;
     color: #4d585b;
 }
 
@@ -419,13 +420,13 @@ body {
 
     border-radius: 50%;
 
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .patient-info strong {
     display: block;
 
-    font-size: 16px;
+    font-size: 14px;
 
     color: #263134;
 }
@@ -435,13 +436,13 @@ body {
 
     margin-top: 3px;
 
-    font-size: 16px;
+    font-size: 13px;
 
     color: #687477;
 }
 
 .appointment-type {
-    font-size: 16px;
+    font-size: 14px;
 
     line-height: 18px;
 
@@ -486,7 +487,7 @@ body {
 .recent-records-card h2 {
     margin-bottom: 18px;
 
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
 
     color: #202a2d;
@@ -529,7 +530,7 @@ body {
 }
 
 .time-box strong {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .time-box span {
@@ -612,7 +613,7 @@ body {
 .record-item strong {
     display: block;
 
-    font-size: 16px;
+    font-size: 14px;
 
     color: #293336;
 }
