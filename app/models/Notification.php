@@ -143,4 +143,101 @@ class Notification
 
         return $this->db->execute();
     }
+
+
+    /*
+     * Create a notification for a pet owner.
+     */
+    public function createNotification($data)
+    {
+        $this->db->query(
+            "INSERT INTO notifications (
+                user_id,
+                notification_type,
+                title,
+                message,
+                related_type,
+                related_id,
+                action_label,
+                action_url,
+                priority,
+                expires_at
+            ) VALUES (
+                :user_id,
+                :notification_type,
+                :title,
+                :message,
+                :related_type,
+                :related_id,
+                :action_label,
+                :action_url,
+                :priority,
+                :expires_at
+            )"
+        );
+
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(
+            ':notification_type',
+            $data['notification_type']
+        );
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':message', $data['message']);
+        $this->db->bind(
+            ':related_type',
+            $data['related_type'] ?? null
+        );
+        $this->db->bind(
+            ':related_id',
+            $data['related_id'] ?? null
+        );
+        $this->db->bind(
+            ':action_label',
+            $data['action_label'] ?? null
+        );
+        $this->db->bind(
+            ':action_url',
+            $data['action_url'] ?? null
+        );
+        $this->db->bind(
+            ':priority',
+            $data['priority'] ?? 'normal'
+        );
+        $this->db->bind(
+            ':expires_at',
+            $data['expires_at'] ?? null
+        );
+
+        return $this->db->execute();
+    }
+
+    /*
+     * Check whether a notification already exists
+     * for the same user, type and related record.
+     */
+    public function notificationExists($userId, $type, $relatedType, $relatedId, $title)
+    {
+        $this->db->query(
+            "SELECT notification_id
+            FROM notifications
+            WHERE user_id = :user_id
+            AND notification_type = :notification_type
+            AND related_type = :related_type
+            AND related_id = :related_id
+            AND title = :title
+            LIMIT 1"
+        );
+
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':notification_type', $type);
+        $this->db->bind(':related_type', $relatedType);
+        $this->db->bind(':related_id', $relatedId);
+        $this->db->bind(':title', $title);
+
+        // Execute the query and check whether a matching notification exists
+        $result = $this->db->single();
+
+        return !empty($result);
+    }
+
 }

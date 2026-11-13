@@ -987,10 +987,50 @@ class PetOwnerController extends Controller
             );
 
 
+            
             if ($appointmentId) {
 
                 // Appointment successfully created
 
+                $notificationTitle = 'Appointment Confirmed';
+
+                // Check whether this notification already exists
+                $notificationExists = $this->notificationModel->notificationExists(
+                    $userId,
+                    'appointment',
+                    'appointment',
+                    $appointmentId,
+                    $notificationTitle
+                );
+
+                // Create a notification if one does not already exist
+                if (!$notificationExists) {
+
+                    $formattedDate = date(
+                        'F j, Y',
+                        strtotime($appointmentData['appointment_date'])
+                    );
+
+                    $formattedTime = date(
+                        'g:i A',
+                        strtotime($appointmentData['appointment_time'])
+                    );
+
+                    $this->notificationModel->createNotification([
+                        'user_id' => $userId,
+                        'notification_type' => 'appointment',
+                        'title' => $notificationTitle,
+                        'message' => 'Your appointment has been confirmed for '
+                            . $formattedDate . ' at ' . $formattedTime . '.',
+                        'related_type' => 'appointment',
+                        'related_id' => $appointmentId,
+                        'action_label' => 'View Appointment',
+                        'action_url' => URLROOT . '/petowner/upcomingAppointments',
+                        'priority' => 'normal'
+                    ]);
+                }
+
+                // Redirect after successful booking
                 echo "<script>
                     alert('Appointment booked successfully!');
                     window.location.href = '" . URLROOT . "/petowner/upcomingAppointments';
@@ -998,6 +1038,7 @@ class PetOwnerController extends Controller
 
                 exit;
             }
+
         }
 
 
@@ -1448,61 +1489,44 @@ class PetOwnerController extends Controller
     |--------------------------------------------------------------------------
     */
 
+    
     public function rescheduleAppointment()
     {
         // Make sure user is logged in
-
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . URLROOT . '/users/login');
             exit;
         }
 
-
         // Get logged-in user's ID
-
-        $userId = $_SESSION['user_id'];
-
+        $userId = (int) $_SESSION['user_id'];
 
         // Get submitted appointment details
-
         $appointmentId = $_POST['appointment_id'] ?? null;
-
         $newDate = $_POST['appointment_date'] ?? null;
-
         $newTime = $_POST['appointment_time'] ?? null;
 
-
         // Make sure all values were submitted
-
         if (!$appointmentId || !$newDate || !$newTime) {
-
             header('Location: ' . URLROOT . '/petowner/upcomingAppointments');
             exit;
         }
 
-
         // Load Appointment model
-
         $appointmentModel = $this->model('Appointment');
 
-
         // Make sure this appointment belongs to this user
-
         $appointment = $appointmentModel->getAppointmentById(
             $appointmentId,
             $userId
         );
 
-
         if (!$appointment) {
-
             header('Location: ' . URLROOT . '/petowner/upcomingAppointments');
             exit;
         }
 
-
         // Update appointment date and time
-
         $updated = $appointmentModel->rescheduleAppointment(
             $appointmentId,
             $userId,
@@ -1510,25 +1534,50 @@ class PetOwnerController extends Controller
             $newTime
         );
 
-
         if ($updated) {
 
-            // Success message
+            // Create a notification for the successful reschedule
+            $notificationTitle = 'Appointment Rescheduled';
 
+            $notificationExists = $this->notificationModel->notificationExists(
+                $userId,
+                'appointment',
+                'appointment',
+                $appointmentId,
+                $notificationTitle
+            );
+
+            if (!$notificationExists) {
+
+                $formattedDate = date('F j, Y', strtotime($newDate));
+                $formattedTime = date('g:i A', strtotime($newTime));
+
+                $this->notificationModel->createNotification([
+                    'user_id' => $userId,
+                    'notification_type' => 'appointment',
+                    'title' => $notificationTitle,
+                    'message' => 'Your appointment has been rescheduled to '
+                        . $formattedDate . ' at ' . $formattedTime . '.',
+                    'related_type' => 'appointment',
+                    'related_id' => $appointmentId,
+                    'action_label' => 'View Appointment',
+                    'action_url' => URLROOT . '/petowner/upcomingAppointments',
+                    'priority' => 'normal'
+                ]);
+            }
+
+            // Success message
             $_SESSION['success_message'] =
                 'Appointment rescheduled successfully.';
 
         } else {
 
             // Error message
-
             $_SESSION['error_message'] =
                 'Unable to reschedule the appointment.';
         }
 
-
         // Return to upcoming appointments
-
         header(
             'Location: ' .
             URLROOT .
@@ -1538,6 +1587,8 @@ class PetOwnerController extends Controller
         exit;
     }
 
+
+    
     public function cancelAppointment()
     {
         // Make sure the user is logged in
@@ -1546,62 +1597,75 @@ class PetOwnerController extends Controller
             exit;
         }
 
-        $userId = $_SESSION['user_id'];
+        $userId = (int) $_SESSION['user_id'];
 
         // Get appointment ID from the form
         $appointmentId = $_POST['appointment_id'] ?? null;
 
         if (!$appointmentId) {
 
-            $_SESSION['error_message'] =
-                'Invalid appointment.';
+            $_SESSION['error_message'] = 'Invalid appointment.';
 
             header(
-                'Location: ' .
-                URLROOT .
-                '/petowner/upcomingAppointments'
+                'Location: ' . URLROOT . '/petowner/upcomingAppointments'
             );
 
             exit;
         }
-
 
         // Load Appointment model
         $appointmentModel = $this->model('Appointment');
 
-
         // Make sure this appointment belongs to this user
-        $appointment =
-            $appointmentModel->getAppointmentById(
-                $appointmentId,
-                $userId
-            );
-
+        $appointment = $appointmentModel->getAppointmentById(
+            $appointmentId,
+            $userId
+        );
 
         if (!$appointment) {
 
-            $_SESSION['error_message'] =
-                'Appointment not found.';
+            $_SESSION['error_message'] = 'Appointment not found.';
 
             header(
-                'Location: ' .
-                URLROOT .
-                '/petowner/upcomingAppointments'
+                'Location: ' . URLROOT . '/petowner/upcomingAppointments'
             );
 
             exit;
         }
 
-
         // Cancel the appointment
-        $cancelled =
-            $appointmentModel->cancelAppointment(
-                $appointmentId,
-                $userId
-            );
-
+        $cancelled = $appointmentModel->cancelAppointment(
+            $appointmentId,
+            $userId
+        );
 
         if ($cancelled) {
+
+            // Create a cancellation notification
+            $notificationTitle = 'Appointment Cancelled';
+
+            $notificationExists = $this->notificationModel->notificationExists(
+                $userId,
+                'appointment',
+                'appointment',
+                $appointmentId,
+                $notificationTitle
+            );
+
+            if (!$notificationExists) {
+
+                $this->notificationModel->createNotification([
+                    'user_id' => $userId,
+                    'notification_type' => 'appointment',
+                    'title' => $notificationTitle,
+                    'message' => 'Your appointment has been cancelled successfully.',
+                    'related_type' => 'appointment',
+                    'related_id' => $appointmentId,
+                    'action_label' => 'View Appointments',
+                    'action_url' => URLROOT . '/petowner/upcomingAppointments',
+                    'priority' => 'normal'
+                ]);
+            }
 
             $_SESSION['success_message'] =
                 'Appointment cancelled successfully.';
@@ -1612,16 +1676,14 @@ class PetOwnerController extends Controller
                 'Unable to cancel the appointment.';
         }
 
-
         // Return to upcoming appointments
         header(
-            'Location: ' .
-            URLROOT .
-            '/petowner/upcomingAppointments'
+            'Location: ' . URLROOT . '/petowner/upcomingAppointments'
         );
 
         exit;
     }
+
 
 
     /*
