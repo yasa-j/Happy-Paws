@@ -41,14 +41,15 @@
             <label>Phone Number</label>
             <div>
                 <span>+94</span>
-                <input type="text" 
+                <input
+                    type="text"
                     name="phone_number"
                     maxlength="9"
                     minlength="9"
-                    pattern="[0-9]{9}"
+                    pattern="7[0-9]{8}"
                     inputmode="numeric"
                     placeholder="771234567"
-                    required >
+                    required>
             </div>
         </div>
 

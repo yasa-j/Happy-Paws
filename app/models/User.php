@@ -25,16 +25,13 @@ class User
         );
 
         $this->db->bind(':email', $email);
-
         return $this->db->single();
     }
 
     public function findUserById($id) {
 
         $this->db->query("SELECT * FROM users WHERE user_id = :id LIMIT 1");
-
         $this->db->bind(':id', $id);
-        
         return $this->db->single();
     }
 
@@ -47,7 +44,6 @@ class User
         );
 
         $this->db->bind(':phone_number', $phone_number);
-
         return $this->db->single();
     }
 
@@ -60,9 +56,7 @@ class User
         );
 
         $this->db->bind(':email', $email);
-
         $row = $this->db->single();
-
         return $row ? true : false;
     }
 
@@ -75,9 +69,7 @@ class User
         );
 
         $this->db->bind(':phone_number', $phone_number);
-
         $row = $this->db->single();
-
         return $row ? true : false;
     }
 
@@ -168,7 +160,6 @@ class User
         );
 
         $this->db->bind(':user_id', $userId);
-
         return $this->db->single();
     }
 

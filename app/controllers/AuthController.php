@@ -23,16 +23,19 @@ class AuthController extends Controller {
     /**
      * Redirect user based on their role
      */
-    public function redirectByRole() {
-
-        if (!isset($_SESSION['user_id'])) {
+    public function redirectByRole($role = null)
+    {
+        // Check whether the user is logged in
+        if ($role === null && !isset($_SESSION['user_id'])) {
             $this->redirect('');
             return;
         }
 
-        $role = $_SESSION['user_role'] ?? '';
+        // Get role from session if not provided
+        $role = $role ?? ($_SESSION['user_role'] ?? '');
 
         switch ($role) {
+
             case 'admin':
                 $this->redirect('admin');
                 break;
@@ -41,12 +44,12 @@ class AuthController extends Controller {
                 $this->redirect('dashboard');
                 break;
 
-            case 'pet_owner':
-                $this->redirect('petowner/dashboard');
-                break;
-
             case 'staff':
                 $this->redirect('staff');
+                break;
+
+            case 'pet_owner':
+                $this->redirect('petowner/dashboard');
                 break;
 
             default:
@@ -102,28 +105,7 @@ class AuthController extends Controller {
                     $_SESSION['user_role'] = $loggedInUser->role;
 
                     // Redirect based on role
-                    switch ($loggedInUser->role) {
-
-                        case 'admin':
-                            $this->redirect('admin');
-                            break;
-
-                        case 'veterinarian':
-                            $this->redirect('dashboard');
-                            break;
-
-                        case 'staff':
-                            $this->redirect('staff');
-                            break;
-
-                        case 'pet_owner':
-                            $this->redirect('petowner/dashboard');
-                            break;
-
-                        default:
-                            $this->redirect('dashboard');
-                            break;
-                    }
+                    $this->redirectByRole($loggedInUser->role);
 
                 } else {
 
@@ -216,17 +198,22 @@ class AuthController extends Controller {
 
             // Phone validation
             if (empty($data['phone_number'])) {
-
-                $data['phone_err'] =
-                    'Please enter your mobile number.';
+                $data['phone_err'] = 'Please enter your mobile number.';
 
             } else {
                 $phone = $data['phone_number'];
-                    if (!preg_match('/^[0-9]{9}$/', $phone)) {
-                        $data['phone_err'] = 'Please enter exactly 9 digits after +94.';
-                    } else {
-                        $data['phone_number'] = '+94' . $phone;
-                    }
+
+                if (!preg_match('/^7[0-9]{8}$/', $phone)) {
+                    $data['phone_err'] =
+                        'Please enter a valid 9-digit mobile number starting with 7.';
+
+                } elseif ($this->userModel->phoneExists('+94' . $phone)) {
+                    $data['phone_err'] =
+                        'This phone number is already registered.';
+
+                } else {
+                    $data['phone_number'] = '+94' . $phone;
+                }
             }
 
 
@@ -348,10 +335,29 @@ class AuthController extends Controller {
     // Logout
     public function logout()
     {
+        // Get the user's role before destroying the session
+        $role = $_SESSION['user_role'] ?? '';
+
+        // Clear session data
         session_unset();
         session_destroy();
 
-        header("Location: " . URLROOT);
-        exit;
+        // Redirect according to the user's previous role
+        switch ($role) {
+
+            case 'admin':
+            case 'veterinarian':
+            case 'staff':
+                $this->redirect('staffauth/login');
+                break;
+
+            case 'pet_owner':
+                $this->redirect('');
+                break;
+
+            default:
+                $this->redirect('');
+                break;
+        }
     }
-    }
+}

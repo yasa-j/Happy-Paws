@@ -201,33 +201,60 @@ class AdminController extends Controller {
         $this->adminView('add_staff', $data);
     }
 
-    public function createStaff(){
-
+    public function createStaff()
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->addStaff();
+            return;
         }
 
         $userModel = $this->model('User');
+        $phone = trim($_POST['phone_number'] ?? '');
 
         $data = [
-            'first_name' => trim($_POST['first_name']),
-            'last_name' => trim($_POST['last_name']),
-            'email' => trim($_POST['email']),
-            'phone_number' => '+94' . trim($_POST['phone_number']),
-            'password' => $_POST['password'],
-            'role' => $_POST['role'],
+            'title' => 'Add New Staff',
+            'activePage' => 'staff',
+            'first_name' => trim($_POST['first_name'] ?? ''),
+            'last_name' => trim($_POST['last_name'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'phone_number' => $phone,
+            'password' => $_POST['password'] ?? '',
+            'role' => $_POST['role'] ?? '',
             'address' => trim($_POST['address'] ?? '')
         ];
 
-        // Check whether email already exists
-        if ($userModel->findUserByEmail($data['email'])) {
-            $data['error'] = 'A user with this email address already exists.';
-            
+        // Validate phone number
+        if (!preg_match('/^7[0-9]{8}$/', $phone)) {
+
+            $data['error'] =
+                'Please enter a valid 9-digit mobile number starting with 7.';
+
             $this->adminView('add_staff', $data);
             return;
         }
 
-        // Create the user
+        // Add country code
+        $data['phone_number'] = '+94' . $phone;
+
+        // Check whether email already exists
+        if ($userModel->findUserByEmail($data['email'])) {
+
+            $data['error'] =
+                'A user with this email address already exists.';
+            $this->adminView('add_staff', $data);
+            return;
+        }
+
+        // Check whether phone number already exists
+        if ($userModel->phoneExists($data['phone_number'])) {
+            $data['error'] =
+                'This phone number is already registered.';
+
+            $this->adminView('add_staff', $data);
+            return;
+        }
+
+        // Create staff account
         $userId = $userModel->register($data);
 
         if ($userId) {
@@ -259,8 +286,8 @@ class AdminController extends Controller {
         $this->adminView('edit_Staff', $data);
     }
 
-    public function updateStaff($userId){
-
+    public function updateStaff($userId)
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->staff();
             return;
@@ -268,21 +295,50 @@ class AdminController extends Controller {
 
         $userModel = $this->model('User');
 
+        $phone = trim($_POST['phone_number'] ?? '');
+
         $data = [
-            'user_id'      => $userId,
-            'first_name'   => trim($_POST['first_name']),
-            'last_name'    => trim($_POST['last_name']),
-            'email'        => trim($_POST['email']),
-            'phone_number' => '+94' . trim($_POST['phone_number']),
-            'role'         => $_POST['role'],
-            'status'       => $_POST['status']
+            'user_id' => $userId,
+            'first_name' => trim($_POST['first_name'] ?? ''),
+            'last_name' => trim($_POST['last_name'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'phone_number' => $phone,
+            'role' => $_POST['role'] ?? '',
+            'status' => $_POST['status'] ?? ''
         ];
 
+        // Validate phone number
+        if (!preg_match('/^7[0-9]{8}$/', $phone)) {
+
+            $data['error'] =
+                'Please enter a valid 9-digit mobile number starting with 7.';
+
+            $data['staff'] = $userModel->findUserById($userId);
+
+            $this->adminView('edit_Staff', $data);
+            return;
+        }
+
+        // Add country code
+        $data['phone_number'] = '+94' . $phone;
+
+        // Check whether phone number belongs to another user
+        $existingUser = $userModel->findUserByPhone($data['phone_number']);
+
+        if ($existingUser && $existingUser->user_id != $userId) {
+            $data['error'] =
+                'This phone number is already registered.';
+            $data['staff'] = $userModel->findUserById($userId);
+            $this->adminView('edit_Staff', $data);
+            return;
+        }
+
+        // Update staff details
         if ($userModel->updateStaff($data)) {
             $this->staff();
             return;
-        } 
-        else {
+
+        } else {
             die('Unable to update staff member.');
         }
     }
