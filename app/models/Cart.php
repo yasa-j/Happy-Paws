@@ -198,5 +198,20 @@ class Cart
 
         return $this->db->execute();
     }
+
+
+    // Remove all cart items belonging to one pet owner.
+    public function clearCart($userId)
+    {
+        $this->db->query("
+            DELETE FROM cart_items
+            WHERE user_id = :user_id
+        ");
+
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
+
 }
 ?>

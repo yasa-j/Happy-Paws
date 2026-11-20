@@ -253,12 +253,18 @@ foreach ($cartItems as $item) {
                         <strong>Rs. <?php echo number_format($subtotal, 2); ?></strong>
                     </div>
 
-                    <button type="button"
-                            class="cart-primary-button"
-                            id="reserveItemsButton"
-                            <?php echo empty($cartItems) ? 'disabled' : ''; ?>>
-                        ▣ &nbsp; Reserve Items
-                    </button>
+                    <form method="POST"
+                        action="<?php echo URLROOT; ?>/petowner/reserveCart"
+                        id="reserveCartForm">
+
+                        <button type="submit"
+                                class="cart-primary-button"
+                                id="reserveItemsButton"
+                                <?php echo empty($cartItems) ? 'disabled' : ''; ?>>
+                            ▣ &nbsp; Reserve Items
+                        </button>
+
+                    </form>
 
                     <a href="<?php echo URLROOT; ?>/petowner/store"
                        class="cart-secondary-button">

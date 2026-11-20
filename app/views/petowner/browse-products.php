@@ -91,7 +91,7 @@ $categoryTabs = array_slice($categories, 0, 7);
 
                 <div class="clinic-hours">
                     <span>Clinic Hours</span>
-                    <strong>Mon–Sat: 8:00 AM – 7:00 PM</strong>
+                    <strong>Mon–Sat: 9:00 AM – 5:00 PM</strong>
                 </div>
 
             </section>

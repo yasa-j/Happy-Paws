@@ -103,6 +103,162 @@ class Reservation
         }
     }
 
+
+    /*
+     * Create one reservation containing all products in the cart.
+     * All products are checked and reserved in one transaction.
+     */
+    public function createCartReservation($userId, $cartItems)
+    {
+        $userId = (int)$userId;
+
+        if ($userId <= 0 || empty($cartItems)) {
+            return false;
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            $reservationItems = [];
+            $totalAmount = 0;
+
+            // Check and lock every product before creating the order.
+            foreach ($cartItems as $item) {
+
+                $productId = (int)$item->product_id;
+                $quantity = (int)$item->quantity;
+
+                if ($productId <= 0 || $quantity <= 0) {
+                    throw new Exception('Invalid cart item.');
+                }
+
+                $this->db->query("
+                    SELECT
+                        product_id,
+                        name,
+                        price,
+                        stock_quantity,
+                        status
+                    FROM products
+                    WHERE product_id = :product_id
+                    FOR UPDATE
+                ");
+
+                $this->db->bind(':product_id', $productId);
+
+                $product = $this->db->single();
+
+                // Make sure the product is still available.
+                if (
+                    !$product ||
+                    $product->status !== 'In Stock' ||
+                    (int)$product->stock_quantity < $quantity
+                ) {
+                    throw new Exception(
+                        'A product is no longer available in the requested quantity.'
+                    );
+                }
+
+                $unitPrice = (float)$product->price;
+                $subtotal = $unitPrice * $quantity;
+
+                $totalAmount += $subtotal;
+
+                $reservationItems[] = [
+                    'product_id' => $productId,
+                    'product_name' => $product->name,
+                    'quantity' => $quantity,
+                    'unit_price' => $unitPrice,
+                    'subtotal' => $subtotal
+                ];
+            }
+
+            // Create one reservation for the entire cart.
+            $this->db->query("
+                INSERT INTO product_orders
+                    (user_id, total_amount, status, reservation_expires_at)
+                VALUES
+                    (:user_id, :total_amount, 'Reserved',
+                     DATE_ADD(NOW(), INTERVAL 24 HOUR))
+            ");
+
+            $this->db->bind(':user_id', $userId);
+            $this->db->bind(':total_amount', $totalAmount);
+
+            $this->db->execute();
+
+            $orderId = $this->db->lastInsertId();
+
+            // Add each cart product to the order.
+            foreach ($reservationItems as $item) {
+
+                $this->db->query("
+                    INSERT INTO order_items
+                        (
+                            order_id,
+                            product_id,
+                            product_name_snapshot,
+                            quantity,
+                            unit_price,
+                            subtotal
+                        )
+                    VALUES
+                        (
+                            :order_id,
+                            :product_id,
+                            :product_name,
+                            :quantity,
+                            :unit_price,
+                            :subtotal
+                        )
+                ");
+
+                $this->db->bind(':order_id', $orderId);
+                $this->db->bind(':product_id', $item['product_id']);
+                $this->db->bind(':product_name', $item['product_name']);
+                $this->db->bind(':quantity', $item['quantity']);
+                $this->db->bind(':unit_price', $item['unit_price']);
+                $this->db->bind(':subtotal', $item['subtotal']);
+
+                $this->db->execute();
+            }
+
+            // Reduce stock for every reserved product.
+            foreach ($reservationItems as $item) {
+
+                $this->db->query("
+                    UPDATE products
+                    SET stock_quantity = stock_quantity - :quantity
+                    WHERE product_id = :product_id
+                      AND stock_quantity >= :quantity
+                ");
+
+                $this->db->bind(':quantity', $item['quantity']);
+                $this->db->bind(':product_id', $item['product_id']);
+
+                $this->db->execute();
+
+                if ($this->db->rowCount() !== 1) {
+                    throw new Exception(
+                        'Unable to update product stock.'
+                    );
+                }
+            }
+
+            // Save all changes together.
+            $this->db->commit();
+
+            return $orderId;
+
+        } catch (Exception $e) {
+
+            $this->db->rollBack();
+
+            return false;
+        }
+    }
+
+
     /*
      * Restore stock and mark expired reservations.
      * The status is changed before stock is restored, inside the

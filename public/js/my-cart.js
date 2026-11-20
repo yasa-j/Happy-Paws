@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const quantityButtons = document.querySelectorAll(".quantity-change");
     const quantityInputs = document.querySelectorAll(".cart-quantity-input");
-    const reserveButton = document.getElementById("reserveItemsButton");
+    //const reserveButton = document.getElementById("reserveItemsButton");
 
     quantityButtons.forEach(function (button) {
         button.addEventListener("click", function () {
@@ -35,12 +35,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    if (reserveButton) {
-        reserveButton.addEventListener("click", function () {
-            alert(
-                "The reservation workflow has not been connected yet. " +
-                "Your cart items are still saved."
-            );
-        });
-    }
+    
 });

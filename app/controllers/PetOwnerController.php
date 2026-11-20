@@ -2124,6 +2124,107 @@ class PetOwnerController extends Controller
     }
 
 
+    // Create one reservation containing all products in the cart.
+    public function reserveCart()
+    {
+        
+        // Make sure the user is a logged-in pet owner.
+        if (
+            !isset($_SESSION['user_id']) ||
+            !isset($_SESSION['user_role']) ||
+            $_SESSION['user_role'] !== 'pet_owner'
+        ) {
+            header('Location: ' . URLROOT);
+            exit;
+        }
+
+        // Only allow POST requests.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . URLROOT . '/petowner/cart');
+            exit;
+        }
+
+        $userId = (int)$_SESSION['user_id'];
+        
+
+        // Load the required models.
+        $cartModel = $this->model('Cart');
+        $reservationModel = $this->model('Reservation');
+
+        // Retrieve the owner's cart items.
+        $cartItems = $cartModel->getCartItems($userId);
+
+        // Check whether the cart contains products.
+        if (empty($cartItems)) {
+            $_SESSION['reservation_message'] =
+                'Your cart is empty. Please add products first.';
+
+            header('Location: ' . URLROOT . '/petowner/cart');
+            exit;
+        }
+
+        // Create one reservation for all cart items.
+        $reservationId = $reservationModel->createCartReservation(
+            $userId,
+            $cartItems
+        );
+
+        // Check whether the reservation was successful.
+        if ($reservationId !== false) {
+            //$_SESSION['reservation_debug'] = 'Reservation successful. Notification section reached.';
+
+            // Clear the cart after successful reservation.
+            $cartModel->clearCart($userId);
+
+            // Prepare the notification.
+            $notificationTitle = 'Product Reservation Confirmed';
+
+            // Prevent duplicate notifications.
+            $notificationExists =
+                $this->notificationModel->notificationExists(
+                    $userId,
+                    'reserved_product',
+                    'product_order',
+                    $reservationId,
+                    $notificationTitle
+                );
+
+            // Create the notification if it does not already exist.
+            if (!$notificationExists) {
+
+                $this->notificationModel->createNotification([
+                    'user_id' => $userId,
+                    'notification_type' => 'reserved_product',
+                    'title' => $notificationTitle,
+                    'message' => 'Your cart products have been reserved successfully. '
+                        . 'Please collect your reservation within 24 hours.',
+                    'related_type' => 'product_order',
+                    'related_id' => $reservationId,
+                    'action_label' => 'View Reservation',
+                    'action_url' => URLROOT . '/petowner/reserved',
+                    'priority' => 'normal'
+                ]);
+                //$_SESSION['reservation_debug'] .= ' Notification creation attempted.';
+            }
+
+            $_SESSION['reservation_message'] =
+                'Your cart products have been reserved successfully. '
+                . 'Please collect them within 24 hours.';
+
+            header('Location: ' . URLROOT . '/petowner/reserved');
+            exit;
+        }
+
+        // Reservation failed. Keep the cart items.
+        $_SESSION['reservation_message'] =
+            'Reservation failed. Please check product availability and stock, then try again.';
+
+        header('Location: ' . URLROOT . '/petowner/cart');
+        exit;
+    }
+
+
+
     // Update a cart item's quantity.
     public function updateCartQuantity()
     {
@@ -2338,9 +2439,40 @@ class PetOwnerController extends Controller
         );
 
         if ($reservationId !== false) {
+
+            // Prepare the notification.
+            $notificationTitle = 'Product Reservation Confirmed';
+
+            // Check whether this notification already exists.
+            $notificationExists = $this->notificationModel->notificationExists(
+                $userId,
+                'reserved_product',
+                'product_order',
+                $reservationId,
+                $notificationTitle
+            );
+
+            // Create the notification if it does not already exist.
+            if (!$notificationExists) {
+
+                $this->notificationModel->createNotification([
+                    'user_id' => $userId,
+                    'notification_type' => 'reserved_product',
+                    'title' => $notificationTitle,
+                    'message' => 'Your product has been reserved successfully. '
+                        . 'Please collect it within 24 hours.',
+                    'related_type' => 'product_order',
+                    'related_id' => $reservationId,
+                    'action_label' => 'View Reservation',
+                    'action_url' => URLROOT . '/petowner/reserved',
+                    'priority' => 'normal'
+                ]);
+            }
+
             $_SESSION['reservation_message'] =
                 'Your product has been reserved successfully. '
                 . 'Please collect it within 24 hours.';
+
             header('Location: ' . URLROOT . '/petowner/reserved');
             exit;
         }
@@ -2383,8 +2515,38 @@ class PetOwnerController extends Controller
         $reservationModel = $this->model('Reservation');
 
         if ($reservationModel->cancelReservation($orderId, $userId)) {
+
+            // Prepare the cancellation notification.
+            $notificationTitle = 'Product Reservation Cancelled';
+
+            // Check whether this notification already exists.
+            $notificationExists = $this->notificationModel->notificationExists(
+                $userId,
+                'reserved_product',
+                'product_order',
+                $orderId,
+                $notificationTitle
+            );
+
+            // Create the notification if it does not already exist.
+            if (!$notificationExists) {
+
+                $this->notificationModel->createNotification([
+                    'user_id' => $userId,
+                    'notification_type' => 'reserved_product',
+                    'title' => $notificationTitle,
+                    'message' => 'Your product reservation has been cancelled successfully.',
+                    'related_type' => 'product_order',
+                    'related_id' => $orderId,
+                    'action_label' => 'View Reservations',
+                    'action_url' => URLROOT . '/petowner/reserved',
+                    'priority' => 'normal'
+                ]);
+            }
+
             $_SESSION['reservation_message'] =
                 'Your reservation has been cancelled successfully.';
+
         } else {
             $_SESSION['reservation_message'] =
                 'This reservation cannot be cancelled. It may already be '
