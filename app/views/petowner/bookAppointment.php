@@ -414,7 +414,9 @@
                                                 type="radio"
                                                 name="vet_id"
                                                 value="<?php echo $vet->user_id; ?>"
-                                                <?php echo $isActive ? 'required' : ''; ?>>
+                                                <?php echo $isActive ? 'required' : ''; ?>
+                                                <?php echo !$isActive ? 'disabled' : ''; ?>
+                                            >
 
 
                                             <!-- AVATAR -->

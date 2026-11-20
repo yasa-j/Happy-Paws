@@ -607,6 +607,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+        
         /*
         * Veterinarian selection
         */
@@ -617,49 +618,64 @@ document.addEventListener("DOMContentLoaded", function() {
 
             card.addEventListener("click", function() {
 
+                // Do not allow selection of unavailable veterinarians.
+                const vetRadio = card.querySelector('input[name="vet_id"]');
+
+                if (!vetRadio || vetRadio.disabled) {
+                    return;
+                }
+
                 document.querySelectorAll(
                     ".veterinarian-card"
                 ).forEach(function(otherCard) {
-
                     otherCard.classList.remove("selected");
-
                 });
-
 
                 card.classList.add("selected");
 
+                // Wait until the radio button is checked.
+                setTimeout(function() {
 
-                /*
-                * If a date is already chosen, reload the time slots
-                * for the newly selected veterinarian.
-                */
-
-                if (selectedAppointmentDate) {
-
-                    const parts = selectedAppointmentDate.split("-");
-
-                    const dateObject = new Date(
-                        parts[0],
-                        parts[1] - 1,
-                        parts[2]
+                    const selectedVet = document.querySelector(
+                        'input[name="vet_id"]:checked'
                     );
 
-                    // Small delay so the radio button is checked
-                    // before loadTimeSlots() reads it
-                    setTimeout(function() {
+                    if (!selectedVet) {
+                        return;
+                    }
+
+                    const currentVetId = selectedVet.value;
+
+                    // Don't reload if the same vet is clicked again.
+                    if (currentVetId === lastLoadedVetId) {
+                        return;
+                    }
+
+                    lastLoadedVetId = currentVetId;
+
+                    // Load slots only if a date has already been selected.
+                    if (selectedAppointmentDate) {
+
+                        const parts = selectedAppointmentDate.split("-");
+
+                        const dateObject = new Date(
+                            parts[0],
+                            parts[1] - 1,
+                            parts[2]
+                        );
 
                         loadTimeSlots(
                             dateObject,
                             selectedAppointmentDate
                         );
+                    }
 
-                    }, 0);
-
-                }
+                }, 0);
 
             });
 
         });
+
 
 });
 
@@ -672,6 +688,12 @@ document.addEventListener("DOMContentLoaded", function() {
 let calendarDate = new Date();
 
 let selectedAppointmentDate = null;
+
+// Remember the last veterinarian whose slots were loaded.
+let lastLoadedVetId = null;
+
+// Prevent older availability requests from adding duplicate slots.
+let timeSlotRequestId = 0;
 
 
 /* -----------------------------------------------------
@@ -1175,6 +1197,10 @@ async function loadTimeSlots(dateObject, dateString) {
     const timeSlots = document.getElementById("timeSlots");
     if (!timeSlots) return;
 
+    // Give this request a unique ID.
+    const currentRequestId = ++timeSlotRequestId;
+
+    // Always clear the previous slots.
     timeSlots.innerHTML = "";
 
     const dayOfWeek = dateObject.getDay();
@@ -1204,6 +1230,10 @@ async function loadTimeSlots(dateObject, dateString) {
             "&date=" + encodeURIComponent(dateString)
         );
         bookedTimes = await response.json();
+        // Ignore an older request if a newer one has started.
+        if (currentRequestId !== timeSlotRequestId) {
+            return;
+        }
         //console.log("vet_id:", vet.value, "date:", dateString, "booked:", bookedTimes);
     } catch (error) {
         console.error("Could not load booked slots", error);
@@ -1275,6 +1305,10 @@ async function loadTimeSlots(dateObject, dateString) {
 
             timeSlots.appendChild(label);
             slotCount++;
+        }
+        // Make sure this is still the latest request.
+        if (currentRequestId !== timeSlotRequestId) {
+            return;
         }
     });
 
